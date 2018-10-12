@@ -12,16 +12,29 @@ class MyApp extends StatelessWidget {
           title: Text('FlashIt'),
         ),
         bottomNavigationBar: new BottomAppBar(
-          color: Colors.blue,
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.menu), onPressed: () {},),
-              IconButton(icon: Icon(Icons.search), onPressed: () {},),
-            ],
-          )
-        ),
+            color: Colors.blue,
+            child: new Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {},
+                ),
+              ],
+            )),
       ),
     );
   }
