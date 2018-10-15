@@ -68,6 +68,7 @@ class MyCustomForm extends StatefulWidget {
   _MyCustomFormState createState() => _MyCustomFormState();
 }
 
+
 // Define a corresponding State class. This class will hold the data related to
 // our Form.
 class _MyCustomFormState extends State<MyCustomForm> {
@@ -95,7 +96,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
         ),  
       ),
 
- // BOTTOM NAVIGATION BAR MANAGEMENT
+ // Bottom Navigation Bar Management
       bottomNavigationBar: new BottomAppBar(
             color: Colors.blue,
 
@@ -106,6 +107,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
               children: <Widget>[       //bottom app functionality here
                 IconButton(
                   icon: Icon(Icons.question_answer),
+                  tooltip: 'Flip Flashcard',
 
                   onPressed: () {   
                       return showDialog(
@@ -137,7 +139,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             new FlatButton(
                               child: new Text("Yes"),
                               onPressed: () {
-                                Navigator.pop(context);
+                              Navigator.pop(context);
                               }
                             ),
 
@@ -170,6 +172,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             new FlatButton(
                               child: new Text("Yes"),
                               onPressed: () {
+                                //save here
                                 Navigator.pop(context);
                               }
                             ),
@@ -204,3 +207,5 @@ class _MyCustomFormState extends State<MyCustomForm> {
     );
   }
 }
+
+
