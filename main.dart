@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:async';
+import 'dart:io';
+
 
 void main() {
    runApp(
@@ -30,9 +34,10 @@ class FirstScreen extends StatelessWidget {
                   tooltip: 'Create a Flashcard',
                   onPressed: () {
                     Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyCustomForm()),
-                    );
+                      context,
+                       MaterialPageRoute(builder: (context) => MyApp(storage: TextStorage())
+                       ),
+                      );
                   },
                 ),
 
@@ -60,44 +65,123 @@ class FirstScreen extends StatelessWidget {
   }
 }
 
-
-
-
-class MyCustomForm extends StatefulWidget {
-  @override
-  _MyCustomFormState createState() => _MyCustomFormState();
-}
-
-
-// Define a corresponding State class. This class will hold the data related to
-// our Form.
-class _MyCustomFormState extends State<MyCustomForm> {
-  // Create a text controller. We will use it to retrieve the current value
-  // of the TextField!
-  final myController = TextEditingController();
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    myController.dispose();
-    super.dispose();
+class TextStorage {
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
   }
-
+ 
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/text.txt');
+  }
+ 
+  Future<String> readFile() async {
+    try {
+      final file = await _localFile;
+ 
+      String content = await file.readAsString();
+      return content;
+    } catch (e) {
+      return '';
+    }
+  }
+ 
+  Future<File> writeFile(String text) async {
+    final file = await _localFile;
+    return file.writeAsString('$text\r\n', mode: FileMode.append);
+  }
+ 
+  Future<File> cleanFile() async {
+    final file = await _localFile;
+    return file.writeAsString('');
+  }
+}
+ 
+class MyApp extends StatefulWidget {
+  final TextStorage storage;
+ 
+  MyApp({Key key, @required this.storage}) : super(key: key);
+ 
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+ 
+class _MyAppState extends State<MyApp> {
+  TextEditingController _textField = new TextEditingController();
+ 
+  String _content = '';
+ 
+  @override
+  void initState() {
+    super.initState();
+    widget.storage.readFile().then((String text) {
+      setState(() {
+        _content = text;
+      });
+    });
+  }
+ 
+  Future<File> _writeStringToTextFile(String text) async {
+    setState(() {
+      _content += text + '\r\n';
+    });
+ 
+    return widget.storage.writeFile(text);
+  }
+ 
+  Future<File> _clearContentsInTextFile() async {
+    setState(() {
+      _content = '';
+    });
+ 
+    return widget.storage.cleanFile();
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Creating Flashcard (Front):'),
+        title: Text('Read/Write File Example'),
+        backgroundColor: Colors.blue,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: TextField(
-          controller: myController,
-        ),  
-      ),
+      body: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: _textField,
+            ),
 
- // Bottom Navigation Bar Management
-      bottomNavigationBar: new BottomAppBar(
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: RaisedButton(
+                child: Text(
+                  'Clear Contents',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.redAccent,
+                onPressed: () {
+                  _clearContentsInTextFile();
+                },
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: new SingleChildScrollView(
+                child: Text(
+                  '$_content',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 22.0,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+bottomNavigationBar: new BottomAppBar(
             color: Colors.blue,
 
             child: new Row(
@@ -109,19 +193,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   icon: Icon(Icons.question_answer),
                   tooltip: 'Flip Flashcard',
 
-                  onPressed: () {   
-                      return showDialog(
-                      context: context,
-                      
-                      builder: (context) {
-                        return AlertDialog(
-                          // Retrieve the text the user has typed in using our
-                          // TextEditingController
-                          content: Text(myController.text),
-                        );
-                      },
-                    ); 
-                  },
+            onPressed: () {
+                  if (_textField.text.isNotEmpty) {
+                    _writeStringToTextFile(_textField.text);
+                    _textField.clear();
+                  }
+                },
                 ),
 
                 IconButton(
@@ -204,8 +281,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
               ],
              )
         ),
+
     );
   }
 }
-
-
