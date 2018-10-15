@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
@@ -43,16 +44,16 @@ class FirstScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.school),
                 tooltip: 'Test Flashcards',
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.menu),
                 onPressed: () {Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ViewCards(storage: TextStorage())),
                   );
                 },
+              ),
+              IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {},
               ),
             ],
           )),
@@ -110,9 +111,6 @@ class ViewCards extends StatefulWidget {
   _ViewCards createState() => _ViewCards();
 }
 
-
-
-
 class _MyAppState extends State<MyApp> {
   TextEditingController _textField = new TextEditingController();
 
@@ -155,37 +153,26 @@ class _MyAppState extends State<MyApp> {
         padding: EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
-            TextField(
-              controller: _textField,
-            ),
-
-            /* Padding(
-              padding: EdgeInsets.only(bottom: 20.0),
-              child: RaisedButton(
-                child: Text(
-                  'Clear Contents',
-                  style: TextStyle(color: Colors.white),
-                ),
-                color: Colors.redAccent,
-                onPressed: () {
-                  _clearContentsInTextFile();
-                },
-              ),
-            ),*/
             Expanded(
               flex: 1,
               child: new SingleChildScrollView(
                 child: Text(
                   '$_content',
                   style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 22.0,
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    
                   ),
+                
                 ),
+                
               ),
+                
             ),
           ],
+          
         ),
+        
       ),
       bottomNavigationBar: new BottomAppBar(
           color: Colors.blue,
@@ -295,7 +282,7 @@ class _ViewCards extends  State<ViewCards>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Read/Write File Example'),
+        title: Text('Examine FlashCards'),
         backgroundColor: Colors.blue,
       ),
       body: Container(
@@ -308,7 +295,7 @@ class _ViewCards extends  State<ViewCards>{
                 child: Text(
                   '$_question',
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 22.0,
                   ),
                 ),
