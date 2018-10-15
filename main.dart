@@ -38,7 +38,12 @@ class FirstScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.folder_open),
                 tooltip: 'Manage Flashcards',
-                onPressed: () {},
+                onPressed: () {Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewCards(storage: TextStorage())),
+                  );
+                },
               ),
               IconButton(
                 icon: Icon(Icons.school),
@@ -47,12 +52,7 @@ class FirstScreen extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.menu),
-                onPressed: () {Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ViewCards(storage: TextStorage())),
-                  );
-                },
+                onPressed: () {},
               ),
             ],
           )),
@@ -312,8 +312,15 @@ class _ViewCards extends  State<ViewCards>{
   });
   widget.storage.readFile().then((String text){
     setState((){
-    _answer = text; });
+      _answer = text; });
   });
+  }
+  Future<File> _clearContentsInTextFile() async {
+    setState(() {
+      _question = '';
+  });
+
+    return widget.storage.cleanFile();
   }
 
 @override
@@ -363,9 +370,33 @@ class _ViewCards extends  State<ViewCards>{
 
               IconButton(
                 icon: Icon(
-                    Icons.delete_outline), //delete current card in progress
+                    Icons.delete_forever), //delete current card in progress
                 tooltip: 'Delete current Flashcard',
-                onPressed: () {},
+                onPressed: () {
+                  return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                          content: new Text(
+                              "Are you sure you would like to delete all flashcards?"),
+                          actions: <Widget>[
+                            new FlatButton(
+                                child: new Text("Yes"),
+                                onPressed: () {
+                                  //save here
+                                 _clearContentsInTextFile();
+                                  Navigator.pop(context);
+
+                                }),
+                            new FlatButton(
+                                child: new Text("No"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                })
+                          ]);
+                    },
+                  );
+                    },
               ),
 
               IconButton(
