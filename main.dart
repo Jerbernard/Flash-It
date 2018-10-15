@@ -7,11 +7,11 @@ import 'dart:io';
 void main() {
   runApp(MaterialApp(
     title: 'FlashIt',
-    home: FirstScreen(),
+    home: HomeScreen(),
   ));
 }
 
-class FirstScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,19 +61,19 @@ class FirstScreen extends StatelessWidget {
 }
 
 class TextStorage {
-  Future<String> get _localPath async {
+  Future<String> get _qlocalPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
   }
 
-  Future<File> get _localFile async {
-    final path = await _localPath;
+  Future<File> get _qlocalFile async {
+    final path = await _qlocalPath;
     return File('$path/text.txt');
   }
 
   Future<String> readFile() async {
     try {
-      final file = await _localFile;
+      final file = await _qlocalFile;
 
       String content = await file.readAsString();
       return content;
@@ -83,12 +83,12 @@ class TextStorage {
   }
 
   Future<File> writeFile(String text) async {
-    final file = await _localFile;
+    final file = await _qlocalFile;
     return file.writeAsString('$text\r\n', mode: FileMode.append);
   }
 
   Future<File> cleanFile() async {
-    final file = await _localFile;
+    final file = await _qlocalFile;
     return file.writeAsString('');
   }
 }
@@ -150,7 +150,7 @@ class _AddCardState extends State<AddCard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Read/Write File Example'),
+        title: Text('Create Flashcard'),
         backgroundColor: Colors.blue,
       ),
       body: Container(
@@ -223,7 +223,7 @@ class _AddCardState extends State<AddCard> {
                                   if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
                                     _writeStringToTextFile(_questionField.text);
                                     _writeStringToTextFile(_answerField.text);
-                                    _writeStringToTextFile('\n');
+                                    //_writeStringToTextFile('\n');
                                     _questionField.clear();
                                     _answerField.clear();
                                   }
@@ -312,12 +312,13 @@ class _ViewCards extends  State<ViewCards>{
   });
   widget.storage.readFile().then((String text){
     setState((){
-      _answer = text; });
+      _answer = text;});
   });
   }
   Future<File> _clearContentsInTextFile() async {
     setState(() {
       _question = '';
+      _answer = '';
   });
 
     return widget.storage.cleanFile();
@@ -346,6 +347,7 @@ class _ViewCards extends  State<ViewCards>{
                 ),
               ),
             ),
+            Text('$_answer'),
           ],
         ),
       ),
