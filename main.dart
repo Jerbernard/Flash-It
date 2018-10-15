@@ -31,7 +31,7 @@ class FirstScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MyApp(storage: TextStorage())),
+                        builder: (context) => AddCard(storage: TextStorage())),
                   );
                 },
               ),
@@ -43,16 +43,16 @@ class FirstScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.school),
                 tooltip: 'Test Flashcards',
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(Icons.menu),
                 onPressed: () {Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ViewCards(storage: TextStorage())),
                   );
                 },
-              ),
-              IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {},
               ),
             ],
           )),
@@ -93,25 +93,30 @@ class TextStorage {
   }
 }
 
-class MyApp extends StatefulWidget {
+class AddCard extends StatefulWidget {
   final TextStorage storage;
 
-  MyApp({Key key, @required this.storage}) : super(key: key);
+  AddCard({Key key, @required this.storage}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _AddCardState createState() => _AddCardState();
   
 }
 
 class ViewCards extends StatefulWidget {
   final TextStorage storage;
   ViewCards({Key key, @required this.storage}) : super(key: key);
+  
   @override
   _ViewCards createState() => _ViewCards();
 }
 
-class _MyAppState extends State<MyApp> {
-  TextEditingController _textField = new TextEditingController();
+
+
+
+class _AddCardState extends State<AddCard> {
+  TextEditingController _questionField = new TextEditingController();
+  TextEditingController _answerField = new TextEditingController();
 
   String _content = '';
 
@@ -133,7 +138,14 @@ class _MyAppState extends State<MyApp> {
     return widget.storage.writeFile(text);
   }
 
-  
+  Future<File> _clearContentsInTextFile() async {
+    setState(() {
+      _content = '';
+    });
+
+    return widget.storage.cleanFile();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,8 +157,26 @@ class _MyAppState extends State<MyApp> {
         padding: EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
-              TextField(	
-              controller: _textField,	
+            TextField(
+              controller: _questionField,
+            ),
+            Text('Question'),
+            TextField(
+              controller: _answerField,
+            ),
+            Text('Answer'),
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: RaisedButton(
+                child: Text(
+                  'Clear Contents',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.redAccent,
+                onPressed: () {
+                  _clearContentsInTextFile();
+                },
+              ),
             ),
             Expanded(
               flex: 1,
@@ -154,20 +184,14 @@ class _MyAppState extends State<MyApp> {
                 child: Text(
                   '$_content',
                   style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.0,
-                    
+                    color: Colors.red,
+                    fontSize: 22.0,
                   ),
-                
                 ),
-                
               ),
-                
             ),
           ],
-          
         ),
-        
       ),
       bottomNavigationBar: new BottomAppBar(
           color: Colors.blue,
@@ -196,11 +220,30 @@ class _MyAppState extends State<MyApp> {
                             new FlatButton(
                                 child: new Text("Yes"),
                                 onPressed: () {
-                                  if (_textField.text.isNotEmpty) {
-                                    _writeStringToTextFile(_textField.text);
-                                    _textField.clear();
+                                  if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
+                                    _writeStringToTextFile(_questionField.text);
+                                    _writeStringToTextFile(_answerField.text);
+                                    _writeStringToTextFile('\n');
+                                    _questionField.clear();
+                                    _answerField.clear();
                                   }
                                   Navigator.pop(context);
+                                return showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: new Text(
+                                        "Successfully added flashcard!"),
+                                        actions: <Widget>[
+                                      new FlatButton(
+                                      child: new Text("Ok"),
+                                onPressed: () {
+                                  //save here
+                                  Navigator.pop(context);
+                                }),
+                                ]);
+                              },
+                             );
                                 }),
                             new FlatButton(
                                 child: new Text("No"),
@@ -266,17 +309,16 @@ class _ViewCards extends  State<ViewCards>{
   widget.storage.readFile().then((String text){
     setState((){
       _question = text;});
-      });
+  });
   widget.storage.readFile().then((String text){
     setState((){
-    _answer = text; });
+      _answer = text; });
   });
   }
-
-Future<File> _clearContentsInTextFile() async {
+  Future<File> _clearContentsInTextFile() async {
     setState(() {
       _question = '';
-    });
+  });
 
     return widget.storage.cleanFile();
   }
@@ -285,7 +327,7 @@ Future<File> _clearContentsInTextFile() async {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Examine FlashCards'),
+        title: Text('View Flashcards'),
         backgroundColor: Colors.blue,
       ),
       body: Container(
@@ -298,7 +340,7 @@ Future<File> _clearContentsInTextFile() async {
                 child: Text(
                   '$_question',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.blue,
                     fontSize: 22.0,
                   ),
                 ),
@@ -356,7 +398,7 @@ Future<File> _clearContentsInTextFile() async {
                   );
                     },
               ),
-            
+
               IconButton(
                 icon: Icon(Icons.home), //return home
                 tooltip: 'Home',
