@@ -38,7 +38,12 @@ class FirstScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.folder_open),
                 tooltip: 'Manage Flashcards',
-                onPressed: () {},
+                onPressed: () {Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewCards(storage: TextStorage())),
+                  );
+                },
               ),
               IconButton(
                 icon: Icon(Icons.school),
@@ -47,12 +52,7 @@ class FirstScreen extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.menu),
-                onPressed: () {Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ViewCards(storage: TextStorage())),
-                  );
-                },
+                onPressed: () {},
               ),
             ],
           )),
