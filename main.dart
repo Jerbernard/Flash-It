@@ -15,17 +15,19 @@ class FirstScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('FlashIt'),
+        title: Text('FlashIt'),
         ),
 
         bottomNavigationBar: new BottomAppBar(
+            
             color: Colors.blue,
             child: new Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.add),
+                  icon: Icon(Icons.create),
+                  tooltip: 'Create a Flashcard',
                   onPressed: () {
                     Navigator.push(
                     context,
@@ -35,12 +37,14 @@ class FirstScreen extends StatelessWidget {
                 ),
 
                 IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: Icon(Icons.folder_open),
+                  tooltip: 'Manage Flashcards',
                   onPressed: () {},
                 ),
 
                 IconButton(
-                  icon: Icon(Icons.search),
+                  icon: Icon(Icons.school),
+                  tooltip: 'Test Flashcards',
                   onPressed: () {},
                 ),
 
@@ -55,6 +59,8 @@ class FirstScreen extends StatelessWidget {
       );
   }
 }
+
+
 
 
 class MyCustomForm extends StatefulWidget {
@@ -76,13 +82,11 @@ class _MyCustomFormState extends State<MyCustomForm> {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flashcard Front:'),
+        title: Text('Creating Flashcard (Front):'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -91,7 +95,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
         ),  
       ),
 
- // BOTTOM NAVIGATION BAR MANAGEMENENT
+ // BOTTOM NAVIGATION BAR MANAGEMENT
       bottomNavigationBar: new BottomAppBar(
             color: Colors.blue,
 
@@ -102,6 +106,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
               children: <Widget>[       //bottom app functionality here
                 IconButton(
                   icon: Icon(Icons.question_answer),
+
                   onPressed: () {   
                       return showDialog(
                       context: context,
@@ -119,6 +124,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
 
                 IconButton(
                   icon: Icon(Icons.save),   //save the current card
+                  tooltip: 'Save Flashcard',
                   onPressed: () {
                     return showDialog(
                       context: context,
@@ -127,6 +133,22 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         return AlertDialog(
 
                           content: new Text("Would you like to save this flashcard?"),
+                          actions: <Widget>[
+                            new FlatButton(
+                              child: new Text("Yes"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }
+                            ),
+
+                            new FlatButton(
+                              child: new Text("No"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }
+                            )
+                            
+                          ]
                         );
                       },
                     ); 
@@ -134,7 +156,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 ),
 
                 IconButton(
-                  icon: Icon(Icons.delete), //delete current card in progress
+                  icon: Icon(Icons.delete_outline), //delete current card in progress
+                  tooltip: 'Delete current Flashcard',
                   onPressed: () {
                     return showDialog(
                       context: context,
@@ -143,6 +166,22 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         return AlertDialog(
                           
                           content: new Text("Are you sure you would like to delete this flashcard?"),
+                          actions: <Widget>[
+                            new FlatButton(
+                              child: new Text("Yes"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }
+                            ),
+
+                            new FlatButton(
+                              child: new Text("No"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }
+                            )
+                            
+                          ]
                         );
                       },
                     );                    
@@ -151,6 +190,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
 
                 IconButton(
                   icon: Icon(Icons.home), //return home
+                  tooltip: 'Home',
                   onPressed: () { 
                     Navigator.pop(context);
                   },
