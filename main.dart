@@ -193,12 +193,7 @@ bottomNavigationBar: new BottomAppBar(
                   icon: Icon(Icons.question_answer),
                   tooltip: 'Flip Flashcard',
 
-            onPressed: () {
-                  if (_textField.text.isNotEmpty) {
-                    _writeStringToTextFile(_textField.text);
-                    _textField.clear();
-                  }
-                },
+            onPressed: () {                },
                 ),
 
                 IconButton(
@@ -216,6 +211,11 @@ bottomNavigationBar: new BottomAppBar(
                             new FlatButton(
                               child: new Text("Yes"),
                               onPressed: () {
+                                
+                  if (_textField.text.isNotEmpty) {
+                    _writeStringToTextFile(_textField.text);
+                    _textField.clear();
+                  }
                               Navigator.pop(context);
                               }
                             ),
