@@ -225,6 +225,7 @@ class _AddCardState extends State<AddCard> {
                                     _writeStringToTextFile(_answerField.text);
                                     _writeStringToTextFile('\n');
                                     _questionField.clear();
+                                    _answerField.clear();
                                   }
                                   Navigator.pop(context);
                                 return showDialog(
