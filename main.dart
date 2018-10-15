@@ -56,35 +56,6 @@ class FirstScreen extends StatelessWidget {
   }
 }
 
-class SecondScreen extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context){
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Screen"),
-      ),
-
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
-
-      ),
-    );
-  }
-}
-
-enum DialogAction {
-  Yes,
-  No
-}
-
-
 
 class MyCustomForm extends StatefulWidget {
   @override
