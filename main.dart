@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
@@ -46,7 +47,12 @@ class FirstScreen extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.menu),
-                onPressed: () {},
+                onPressed: () {Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewCards(storage: TextStorage())),
+                  );
+                },
               ),
             ],
           )),
@@ -94,7 +100,18 @@ class MyApp extends StatefulWidget {
 
   @override
   _MyAppState createState() => _MyAppState();
+  
 }
+
+class ViewCards extends StatefulWidget {
+  final TextStorage storage;
+  ViewCards({Key key, @required this.storage}) : super(key: key);
+  @override
+  _ViewCards createState() => _ViewCards();
+}
+
+
+
 
 class _MyAppState extends State<MyApp> {
   TextEditingController _textField = new TextEditingController();
@@ -254,4 +271,89 @@ class _MyAppState extends State<MyApp> {
           )),
     );
   }
+
 }
+
+class _ViewCards extends  State<ViewCards>{
+  String _question = '';
+  String _answer = '';
+
+  @override
+  void initState(){
+  super.initState();
+  widget.storage.readFile().then((String text){
+    setState((){
+      _question = text;});
+      });
+  widget.storage.readFile().then((String text){
+    setState((){
+    _answer = text; });
+  });
+  }
+
+@override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Read/Write File Example'),
+        backgroundColor: Colors.blue,
+      ),
+      body: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: new SingleChildScrollView(
+                child: Text(
+                  '$_question',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 22.0,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: new BottomAppBar(
+          color: Colors.blue,
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              //bottom app functionality here
+              IconButton(
+                icon: Icon(Icons.question_answer),
+                tooltip: 'Flip Flashcard',
+                onPressed: () {},
+              ),
+
+              IconButton(
+                icon: Icon(Icons.save), //save the current card
+                tooltip: 'Save Flashcard',
+                onPressed: () {},
+              ),
+
+              IconButton(
+                icon: Icon(
+                    Icons.delete_outline), //delete current card in progress
+                tooltip: 'Delete current Flashcard',
+                onPressed: () {},
+              ),
+
+              IconButton(
+                icon: Icon(Icons.home), //return home
+                tooltip: 'Home',
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+    );
+  }
+}
+// class _ViewCards
