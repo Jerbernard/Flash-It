@@ -220,17 +220,29 @@ class _AddCardState extends State<AddCard> {
                             new FlatButton(
                                 child: new Text("Yes"),
                                 onPressed: () {
-                                  if (_questionField.text.isNotEmpty) {
+                                  if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
                                     _writeStringToTextFile(_questionField.text);
-                                    _questionField.clear();
-                                    _writeStringToTextFile('\n');
-                                  }
-                                  if (_answerField.text.isNotEmpty) {
                                     _writeStringToTextFile(_answerField.text);
-                                    _answerField.clear();
+                                    _writeStringToTextFile('\n');
+                                    _questionField.clear();
                                   }
-                                  //_writeStringToTextFile('\n');
                                   Navigator.pop(context);
+                                return showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: new Text(
+                                        "Successfully added flashcard!"),
+                                        actions: <Widget>[
+                                      new FlatButton(
+                                      child: new Text("Ok"),
+                                onPressed: () {
+                                  //save here
+                                  Navigator.pop(context);
+                                }),
+                                ]);
+                              },
+                             );
                                 }),
                             new FlatButton(
                                 child: new Text("No"),
