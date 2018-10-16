@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
-import 'dart:async';
-import 'dart:io';
+import 'viewcard.dart';
 
 class AddCard extends StatefulWidget {
   final TextStorage storage;
@@ -10,11 +8,10 @@ class AddCard extends StatefulWidget {
   AddCard({Key key, @required this.storage}) : super(key: key);
 
   @override
-  _AddCardState createState() => _AddCardState();
-  
+  AddCardState createState() => AddCardState();
 }
 
-class _AddCardState extends State<AddCard> {
+class AddCardState extends State<AddCard> {
   TextEditingController _questionField = new TextEditingController();
   TextEditingController _answerField = new TextEditingController();
 
@@ -23,19 +20,26 @@ class _AddCardState extends State<AddCard> {
   List<String> _question = new List();
   List<String> _answer = new List();
 
-  addQuestion(String text){
-    _question.add(text); 
+  addQuestion(String text) {
+    _question.add(text);
   }
 
-  addAnswer(String text){
+  addAnswer(String text) {
     _answer.add(text);
     n++;
   }
 
-  clearArray(){
+  clearArray() {
     _question.clear();
     _answer.clear();
     n = 0;
+  }
+
+  String printCard(){//String _question, String _answer){
+    for(int i = 0; i < n; i++){
+      print('${_question[i]} ');
+      print('${_answer[i]}\n');
+    }
   }
 
   @override
@@ -47,23 +51,7 @@ class _AddCardState extends State<AddCard> {
       });
     });
   }
-/*
-  Future<File> _writeStringToTextFile(String text) async {
-    setState(() {
-      _content += text + '\r\n';
-    });
 
-    return widget.storage.writeFile(text);
-  }
-
-  Future<File> _clearContentsInTextFile() async {
-    setState(() {
-      _content = '';
-    });
-
-    return widget.storage.cleanFile();
-  }
-*/
   @override
   Widget build(BuildContext context) {
     //int count = 0;
@@ -99,74 +87,90 @@ class _AddCardState extends State<AddCard> {
                 },
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: new SingleChildScrollView(
+            Row(children: <Widget>[
+              Expanded(
                 child: Text(
-                  '${_question[n]}',
-                  //'$current',
-                  //'$_content',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
+                  '$_question')),
+              Expanded(
+                child: Text(
+                  '$_answer'),
+              )
+            ]),
           ],
         ),
       ),
-    bottomNavigationBar: new BottomAppBar(
-      color: Colors.blue,
-      child: new Row(
-        mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            //bottom app functionality here
-            IconButton(
-              icon: Icon(Icons.question_answer),
-              tooltip: 'Flip Flashcard',
-              onPressed: () {},
-              ),
-
-            IconButton(
-              icon: Icon(Icons.save), //save the current card
-              tooltip: 'Save Flashcard',
-              onPressed: () {
-                return showDialog(
-                context: context,
-                   builder: (context) {
-                    return AlertDialog(
-                      content: new Text(
-                        "Would you like to save this flashcard?"),
+      bottomNavigationBar: new BottomAppBar(
+          color: Colors.blue,
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              //bottom app functionality here
+              IconButton(
+                icon: Icon(Icons.question_answer),
+                tooltip: 'Flip Flashcard',
+                onPressed: () {
+                  return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                          content: Text(
+                            '${_question[0]}${_question[1]}${_question[2]}\n${_answer[0]}${_answer[1]}${_answer[2]}',
+                              ),
                           actions: <Widget>[
                             new FlatButton(
-                                child: new Text("Yes"),
-                                onPressed: () {
-                                  if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
-                                    addQuestion(_questionField.text);
-                                    addAnswer(_answerField.text);
-                                    //_writeStringToTextFile('\n');
-                                    _questionField.clear();
-                                    _answerField.clear();
-                                  }
-                                  Navigator.pop(context);
-                                return showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      content: new Text(
-                                        "Successfully added flashcard!"),
-                                        actions: <Widget>[
-                                      new FlatButton(
-                                      child: new Text("Ok"),
+                                child: new Text("Ok"),
                                 onPressed: () {
                                   //save here
                                   Navigator.pop(context);
                                 }),
-                                ]);
-                              },
-                             );
+                          ]);
+                    },
+                  );
+                },
+              ),
+
+              IconButton(
+                icon: Icon(Icons.save), //save the current card
+                tooltip: 'Save Flashcard',
+                onPressed: () {
+                  return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                          content: new Text(
+                              "Would you like to save this flashcard?"),
+                          actions: <Widget>[
+                            new FlatButton(
+                                child: new Text("Yes"),
+                                onPressed: () {
+                                  if (_questionField.text.isNotEmpty &&
+                                      _answerField.text.isNotEmpty) {
+                                    addQuestion(_questionField.text);
+                                    addAnswer(_answerField.text);
+                                    _questionField.clear();
+                                    _answerField.clear();
+                                    new MaterialPageRoute(
+                                      builder: (context) => new ViewCards(_question, _answer),
+                                    );
+                                  }
+                                  Navigator.pop(context);
+                                  return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                          content: new Text(
+                                              "Successfully added flashcard!"),
+                                          actions: <Widget>[
+                                            new FlatButton(
+                                                child: new Text("Ok"),
+                                                onPressed: () {
+                                                  //save here
+                                                  Navigator.pop(context);
+                                                }),
+                                          ]);
+                                    },
+                                  );
                                 }),
                             new FlatButton(
                                 child: new Text("No"),
@@ -219,5 +223,4 @@ class _AddCardState extends State<AddCard> {
           )),
     );
   }
-
 }

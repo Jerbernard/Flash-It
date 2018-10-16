@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
@@ -31,11 +30,13 @@ class HomeScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.folder_open),
                 tooltip: 'Manage Flashcards',
-                onPressed: () {Navigator.push(
+                onPressed: () {
+                  /*Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ViewCards(storage: TextStorage())),
-                  );
+                        builder: (context) =>
+                            ViewCards(storage: TextStorage())),
+                  );*/
                 },
               ),
               IconButton(
