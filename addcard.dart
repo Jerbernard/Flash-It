@@ -87,10 +87,12 @@ class _AddCardState extends State<AddCard> {
             child: const Text('SAVE'),
             onPressed: () {
               _writeStringToTextFile(_questionField.text);
+              addQuestion(_questionField.text);
+              addAnswer(_answerField.text);
               _writeStringToTextFile(_answerField.text);
+              Navigator.pop(context); 
               _questionField.clear();
               _answerField.clear();
-              Navigator.pop(context); 
             }
             )
         ],
@@ -202,12 +204,12 @@ class _AddCardState extends State<AddCard> {
                             new FlatButton(
                                 child: new Text("Yes"),
                                 onPressed: () {
-                                  if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
-                                    addQuestion(_questionField.text);
-                                    _writeStringToTextFile(_questionField.text);
-                                    addAnswer(_answerField.text);
+                                  // if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
+                                  //   addQuestion(_questionField.text);
+                                  //   _writeStringToTextFile(_questionField.text);
+                                  //   addAnswer(_answerField.text);
                                   
-                                  }
+                                  // }
                                   Navigator.pop(context);
                                 return showDialog(
                                   context: context,
