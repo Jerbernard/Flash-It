@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'dart:async';
@@ -47,27 +46,25 @@ class _AddCardState extends State<AddCard> {
       });
     });
   }
-/*
+
+
   Future<File> _writeStringToTextFile(String text) async {
     setState(() {
-      _content += text + '\r\n';
+      _content += text;
     });
-
     return widget.storage.writeFile(text);
   }
-
   Future<File> _clearContentsInTextFile() async {
     setState(() {
       _content = '';
     });
-
     return widget.storage.cleanFile();
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     //int count = 0;
-    //String current = _question[count];
+    String current;
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Flashcard'),
@@ -103,8 +100,8 @@ class _AddCardState extends State<AddCard> {
               flex: 1,
               child: new SingleChildScrollView(
                 child: Text(
-                  '${_question[n]}',
-                  //'$current',
+                  //'${_question[n]}',
+                  '$_question' + '  '+ '$_answer',
                   //'$_content',
                   style: TextStyle(
                     color: Colors.black,
@@ -145,8 +142,8 @@ class _AddCardState extends State<AddCard> {
                                 onPressed: () {
                                   if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
                                     addQuestion(_questionField.text);
+                                    _writeStringToTextFile(_questionField.text);
                                     addAnswer(_answerField.text);
-                                    //_writeStringToTextFile('\n');
                                     _questionField.clear();
                                     _answerField.clear();
                                   }
