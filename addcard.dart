@@ -63,7 +63,7 @@ class _AddCardState extends State<AddCard> {
    await showDialog<String>(
     context: context,
     child : new _SystemPadding (child: new AlertDialog(
-      contentPadding: const EdgeInsets.all(20.0),
+      contentPadding: const EdgeInsets.all(16.0),
       content: new Row(
         children: <Widget>[
           new Expanded(
