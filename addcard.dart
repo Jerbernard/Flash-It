@@ -12,6 +12,18 @@ class AddCard extends StatefulWidget {
   _AddCardState createState() => _AddCardState();
   
 }
+class _SystemPadding extends StatelessWidget {
+  final Widget child;
+  _SystemPadding({Key key, this.child }) : super(key: key);
+
+  @override
+  Widget build (BuildContext context){
+    var mediaQuery = MediaQuery.of(context);
+    return new AnimatedContainer(padding: mediaQuery.viewInsets,
+    duration: const Duration(milliseconds: 300),
+    child:child);
+  }
+}
 
 class _AddCardState extends State<AddCard> {
   TextEditingController _questionField = new TextEditingController();
@@ -47,6 +59,46 @@ class _AddCardState extends State<AddCard> {
     });
   }
 
+ _showDialog() async{
+   await showDialog<String>(
+    context: context,
+    child : new _SystemPadding (child: new AlertDialog(
+      contentPadding: const EdgeInsets.all(20.0),
+      content: new Row(
+        children: <Widget>[
+          new Expanded(
+            child: new TextField(
+              controller: _answerField,
+              decoration: new InputDecoration(
+                labelText: 'Enter Answer',),
+              ),
+              )
+        ],
+        ),
+        actions: <Widget> [
+          new FlatButton (
+            child: const Text('CANCEL'),
+            onPressed: () {
+              _answerField.clear(); 
+              Navigator.pop(context);
+            }
+          ),
+          new FlatButton(
+            child: const Text('SAVE'),
+            onPressed: () {
+              _writeStringToTextFile(_questionField.text);
+              _writeStringToTextFile(_answerField.text);
+              _questionField.clear();
+              _answerField.clear();
+              Navigator.pop(context); 
+            }
+            )
+        ],
+        ),
+        ),
+   );
+ }
+
 
   Future<File> _writeStringToTextFile(String text) async {
     setState(() {
@@ -77,11 +129,21 @@ class _AddCardState extends State<AddCard> {
             TextField(
               controller: _questionField,
             ),
-            Text('Question'),
-            TextField(
-              controller: _answerField,
-            ),
-            Text('Answer'),
+            // Text('Question'),
+            // TextField(
+            //   controller: _answerField,
+            // ),
+            // Text('Answer'),
+            Padding ( 
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: RaisedButton(
+                child:Text('Enter Answer',
+                style: TextStyle(color: Colors.white),
+              ),
+              color: Colors.blueAccent,
+              onPressed: _showDialog,
+              ),
+              ),
             Padding(
               padding: EdgeInsets.only(bottom: 20.0),
               child: RaisedButton(
@@ -144,8 +206,7 @@ class _AddCardState extends State<AddCard> {
                                     addQuestion(_questionField.text);
                                     _writeStringToTextFile(_questionField.text);
                                     addAnswer(_answerField.text);
-                                    _questionField.clear();
-                                    _answerField.clear();
+                                  
                                   }
                                   Navigator.pop(context);
                                 return showDialog(
