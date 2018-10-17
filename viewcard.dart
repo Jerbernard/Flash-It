@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
+import 'addcard.dart';
 
 class ViewCards extends StatefulWidget {
   final TextStorage storage;
@@ -12,8 +13,8 @@ class ViewCards extends StatefulWidget {
 }
 
 class _ViewCards extends State<ViewCards> {
-  List<String> _question;
-  String _answer;
+  List<String> _card;
+  String _file;
   final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
@@ -22,15 +23,15 @@ class _ViewCards extends State<ViewCards> {
     super.initState();
     widget.storage.readFile().then((String text) {
       setState(() {
-        _answer = text; // pulls text from file
+        _file = text; // pulls text from file
       });
-      _question = _answer.split('\n'); // split string to array
+      _card = _file.split('\n'); // split string to array
     });
   }
 
   Future<File> _clearContentsInTextFile() async {
     setState(() {
-      _answer = '';
+      _file = '';
     });
 
     return widget.storage.cleanFile();
@@ -97,10 +98,17 @@ class _ViewCards extends State<ViewCards> {
             ),
 
             IconButton(
-              icon: Icon(Icons.home), //return home
-              tooltip: 'Home',
+              icon: Icon(Icons.plus_one), //return home
+              tooltip: 'Addcard',
               onPressed: () {
-                Navigator.pop(context);
+                
+                    Navigator.pop(context);
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCard(storage: TextStorage())),
+                  );
+                  
               },
             ),
           ],
@@ -115,11 +123,11 @@ class _ViewCards extends State<ViewCards> {
       itemBuilder: (BuildContext _context, int i) {
         if (i.isOdd) {
           return Divider();
-        } else if (i + 1 != _question.length) {
-          return _buildRow(_question[i], _question[i + 1]);
+        } else if (i + 1 != _card.length) {
+          return _buildRow(_card[i], _card[i + 1]);
         }
       },
-      itemCount: _question.length,
+      itemCount: _card.length,
     );
   }
 
@@ -148,11 +156,11 @@ class _ViewCards extends State<ViewCards> {
                       ),
                     ),
                   ),
-                ), 
+                ),
                 Padding(
                   padding: EdgeInsets.only(left: 90.0, right: 90.0),
                   child: Text("\n\nA: $answer"),
-                ), 
+                ),
               ],
             ),
           ),
@@ -166,10 +174,10 @@ class _ViewCards extends State<ViewCards> {
                 IconButton(
                   icon: Icon(Icons.check), //save the current card
                   tooltip: 'Mark Flashcard',
-                  onPressed: () { 
-                              _saved.add(question);
-                             Navigator.pop(context);
-                              },
+                  onPressed: () {
+                    _saved.add(question);
+                    Navigator.pop(context);
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.backspace), //return home
@@ -199,18 +207,17 @@ class _ViewCards extends State<ViewCards> {
         alreadySaved ? Icons.check_box : Icons.check_box_outline_blank,
         color: alreadySaved ? Colors.blue : null,
       ),
-      onLongPress: (){
+      onLongPress: () {
         setState(() {
           if (alreadySaved) {
             _saved.remove(question);
           } else {
             _saved.add(question);
-           }
+          }
         });
       },
       onTap: () {
-             _buildAnswer(answer, question);
-
+        _buildAnswer(answer, question);
       },
     );
   }
