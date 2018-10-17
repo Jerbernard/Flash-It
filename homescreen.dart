@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
 import 'viewcard.dart';
+import 'testcard.dart';
 import 'dart:io';
 
 class HomeScreen extends StatelessWidget {
@@ -84,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ViewCards(storage: TextStorage())),
+                            builder: (context) => TestCards(storage: TextStorage())),
                         );
                       },
                     ),              
