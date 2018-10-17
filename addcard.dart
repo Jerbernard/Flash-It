@@ -35,8 +35,9 @@ class AddCardState extends State<AddCard> {
     n = 0;
   }
 
-  String printCard(){//String _question, String _answer){
-    for(int i = 0; i < n; i++){
+  String printCard() {
+    //String _question, String _answer){
+    for (int i = 0; i < n; i++) {
       print('${_question[i]} ');
       print('${_answer[i]}\n');
     }
@@ -74,65 +75,13 @@ class AddCardState extends State<AddCard> {
             ),
             Text('Answer'),
             Padding(
-              padding: EdgeInsets.only(bottom: 20.0),
+              padding: EdgeInsets.only(bottom: 1.0),
               child: RaisedButton(
                 child: Text(
-                  'Clear Contents',
+                  'Save Card',
                   style: TextStyle(color: Colors.white),
                 ),
-                color: Colors.redAccent,
-                onPressed: () {
-                  clearArray();
-                  //_clearContentsInTextFile();
-                },
-              ),
-            ),
-            Row(children: <Widget>[
-              Expanded(
-                child: Text(
-                  '$_question')),
-              Expanded(
-                child: Text(
-                  '$_answer'),
-              )
-            ]),
-          ],
-        ),
-      ),
-      bottomNavigationBar: new BottomAppBar(
-          color: Colors.blue,
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              //bottom app functionality here
-              IconButton(
-                icon: Icon(Icons.question_answer),
-                tooltip: 'Flip Flashcard',
-                onPressed: () {
-                  return showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                          content: Text(
-                            '${_question[0]}${_question[1]}${_question[2]}\n${_answer[0]}${_answer[1]}${_answer[2]}',
-                              ),
-                          actions: <Widget>[
-                            new FlatButton(
-                                child: new Text("Ok"),
-                                onPressed: () {
-                                  //save here
-                                  Navigator.pop(context);
-                                }),
-                          ]);
-                    },
-                  );
-                },
-              ),
-
-              IconButton(
-                icon: Icon(Icons.save), //save the current card
-                tooltip: 'Save Flashcard',
+                color: Colors.blueAccent,
                 onPressed: () {
                   return showDialog(
                     context: context,
@@ -150,9 +99,6 @@ class AddCardState extends State<AddCard> {
                                     addAnswer(_answerField.text);
                                     _questionField.clear();
                                     _answerField.clear();
-                                    new MaterialPageRoute(
-                                      builder: (context) => new ViewCards(_question, _answer),
-                                    );
                                   }
                                   Navigator.pop(context);
                                   return showDialog(
@@ -182,34 +128,78 @@ class AddCardState extends State<AddCard> {
                   );
                 },
               ),
-
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: RaisedButton(
+                child: Text(
+                  'Clear Card',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.redAccent,
+                onPressed: () {
+                  clearArray();
+                  //_clearContentsInTextFile();
+                },
+              ),
+            ),
+            Row(children: <Widget>[
+              Expanded(child: Text('$_question')),
+              Expanded(
+                child: Text('$_answer'),
+              )
+            ]),
+          ],
+        ),
+      ),
+      bottomNavigationBar: new BottomAppBar(
+          color: Colors.blue,
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              //bottom app functionality here
               IconButton(
-                icon: Icon(
-                    Icons.delete_outline), //delete current card in progress
-                tooltip: 'Delete current Flashcard',
+                icon: Icon(Icons.question_answer),
+                tooltip: 'Flip Flashcard',
                 onPressed: () {
                   return showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                          content: new Text(
-                              "Are you sure you would like to delete this flashcard?"),
+                          content: Text(
+                            '${_question[0]}\n${_answer[0]}', /*${_question[1]}${_question[2]}\n${_answer[0]}${_answer[1]}${_answer[2]}'*/
+                          ),
                           actions: <Widget>[
                             new FlatButton(
-                                child: new Text("Yes"),
+                                child: new Text("Ok"),
                                 onPressed: () {
                                   //save here
                                   Navigator.pop(context);
                                 }),
-                            new FlatButton(
-                                child: new Text("No"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                })
                           ]);
                     },
                   );
                 },
+              ),
+
+              IconButton(
+                icon: Icon(Icons.folder_open), //save the current card
+                tooltip: 'ViewCard',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) =>
+                            new ViewCards(_question, _answer)),
+                  );
+                },
+              ),
+
+              IconButton(
+                icon: Icon(Icons.school), //delete current card in progress
+                tooltip: 'Delete current Flashcard',
+                onPressed: () {},
               ),
 
               IconButton(

@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'addcard.dart';
+import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 
-class ViewCards extends StatefulWidget {
-  final List qcards;
-  final List acards;
-
-  ViewCards(this.qcards, this.acards);
-
-  @override
-  _ViewCards createState() => _ViewCards();
-}
-
-class _ViewCards extends State<ViewCards> {
+class ViewCards extends StatelessWidget {
+  List<String> qcards;
+  List<String> acards;
+  //int da;
+  ViewCards([this.qcards, this.acards]);
+  
   String _question = '';
   String _answer = '';
   AddCardState cards = new AddCardState();
@@ -25,16 +21,16 @@ class _ViewCards extends State<ViewCards> {
         title: Text('View Flashcards'),
         backgroundColor: Colors.blue,
       ),
-      body: Container(
+      body: new Container(
         padding: EdgeInsets.all(20.0),
-        child: Column(
+        child: new Column(
           children: <Widget>[
             Expanded(
               flex: 1,
               child: new SingleChildScrollView(
-                child: Text(
+                child: new Text(
                   //'$_question',
-                  '$this.qcard',
+                  '${this.qcards}',
                   style: TextStyle(
                     color: Colors.blue,
                     fontSize: 22.0,
@@ -42,7 +38,7 @@ class _ViewCards extends State<ViewCards> {
                 ),
               ),
             ),
-            Text('$this.acard'),
+            Text('${this.acards}'),
           ],
         ),
       ),
@@ -56,7 +52,12 @@ class _ViewCards extends State<ViewCards> {
             IconButton(
               icon: Icon(Icons.question_answer),
               tooltip: 'Flip Flashcard',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCard(storage: TextStorage())),
+                  );},
             ),
 
             IconButton(
