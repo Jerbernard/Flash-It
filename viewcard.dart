@@ -175,6 +175,7 @@ class _ViewCards extends State<ViewCards> {
                   icon: Icon(Icons.backspace), //return home
                   tooltip: 'back',
                   onPressed: () {
+                    _saved.remove(question);
                     Navigator.pop(context);
                   },
                 ),
