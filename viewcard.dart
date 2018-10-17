@@ -165,8 +165,11 @@ class _ViewCards extends State<ViewCards> {
                 //bottom app functionality here
                 IconButton(
                   icon: Icon(Icons.check), //save the current card
-                  tooltip: 'Save Flashcard',
-                  onPressed: () {},
+                  tooltip: 'Mark Flashcard',
+                  onPressed: () { 
+                              _saved.add(question);
+                             Navigator.pop(context);
+                              },
                 ),
                 IconButton(
                   icon: Icon(Icons.backspace), //return home
@@ -188,7 +191,7 @@ class _ViewCards extends State<ViewCards> {
 
     return new ListTile(
       title: new Text(
-        '# $question',
+        '$question',
         style: _biggerFont,
       ),
       trailing: new Icon(
@@ -197,14 +200,11 @@ class _ViewCards extends State<ViewCards> {
       ),
       onLongPress: (){
         setState(() {
-
           if (alreadySaved) {
             _saved.remove(question);
           } else {
-
             _saved.add(question);
-  
-          }
+           }
         });
       },
       onTap: () {
