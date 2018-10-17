@@ -118,7 +118,11 @@ class _ViewCards extends State<ViewCards> {
     return ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (BuildContext _context, int i) {
-          return _buildRow(_question[i]);
+          if( i.isOdd){
+            return Divider();
+          } else {
+            return _buildRow(_question[i]);
+          }
         },
         itemCount: _question.length,
         );
@@ -129,12 +133,12 @@ class _ViewCards extends State<ViewCards> {
 
     return new ListTile(
       title: new Text(
-        'Q: $question',
+        question,
         style: _biggerFont,
       ),
       trailing: new Icon(
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
+        alreadySaved ? Icons.check_box : Icons.check_box_outline_blank,
+        color: alreadySaved ? Colors.blue : null,
       ),
       onTap: () {
         setState(() {
@@ -171,7 +175,7 @@ void _pushSaved() {
               .toList();
           return new Scaffold(
             appBar: new AppBar(
-              title: const Text('Saved Suggestions'),
+              title: const Text('Saved Flash Card'),
             ),
             body: new ListView(children: divided),
           );
