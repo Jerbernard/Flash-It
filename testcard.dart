@@ -40,7 +40,7 @@ class _TestCards extends State<TestCards> {
 
     return widget.storage.cleanFile();
   }
-
+/*
   void _assignArray() {
     for (int i = 0; i < _cards.length; i++) {
       if (i.isOdd) {
@@ -50,10 +50,10 @@ class _TestCards extends State<TestCards> {
       }
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
-    _assignArray();
+    //_assignArray();
     return Scaffold(
       appBar: AppBar(
         title: Text('Test'),
@@ -79,7 +79,7 @@ class _TestCards extends State<TestCards> {
                       builder: (context) {
                         return AlertDialog(
                             content: Text(
-                              'Number ${n + 1} \nQ: ${_qcards[n]}',
+                              'Number ${n + 1} \nQ: ${_cards[n]}',
                               style: TextStyle(),
                             ),
                             actions: <Widget>[
@@ -96,7 +96,7 @@ class _TestCards extends State<TestCards> {
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                            content: Text('A: ${_acards[n]}'),
+                                            content: Text('A: ${_cards}'),
                                             actions: <Widget>[
                                               new FlatButton(
                                                   child: new Text("Ok"),
