@@ -39,19 +39,21 @@ class _TestCards extends State<TestCards> {
     });
 
     return widget.storage.cleanFile();
-  }  
+  }
 
-  void _assignArray(){
-    if(n.isOdd){
-      _qcards.add(_cards[n]);
+  void _assignArray() {
+    for(int i = 0; i < _cards.length; i++){
+      if (n.isOdd) {
+      _qcards.add(_cards[i]);
+    } else if (n.isEven) {
+      _acards.add(_cards[i]);
     }
-    else if (n.isEven){
-      _acards.add(_cards[n]);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    _assignArray();
     return Scaffold(
       appBar: AppBar(
         title: Text('Test'),
@@ -65,58 +67,57 @@ class _TestCards extends State<TestCards> {
             Padding(
               padding: EdgeInsets.only(),
               child: RaisedButton(
-                child: Text(
-                  'Press me!',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-                color: Colors.blue,
-                onPressed: (){
-                  return showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                          content: Text(
-                            'Number ${n+1} \nQ: ${_qcards[n]}',
-                            style: TextStyle(),
-                          ), 
-                          actions: <Widget>[
-                            new FlatButton(
-                                child: new Text("Prev"),
-                                onPressed: () {
-                                  n--;
-                                  Navigator.pop(context);
-                                }),
-                            new FlatButton(
-                                child: new Text("Answer"),
-                                onPressed: () {
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                          content: Text(
-                                              'A: ${_acards[n]}'),
-                                          actions: <Widget>[
-                                            new FlatButton(
-                                                child: new Text("Ok"),
-                                                onPressed: () {
-                                                  //save here
-                                                  Navigator.pop(context);
-                                                }),
-                                          ]);
-                                    },
-                                  );
-                                }),
-                            new FlatButton(
-                                child: new Text("Next"),
-                                onPressed: () {
-                                  n++;
-                                  Navigator.pop(context);
-                                }),
-                          ]);
-                    },
-                  );
-                }
-              ),
+                  child: Text(
+                    'Press me!',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  color: Colors.blue,
+                  onPressed: () {
+                    return showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            content: Text(
+                              'Number ${n + 1} \nQ: ${_qcards[n]}',
+                              style: TextStyle(),
+                            ),
+                            actions: <Widget>[
+                              new FlatButton(
+                                  child: new Text("Prev"),
+                                  onPressed: () {
+                                    n--;
+                                    Navigator.pop(context);
+                                  }),
+                              new FlatButton(
+                                  child: new Text("Answer"),
+                                  onPressed: () {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                            content: Text('A: ${_acards[n]}'),
+                                            actions: <Widget>[
+                                              new FlatButton(
+                                                  child: new Text("Ok"),
+                                                  onPressed: () {
+                                                    //save here
+                                                    Navigator.pop(context);
+                                                  }),
+                                            ]);
+                                      },
+                                    );
+                                  }),
+                              new FlatButton(
+                                  child: new Text("Next"),
+                                  onPressed: () {
+                                    n++;
+                                    Navigator.pop(context);
+                                  }),
+                            ]);
+                      },
+                    );
+                  }),
             ), //exit button
           ],
         ),
@@ -145,7 +146,8 @@ class _TestCards extends State<TestCards> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ViewCards(storage: TextStorage())),
+                        builder: (context) =>
+                            ViewCards(storage: TextStorage())),
                   );
                 },
               ),
