@@ -14,30 +14,32 @@ class ViewCards extends StatefulWidget {
 
 
 class _ViewCards extends  State<ViewCards>{
-  String _question = '';
-  String _answer = '';
+  List <String> _question;
+  String _answer;
+
 
   @override
   void initState(){
   super.initState();
-  widget.storage.readFile().then((String text){
-    setState((){
-      _question = text;});
-  });
+  // widget.storage.readFile().then((String text){
+  //   setState((){
+  //     _question = text});
+  // });
   widget.storage.readFile().then((String text){
     setState((){
       _answer = text;});
+      _question = _answer.split('\n');
   });
   }
+
   Future<File> _clearContentsInTextFile() async {
     setState(() {
-      _question = '';
+    //  _question = '';
       _answer = '';
   });
 
     return widget.storage.cleanFile();
   }
-
 @override
   Widget build(BuildContext context){
     return Scaffold(

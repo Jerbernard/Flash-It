@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'dart:async';
@@ -13,13 +12,25 @@ class AddCard extends StatefulWidget {
   _AddCardState createState() => _AddCardState();
   
 }
+class _SystemPadding extends StatelessWidget {
+  final Widget child;
+  _SystemPadding({Key key, this.child }) : super(key: key);
+
+  @override
+  Widget build (BuildContext context){
+    var mediaQuery = MediaQuery.of(context);
+    return new AnimatedContainer(padding: mediaQuery.viewInsets,
+    duration: const Duration(milliseconds: 300),
+    child:child);
+  }
+}
 
 class _AddCardState extends State<AddCard> {
   TextEditingController _questionField = new TextEditingController();
   TextEditingController _answerField = new TextEditingController();
 
   String _content = '';
-  int n = 0;
+  int n = -1;
   List<String> _question = new List();
   List<String> _answer = new List();
 
@@ -35,7 +46,7 @@ class _AddCardState extends State<AddCard> {
   clearArray(){
     _question.clear();
     _answer.clear();
-    n = 0;
+    n = -1;
   }
 
   @override
@@ -47,44 +58,113 @@ class _AddCardState extends State<AddCard> {
       });
     });
   }
-/*
+
+ _showDialog() async{
+   await showDialog<String>(
+    context: context,
+    child : new _SystemPadding (child: new AlertDialog(
+      contentPadding: const EdgeInsets.all(16.0),
+      content: new Row(
+        children: <Widget>[
+          new Expanded(
+            child: new TextField(
+              controller: _answerField,
+              decoration: new InputDecoration(
+                labelText: 'Enter Answer',),
+              ),
+              )
+        ],
+        ),
+        actions: <Widget> [
+          new FlatButton (
+            child: const Text('CANCEL'),
+            onPressed: () {
+              _answerField.clear(); 
+              Navigator.pop(context);
+            }
+          ),
+          new FlatButton(
+            child: const Text('SAVE'),
+            onPressed: () {
+              //_writeStringToTextFile(_questionField.text);
+              addQuestion(_questionField.text);
+              addAnswer(_answerField.text);
+             // _writeStringToTextFile(_answerField.text); 
+             _writeStringToTextFile(_question[n]);
+              return showDialog(
+                context: context,
+                   builder: (context) {
+                    return AlertDialog(
+                      content: new Text(
+                        "Successfully saved"),
+                          actions: <Widget>[
+                            new FlatButton(
+                                child: new Text("Ok"),
+                                onPressed: () {
+                                  _writeStringToTextFile(_answerField.text); 
+                                  Navigator.pop(context);
+                                  //  _questionField.clear();
+                                  //  _answerField.clear();
+                                   Navigator.pop(context);
+                                },
+                            ),
+                          ]
+                    );
+                   }
+              );
+            }
+            )
+        ],
+        ),
+        ),
+   );
+ }
+
+
   Future<File> _writeStringToTextFile(String text) async {
     setState(() {
-      _content += text + '\r\n';
+      _content += text;
     });
-
     return widget.storage.writeFile(text);
   }
-
   Future<File> _clearContentsInTextFile() async {
     setState(() {
       _content = '';
     });
-
     return widget.storage.cleanFile();
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     //int count = 0;
-    //String current = _question[count];
+    String current;
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Flashcard'),
         backgroundColor: Colors.blue,
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(30.0),
         child: Column(
           children: <Widget>[
+            Text('Question: '),
             TextField(
               controller: _questionField,
             ),
-            Text('Question'),
-            TextField(
-              controller: _answerField,
-            ),
-            Text('Answer'),
+            // TextField(
+            //   controller: _answerField,
+            // ),
+            // Text('Answer'),
+            Padding ( 
+              padding: EdgeInsets.all(20.0),
+              child: RaisedButton(
+                child:Text('Enter Answer',
+                style: TextStyle(color: Colors.white),
+              ),
+              color: Colors.blueAccent,
+              onPressed: _showDialog,
+              ),
+              ),
             Padding(
               padding: EdgeInsets.only(bottom: 20.0),
               child: RaisedButton(
@@ -103,8 +183,8 @@ class _AddCardState extends State<AddCard> {
               flex: 1,
               child: new SingleChildScrollView(
                 child: Text(
-                  '${_question[n]}',
-                  //'$current',
+                  //'${_question[n]}',
+                  '$_question' + '  '+ '$_answer',
                   //'$_content',
                   style: TextStyle(
                     color: Colors.black,
@@ -143,13 +223,12 @@ class _AddCardState extends State<AddCard> {
                             new FlatButton(
                                 child: new Text("Yes"),
                                 onPressed: () {
-                                  if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
-                                    addQuestion(_questionField.text);
-                                    addAnswer(_answerField.text);
-                                    //_writeStringToTextFile('\n');
-                                    _questionField.clear();
-                                    _answerField.clear();
-                                  }
+                                  // if (_questionField.text.isNotEmpty && _answerField.text.isNotEmpty) {
+                                  //   addQuestion(_questionField.text);
+                                  //   _writeStringToTextFile(_questionField.text);
+                                  //   addAnswer(_answerField.text);
+                                  
+                                  // }
                                   Navigator.pop(context);
                                 return showDialog(
                                   context: context,
