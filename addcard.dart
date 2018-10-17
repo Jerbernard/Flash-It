@@ -30,7 +30,7 @@ class _AddCardState extends State<AddCard> {
   TextEditingController _answerField = new TextEditingController();
 
   String _content = '';
-  int n = 0;
+  int n = -1;
   List<String> _question = new List();
   List<String> _answer = new List();
 
@@ -46,7 +46,7 @@ class _AddCardState extends State<AddCard> {
   clearArray(){
     _question.clear();
     _answer.clear();
-    n = 0;
+    n = -1;
   }
 
   @override
@@ -86,13 +86,32 @@ class _AddCardState extends State<AddCard> {
           new FlatButton(
             child: const Text('SAVE'),
             onPressed: () {
-              _writeStringToTextFile(_questionField.text);
+              //_writeStringToTextFile(_questionField.text);
               addQuestion(_questionField.text);
               addAnswer(_answerField.text);
-              _writeStringToTextFile(_answerField.text);
-              Navigator.pop(context); 
-              _questionField.clear();
-              _answerField.clear();
+             // _writeStringToTextFile(_answerField.text); 
+             _writeStringToTextFile(_question[n]);
+              return showDialog(
+                context: context,
+                   builder: (context) {
+                    return AlertDialog(
+                      content: new Text(
+                        "Successfully saved"),
+                          actions: <Widget>[
+                            new FlatButton(
+                                child: new Text("Ok"),
+                                onPressed: () {
+                                  _writeStringToTextFile(_answerField.text); 
+                                  Navigator.pop(context);
+                                  //  _questionField.clear();
+                                  //  _answerField.clear();
+                                   Navigator.pop(context);
+                                },
+                            ),
+                          ]
+                    );
+                   }
+              );
             }
             )
         ],
@@ -125,19 +144,19 @@ class _AddCardState extends State<AddCard> {
         backgroundColor: Colors.blue,
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(30.0),
         child: Column(
           children: <Widget>[
+            Text('Question: '),
             TextField(
               controller: _questionField,
             ),
-            // Text('Question'),
             // TextField(
             //   controller: _answerField,
             // ),
             // Text('Answer'),
             Padding ( 
-              padding: EdgeInsets.only(bottom: 20.0),
+              padding: EdgeInsets.all(20.0),
               child: RaisedButton(
                 child:Text('Enter Answer',
                 style: TextStyle(color: Colors.white),
