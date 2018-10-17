@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
@@ -44,11 +43,13 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.menu),
+                icon: Icon(Icons.settings),
+                tooltip: 'Settings',
                 onPressed: () {},
               ),
             ],
-          )),
+          )
+        ),
     );
   }
 }
