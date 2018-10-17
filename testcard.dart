@@ -42,12 +42,12 @@ class _TestCards extends State<TestCards> {
   }
 
   void _assignArray() {
-    for(int i = 0; i < _cards.length; i++){
-      if (n.isOdd) {
-      _qcards.add(_cards[i]);
-    } else if (n.isEven) {
-      _acards.add(_cards[i]);
-    }
+    for (int i = 0; i < _cards.length; i++) {
+      if (i.isOdd) {
+        _qcards.add(_cards[i]);
+      } else if (i.isEven) {
+        _acards.add(_cards[i]);
+      }
     }
   }
 
