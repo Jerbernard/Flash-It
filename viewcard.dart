@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
+import 'addcard.dart';
 
 class ViewCards extends StatefulWidget {
   final TextStorage storage;
@@ -97,10 +98,17 @@ class _ViewCards extends State<ViewCards> {
             ),
 
             IconButton(
-              icon: Icon(Icons.home), //return home
-              tooltip: 'Home',
+              icon: Icon(Icons.plus_one), //return home
+              tooltip: 'Addcard',
               onPressed: () {
-                Navigator.pop(context);
+                
+                    Navigator.pop(context);
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCard(storage: TextStorage())),
+                  );
+                  
               },
             ),
           ],
