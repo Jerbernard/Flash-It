@@ -80,7 +80,7 @@ class _TestCards extends State<TestCards> {
                       builder: (context) {
                         return AlertDialog(
                             content: Text(
-                              'Number ${i} \nQ: ${_cards[n]}',
+                              'Number ${i + 1} \nQ: ${_cards[n]}',
                               style: TextStyle(),
                             ),
                             actions: <Widget>[
