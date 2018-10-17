@@ -139,6 +139,7 @@ class _ViewCards extends State<ViewCards> {
       trailing: new Icon(
         alreadySaved ? Icons.check_box : Icons.check_box_outline_blank,
         color: alreadySaved ? Colors.blue : null,
+
       ),
       onTap: () {
         setState(() {
