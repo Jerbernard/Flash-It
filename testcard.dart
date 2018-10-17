@@ -15,6 +15,8 @@ class TestCards extends StatefulWidget {
 
 class _TestCards extends State<TestCards> {
   List<String> _cards;
+  List<String> _qcards;
+  List<String> _acards;
   String _ans;
   int n = 0;
   final Set<String> _saved = new Set<String>();
@@ -39,6 +41,14 @@ class _TestCards extends State<TestCards> {
     return widget.storage.cleanFile();
   }  
 
+  void _assignArray(){
+    if(n.isOdd){
+      _qcards.add(_cards[n]);
+    }
+    else if (n.isEven){
+      _acards.add(_cards[n]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +76,7 @@ class _TestCards extends State<TestCards> {
                     builder: (context) {
                       return AlertDialog(
                           content: Text(
-                            'Number ${n+1} \nQ: ${_cards[n]}',
+                            'Number ${n+1} \nQ: ${_qcards[n]}',
                             style: TextStyle(),
                           ), 
                           actions: <Widget>[
@@ -84,7 +94,7 @@ class _TestCards extends State<TestCards> {
                                     builder: (context) {
                                       return AlertDialog(
                                           content: Text(
-                                              'A: ${_ans}'),
+                                              'A: ${_acards[n]}'),
                                           actions: <Widget>[
                                             new FlatButton(
                                                 child: new Text("Ok"),
