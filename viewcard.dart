@@ -15,7 +15,7 @@ class ViewCards extends StatefulWidget {
 
 class _ViewCards extends  State<ViewCards>{
   List <String> _question;
-  String _answer = '';
+  String _answer;
 
 
   @override
@@ -28,8 +28,8 @@ class _ViewCards extends  State<ViewCards>{
   widget.storage.readFile().then((String text){
     setState((){
       _answer = text;});
+      _question = _answer.split('\n');
   });
-  _question =  _answer.split('\n');
   }
 
   Future<File> _clearContentsInTextFile() async {
@@ -40,18 +40,6 @@ class _ViewCards extends  State<ViewCards>{
 
     return widget.storage.cleanFile();
   }
-List<String> BuildStringArray(String input)
-{
-  var outList = new List<String>();
-  final _delimiter = '\n';
-  final _values = input.split(_delimiter);
-  _values.forEach((item)
-  {
-    outList.add((item));
-  });
-  return outList; 
-}  
-
 @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -67,7 +55,7 @@ List<String> BuildStringArray(String input)
               flex: 1,
               child: new SingleChildScrollView(
                 child: Text(
-                  '$_answer',
+                  '$_question',
                   style: TextStyle(
                     color: Colors.blue,
                     fontSize: 22.0,
