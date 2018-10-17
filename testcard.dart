@@ -80,7 +80,7 @@ class _TestCards extends State<TestCards> {
                       builder: (context) {
                         return AlertDialog(
                             content: Text(
-                              'Number ${i + 1} \nQ: ${_cards[n]}',
+                              'Number ${i} \nQ: ${_cards[n]}',
                               style: TextStyle(),
                             ),
                             actions: <Widget>[
@@ -153,15 +153,6 @@ class _TestCards extends State<TestCards> {
                             ViewCards(storage: TextStorage())),
                   );
                 },
-              ),
-              IconButton(
-                icon: Icon(Icons.school),
-                tooltip: 'Test Flashcards',
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {},
               ),
             ],
           )),

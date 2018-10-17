@@ -3,7 +3,7 @@ import 'homescreen.dart';
 
 void main() {
   runApp(MaterialApp(
-      title: 'FlashIt',
-      home: HomeScreen(),
+    title: 'FlashIt',
+    home: HomeScreen(),
   ));
 }
