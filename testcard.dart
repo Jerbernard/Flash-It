@@ -96,7 +96,7 @@ class _TestCards extends State<TestCards> {
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                            content: Text('A: ${_cards}'),
+                                            content: Text('A: ${_cards[n+1]}'),
                                             actions: <Widget>[
                                               new FlatButton(
                                                   child: new Text("Ok"),
