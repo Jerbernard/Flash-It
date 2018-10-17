@@ -19,6 +19,7 @@ class _TestCards extends State<TestCards> {
   List<String> _acards;
   String _ans;
   int n = 0;
+  int i = 0;
   final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
@@ -79,14 +80,15 @@ class _TestCards extends State<TestCards> {
                       builder: (context) {
                         return AlertDialog(
                             content: Text(
-                              'Number ${n + 1} \nQ: ${_cards[n]}',
+                              'Number ${i} \nQ: ${_cards[n]}',
                               style: TextStyle(),
                             ),
                             actions: <Widget>[
                               new FlatButton(
                                   child: new Text("Prev"),
                                   onPressed: () {
-                                    n--;
+                                    i -= 1;
+                                    n -= 2;
                                     Navigator.pop(context);
                                   }),
                               new FlatButton(
@@ -111,7 +113,8 @@ class _TestCards extends State<TestCards> {
                               new FlatButton(
                                   child: new Text("Next"),
                                   onPressed: () {
-                                    n++;
+                                    i += 1;
+                                    n += 2;
                                     Navigator.pop(context);
                                   }),
                             ]);
