@@ -68,6 +68,7 @@ class _AddCardState extends State<AddCard> {
         children: <Widget>[
           new Expanded(
             child: new TextField(
+              autofocus:true,
               controller: _answerField,
               decoration: new InputDecoration(
                 labelText: 'Enter Answer',),
