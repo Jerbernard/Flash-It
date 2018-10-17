@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FlashIt'),
+        title: Text('FlashIt v0.1a'),
       ),
       body: Container(
             
@@ -20,6 +20,21 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
+                  padding: EdgeInsets.only(left: 85.0, right: 0.0),
+                  child: RichText(
+                    text: TextSpan(
+                      text: "FlashIt!",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 60.0,
+                        fontStyle: FontStyle.italic,                    
+                      ),
+
+                    ),
+
+                  ),              
+                ),//Flash it text
+                Padding(
                   padding: EdgeInsets.only(left: 90.0, right: 90.0),
                   child: Text("How would you like to flash it?"),              
                 ),//Add card b
@@ -27,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
                     child: Text(
-                      'Create New FlashCard',
+                      'Create New Flashcard',
                       style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.blue,
@@ -61,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
                     child: Text(
-                      'Edit Flashcards (TODO)',
+                      'Test Flashcards',
                       style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.blue,
