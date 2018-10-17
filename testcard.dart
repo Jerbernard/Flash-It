@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'addcard.dart';
 import 'textstorage.dart';
 import 'viewcard.dart';
-import 'dart:async';
-import 'dart:io';
 
 class TestCards extends StatefulWidget {
   final TextStorage storage;
@@ -15,13 +13,9 @@ class TestCards extends StatefulWidget {
 
 class _TestCards extends State<TestCards> {
   List<String> _cards;
-  List<String> _qcards;
-  List<String> _acards;
   String _ans;
   int n = 0;
   int i = 0;
-  final Set<String> _saved = new Set<String>();
-  final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   void initState() {
@@ -32,14 +26,6 @@ class _TestCards extends State<TestCards> {
       });
       _cards = _ans.split('\n'); // split string to array
     });
-  }
-
-  Future<File> _clearContentsInTextFile() async {
-    setState(() {
-      _ans = '';
-    });
-
-    return widget.storage.cleanFile();
   }
 
 /*
@@ -53,9 +39,10 @@ class _TestCards extends State<TestCards> {
     }
   }
 */
+
   @override
   Widget build(BuildContext context) {
-    //_assignArray();
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Test'),
@@ -98,7 +85,7 @@ class _TestCards extends State<TestCards> {
                                                   "This is the first card!"),
                                               actions: <Widget>[
                                                 new FlatButton(
-                                                    child: new Text("Ok"),
+                                                    child: new Text("Sorry!"),
                                                     onPressed: () {
                                                       //save here
                                                       Navigator.pop(context);
@@ -135,8 +122,28 @@ class _TestCards extends State<TestCards> {
                               new FlatButton(
                                   child: new Text("Next"),
                                   onPressed: () {
-                                    i += 1;
-                                    n += 2;
+                                    if (n == _cards.length - 3) {
+                                      Navigator.pop(context);
+                                      return showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                              content: new Text(
+                                                  "This is the last card!"),
+                                              actions: <Widget>[
+                                                new FlatButton(
+                                                    child: new Text("Sorry!"),
+                                                    onPressed: () {
+                                                      //save here
+                                                      Navigator.pop(context);
+                                                    }),
+                                              ]);
+                                        },
+                                      );
+                                    } else {
+                                      i += 1;
+                                      n += 2;
+                                    }
                                     Navigator.pop(context);
                                   }),
                             ]);
