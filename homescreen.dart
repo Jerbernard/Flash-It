@@ -15,11 +15,14 @@ class HomeScreen extends StatelessWidget {
       body: Container(
             
             padding: EdgeInsets.all(20.0),
-            child: Column(
+            child: Column(              
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              
               children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 90.0, right: 90.0),
+                  child: Text("How would you like to flash it?"),              
+                ),//Add card b
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
