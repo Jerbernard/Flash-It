@@ -169,8 +169,8 @@ class _ViewCards extends State<ViewCards> {
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Icons.home), //return home
-                  tooltip: 'Home',
+                  icon: Icon(Icons.backspace), //return home
+                  tooltip: 'back',
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -195,15 +195,21 @@ class _ViewCards extends State<ViewCards> {
         alreadySaved ? Icons.check_box : Icons.check_box_outline_blank,
         color: alreadySaved ? Colors.blue : null,
       ),
-      onTap: () {
-        _buildAnswer(answer, question);
+      onLongPress: (){
         setState(() {
+
           if (alreadySaved) {
             _saved.remove(question);
           } else {
+
             _saved.add(question);
+  
           }
         });
+      },
+      onTap: () {
+             _buildAnswer(answer, question);
+
       },
     );
   }
@@ -230,7 +236,7 @@ class _ViewCards extends State<ViewCards> {
           ).toList();
           return new Scaffold(
             appBar: new AppBar(
-              title: const Text('Saved Suggestions'),
+              title: const Text('Saved Questions'),
             ),
             body: new ListView(children: divided),
           );
