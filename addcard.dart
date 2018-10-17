@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'viewcard.dart';
+import 'homescreen.dart';
+import 'test.dart';
 
 class AddCard extends StatefulWidget {
   final TextStorage storage;
@@ -198,15 +200,27 @@ class AddCardState extends State<AddCard> {
 
               IconButton(
                 icon: Icon(Icons.school), //delete current card in progress
-                tooltip: 'Delete current Flashcard',
-                onPressed: () {},
+                tooltip: 'Test yoself',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) =>
+                            TestCard(_question, _answer)),
+                  );
+                },
               ),
 
               IconButton(
                 icon: Icon(Icons.home), //return home
                 tooltip: 'Home',
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                     new MaterialPageRoute(
+                        builder: (context) =>
+                            HomeScreen(_question, _answer)),
+                  );
                 },
               ),
             ],

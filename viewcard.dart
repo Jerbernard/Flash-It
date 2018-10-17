@@ -9,10 +9,11 @@ class ViewCards extends StatelessWidget {
   List<String> acards;
   //int da;
   ViewCards([this.qcards, this.acards]);
+  //ViewCards.empty();
   
   String _question = '';
   String _answer = '';
-  AddCardState cards = new AddCardState();
+  //AddCardState cards = new AddCardState();
 
   @override
   Widget build(BuildContext context) {
