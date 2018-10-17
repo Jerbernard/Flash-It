@@ -52,25 +52,12 @@ class _ViewCards extends State<ViewCards> {
         color: Colors.blue,
         child: new Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            //bottom app functionality here
-            IconButton(
-              icon: Icon(Icons.question_answer),
-              tooltip: 'Flip Flashcard',
-              onPressed: () {},
-            ),
-
-            IconButton(
-              icon: Icon(Icons.save), //save the current card
-              tooltip: 'Save Flashcard',
-              onPressed: () {},
-            ),
-
             IconButton(
               icon:
                   Icon(Icons.delete_forever), //delete current card in progress
-              tooltip: 'Delete current Flashcard',
+              tooltip: 'Delete All Flashcard',
               onPressed: () {
                 return showDialog(
                   context: context,
@@ -130,6 +117,7 @@ class _ViewCards extends State<ViewCards> {
       itemCount: _card.length,
     );
   }
+
 
   Widget _buildAnswer(String answer, String question) {
     Navigator.of(context).push(
