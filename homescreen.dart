@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
 import 'viewcard.dart';
+import 'dart:io';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -10,6 +12,79 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('FlashIt'),
       ),
+      body: Container(
+            
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: RaisedButton(
+                    child: Text(
+                      'Create New FlashCard',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blue,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddCard(storage: TextStorage())),
+                      );
+                    },
+                  ),              
+                ),//Add card button
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: RaisedButton(
+                    child: Text(
+                      'Manage Flashcards',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blue,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewCards(storage: TextStorage())),
+                        );
+                      },
+                    ),              
+                  ),//view button
+                  Padding(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: RaisedButton(
+                    child: Text(
+                      'Edit Flashcards (TODO)',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blue,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewCards(storage: TextStorage())),
+                        );
+                      },
+                    ),              
+                  ),//edit button
+                  Padding(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: RaisedButton(
+                    child: Text(
+                      'Exit',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blue,
+                    onPressed: () => exit(0), 
+                    ),              
+                  ),//exit button
+                ],
+              ),
+            ),
       bottomNavigationBar: new BottomAppBar(
           color: Colors.blue,
           child: new Row(
@@ -43,13 +118,11 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.settings),
-                tooltip: 'Settings',
+                icon: Icon(Icons.menu),
                 onPressed: () {},
               ),
             ],
-          )
-        ),
+          )),
     );
   }
 }
