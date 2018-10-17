@@ -75,7 +75,7 @@ class _TestCards extends State<TestCards> {
                               new FlatButton(
                                   child: new Text("Prev"),
                                   onPressed: () {
-                                    if (n <= 1) {
+                                    if (n <= 1) {/*
                                       Navigator.pop(context);
                                       return showDialog(
                                         context: context,
@@ -92,7 +92,9 @@ class _TestCards extends State<TestCards> {
                                                     }),
                                               ]);
                                         },
-                                      );
+                                      );*/
+                                      n = _cards.length - 3;
+                                      i = _cards.length ~/ 2 - 1;
                                     } else {
                                       i -= 1;
                                       n -= 2;
@@ -122,7 +124,7 @@ class _TestCards extends State<TestCards> {
                               new FlatButton(
                                   child: new Text("Next"),
                                   onPressed: () {
-                                    if (n == _cards.length - 3) {
+                                    if (n == _cards.length - 3) {/*
                                       Navigator.pop(context);
                                       return showDialog(
                                         context: context,
@@ -140,6 +142,9 @@ class _TestCards extends State<TestCards> {
                                               ]);
                                         },
                                       );
+                                    */
+                                    i = 0;
+                                    n = 0;
                                     } else {
                                       i += 1;
                                       n += 2;
