@@ -9,7 +9,7 @@ class TextStorage {
   }
 
   Future<File> get _qlocalFile async {
-    final path = await _qlocalPath;
+    final path = await _qlocalPath; 
     return File('$path/text.txt');
   }
 
@@ -33,4 +33,23 @@ class TextStorage {
     final file = await _qlocalFile;
     return file.writeAsString('');
   }
-}
+
+
+  Future<File> fileLocation (String name) async
+  {
+    final path = await _qlocalPath;
+    return File('$path/$name.txt'); 
+  }
+
+  Future<String> readDeck(String filename) async {
+    try {
+      final file = await fileLocation(filename);
+
+      String content = await file.readAsString();
+      return content;
+    } catch (e) {
+      return '';
+    }
+  }
+
+} 
