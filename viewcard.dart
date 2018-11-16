@@ -1,132 +1,55 @@
-import 'package:flutter/material.dart';
-import 'textstorage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
 
-
-class ViewCards extends StatefulWidget {
-  final TextStorage storage;
-  ViewCards({Key key, @required this.storage}) : super(key: key);
-  
-  @override
-  _ViewCards createState() => _ViewCards();
-}
-
-
-class _ViewCards extends  State<ViewCards>{
-  List <String> _question;
-  String _answer;
-
-
-  @override
-  void initState(){
-  super.initState();
-  // widget.storage.readFile().then((String text){
-  //   setState((){
-  //     _question = text});
-  // });
-  widget.storage.readFile().then((String text){
-    setState((){
-      _answer = text;});
-      _question = _answer.split('\n');
-  });
+class TextStorage {
+  Future<String> get _qlocalPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
   }
 
-  Future<File> _clearContentsInTextFile() async {
-    setState(() {
-    //  _question = '';
-      _answer = '';
-  });
-
-    return widget.storage.cleanFile();
+  Future<File> get _qlocalFile async {
+    final path = await _qlocalPath; 
+    return File('$path/text.txt');
   }
-@override
-  Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('View Flashcards'),
-        backgroundColor: Colors.blue,
-      ),
-      body: Container(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: new SingleChildScrollView(
-                child: Text(
-                  '$_question',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            Text('$_answer'),
-          ],
-        ),
-      ),
-      bottomNavigationBar: new BottomAppBar(
-          color: Colors.blue,
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              //bottom app functionality here
-              IconButton(
-                icon: Icon(Icons.question_answer),
-                tooltip: 'Flip Flashcard',
-                onPressed: () {},
-              ),
 
-              IconButton(
-                icon: Icon(Icons.save), //save the current card
-                tooltip: 'Save Flashcard',
-                onPressed: () {},
-              ),
+  Future<String> readFile() async {
+    try {
+      final file = await _qlocalFile;
 
-              IconButton(
-                icon: Icon(
-                    Icons.delete_forever), //delete current card in progress
-                tooltip: 'Delete current Flashcard',
-                onPressed: () {
-                  return showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                          content: new Text(
-                              "Are you sure you would like to delete all flashcards?"),
-                          actions: <Widget>[
-                            new FlatButton(
-                                child: new Text("Yes"),
-                                onPressed: () {
-                                  //save here
-                                 _clearContentsInTextFile();
-                                  Navigator.pop(context);
-
-                                }),
-                            new FlatButton(
-                                child: new Text("No"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                })
-                          ]);
-                    },
-                  );
-                    },
-              ),
-
-              IconButton(
-                icon: Icon(Icons.home), //return home
-                tooltip: 'Home',
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ),
-    );
+      String content = await file.readAsString();
+      return content;
+    } catch (e) {
+      return '';
+    }
   }
-}
+
+  Future<File> writeFile(String text) async {
+    final file = await _qlocalFile;
+    return file.writeAsString('$text\r\n', mode: FileMode.append);
+  }
+
+  Future<File> cleanFile() async {
+    final file = await _qlocalFile;
+    return file.writeAsString('');
+  }
+
+
+  Future<File> fileLocation (String name) async
+  {
+    final path = await _qlocalPath;
+    return File('$path/$name.txt'); 
+  }
+
+  Future<String> readDeck(String filename) async {
+    try {
+      final file = await fileLocation(filename);
+
+      String content = await file.readAsString();
+      return content;
+    } catch (e) {
+      return '';
+    }
+  }
+
+} 
