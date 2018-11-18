@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'dart:async';
+import 'homescreen.dart';
 import 'dart:io';
 
 class AddCard extends StatefulWidget {
@@ -293,6 +294,11 @@ class _AddCardState extends State<AddCard> {
                 tooltip: 'Home',
                 onPressed: () {
                   Navigator.pop(context);
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomeScreen()),
+                  ); 
                 },
               ),
             ],

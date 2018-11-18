@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
+import 'addcard.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -66,9 +67,15 @@ class _ViewCards extends State<ViewCards> {
             ),
 
             IconButton(
-              icon: Icon(Icons.save), //save the current card
-              tooltip: 'Save Flashcard',
-              onPressed: () {},
+              icon: Icon(Icons.edit), //add a new card
+              tooltip: 'Add Flashcard',
+              onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCard(storage: TextStorage())),
+                  );        
+              },
             ),
 
             IconButton(
@@ -89,6 +96,14 @@ class _ViewCards extends State<ViewCards> {
                                 //save here
                                 _clearContentsInTextFile();
                                 Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.of(context).push(
+                                new MaterialPageRoute(
+                                builder: (BuildContext context){
+                                  return new ViewCards(storage: TextStorage());
+                                 }
+                                  )
+                                );
                               }),
                           new FlatButton(
                               child: new Text("No"),
