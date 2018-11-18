@@ -4,6 +4,7 @@ import 'addcard.dart';
 import 'viewcard.dart';
 import 'testcard.dart';
 import 'dart:io';
+import 'viewdeck.dart';
 
 class HomeScreen extends StatelessWidget {
   TextEditingController _name = new TextEditingController(); 
@@ -76,6 +77,7 @@ class HomeScreen extends StatelessWidget {
                           {
                             filename = _name.text; 
                             storage.writeFile(filename);
+                            Navigator.pop(context); 
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -100,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ViewCards(storage: TextStorage())),
+                            builder: (context) => ViewDecks(storage: TextStorage())),
                         );
                       },
                     ),              
