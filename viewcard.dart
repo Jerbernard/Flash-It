@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
+import 'homescreen.dart';
+import 'addcard.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -16,6 +18,13 @@ class _ViewCards extends State<ViewCards> {
   String _answer;
   final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
+   Future<bool> _onWillPop() {
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+        builder: (context) => HomeScreen()),
+    );
+  }
 
   @override
   void initState() {
@@ -43,7 +52,9 @@ class _ViewCards extends State<ViewCards> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      return new WillPopScope(
+      onWillPop: _onWillPop,
+      child: new Scaffold(
       appBar: AppBar(
         title: Text('View Flashcards'),
         actions: <Widget>[
@@ -66,9 +77,15 @@ class _ViewCards extends State<ViewCards> {
             ),
 
             IconButton(
-              icon: Icon(Icons.save), //save the current card
-              tooltip: 'Save Flashcard',
-              onPressed: () {},
+              icon: Icon(Icons.edit), //add a new card
+              tooltip: 'Add Flashcard',
+              onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCard(storage: TextStorage())),
+                  );
+                },
             ),
 
             IconButton(
@@ -89,6 +106,14 @@ class _ViewCards extends State<ViewCards> {
                                 //save here
                                 _clearContentsInTextFile();
                                 Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.of(context).push(
+                                new MaterialPageRoute(
+                                builder: (BuildContext context){
+                                  return new ViewCards(storage: TextStorage());
+                                 }
+                                  )
+                                );
                               }),
                           new FlatButton(
                               child: new Text("No"),
@@ -105,12 +130,18 @@ class _ViewCards extends State<ViewCards> {
               icon: Icon(Icons.home), //return home
               tooltip: 'Home',
               onPressed: () {
-                Navigator.pop(context);
-              },
+                  Navigator.pop(context);
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomeScreen()),
+                  ); 
+                },
             ),
           ],
         ),
       ),
+      )
     );
   }
 
