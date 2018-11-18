@@ -66,7 +66,7 @@ class _BeginTest extends State<BeginTest> {
     );
   }
 
-  // 
+  // Replace showDialog with a better "test" friendly interface
   testButton(){
     return showDialog(
       context: context,
