@@ -18,7 +18,7 @@ class _ViewDecks extends State<ViewDecks> {
   List<String> _deck;
   String _deckName;  
   String _file;
-  final Set<String> _saved = new Set<String>();
+  //final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
