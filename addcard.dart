@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
+import 'viewcard.dart';
 import 'dart:async';
 import 'homescreen.dart';
 import 'dart:io';
@@ -29,6 +30,18 @@ class _SystemPadding extends StatelessWidget {
 class _AddCardState extends State<AddCard> {
   TextEditingController _questionField = new TextEditingController();
   TextEditingController _answerField = new TextEditingController();
+  Future<bool> _onWillPop() {
+   Navigator.push(
+    context,
+    MaterialPageRoute(
+        builder: (context) => ViewCards(storage: TextStorage())),
+    );
+
+  }
+
+
+
+
 
   String _content = '';
   int n = -1;
@@ -137,10 +150,12 @@ class _AddCardState extends State<AddCard> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     //int count = 0;
     String current;
-    return Scaffold(
+    return new WillPopScope(
+      onWillPop: _onWillPop,
+      child: new Scaffold(
       appBar: AppBar(
         title: Text('Create Flashcard'),
         backgroundColor: Colors.blue,
@@ -303,7 +318,8 @@ class _AddCardState extends State<AddCard> {
               ),
             ],
           )),
-    );
+    )
+  );
   }
 
 }
