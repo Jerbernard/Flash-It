@@ -185,20 +185,20 @@ class _AddCardState extends State<AddCard> {
                 },
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: new SingleChildScrollView(
-                child: Text(
-                  //'${_question[n]}',
-                  '$_question' + '  '+ '$_answer',
-                  //'$_content',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
+            // Expanded(                                                        //TESTING INPUT
+            //   flex: 1,
+            //   child: new SingleChildScrollView(
+            //     child: Text(
+            //       //'${_question[n]}',
+            //       '$_question' + '  '+ '$_answer',
+            //       //'$_content',
+            //       style: TextStyle(
+            //         color: Colors.black,
+            //         fontSize: 22.0,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
