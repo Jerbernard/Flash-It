@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'viewcard.dart';
 import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
@@ -104,9 +105,12 @@ class _AddCardState extends State<AddCard> {
                                 onPressed: () {
                                   _writeStringToTextFile(_answerField.text,widget.filename); 
                                   Navigator.pop(context);
-                                  //  _questionField.clear();
-                                  //  _answerField.clear();
-                                   Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) => ViewCards(storage: TextStorage())),
+                                  );
                                 },
                             ),
                           ]
