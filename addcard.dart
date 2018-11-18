@@ -5,11 +5,13 @@ import 'dart:io';
 
 class AddCard extends StatefulWidget {
   final TextStorage storage;
-
-  AddCard({Key key, @required this.storage}) : super(key: key);
+  final String filename; 
+  AddCard({Key key, @required this.storage, this.filename}) : super(key: key);
 
   @override
   _AddCardState createState() => _AddCardState();
+
+
   
 }
 class _SystemPadding extends StatelessWidget {
@@ -28,7 +30,6 @@ class _SystemPadding extends StatelessWidget {
 class _AddCardState extends State<AddCard> {
   TextEditingController _questionField = new TextEditingController();
   TextEditingController _answerField = new TextEditingController();
-
   String _content = '';
   int n = -1;
   List<String> _question = new List();
@@ -52,7 +53,7 @@ class _AddCardState extends State<AddCard> {
   @override
   void initState() {
     super.initState();
-    widget.storage.readFile().then((String text) {
+    widget.storage.readDeck(widget.filename).then((String text) {
       setState(() {
         _content = text;
       });
@@ -90,7 +91,7 @@ class _AddCardState extends State<AddCard> {
               addQuestion(_questionField.text);
               addAnswer(_answerField.text);
              // _writeStringToTextFile(_answerField.text); 
-             _writeStringToTextFile(_question[n]);
+             _writeStringToTextFile(_question[n],widget.filename);
               return showDialog(
                 context: context,
                    builder: (context) {
@@ -101,7 +102,7 @@ class _AddCardState extends State<AddCard> {
                             new FlatButton(
                                 child: new Text("Ok"),
                                 onPressed: () {
-                                  _writeStringToTextFile(_answerField.text); 
+                                  _writeStringToTextFile(_answerField.text,widget.filename); 
                                   Navigator.pop(context);
                                   //  _questionField.clear();
                                   //  _answerField.clear();
@@ -121,12 +122,13 @@ class _AddCardState extends State<AddCard> {
  }
 
 
-  Future<File> _writeStringToTextFile(String text) async {
+  Future<File> _writeStringToTextFile(String text, String deckname) async {
     setState(() {
       _content += text;
     });
-    return widget.storage.writeFile(text);
+    return widget.storage.writeDeck(text,deckname);
   }
+  
   Future<File> _clearContentsInTextFile() async {
     setState(() {
       _content = '';
