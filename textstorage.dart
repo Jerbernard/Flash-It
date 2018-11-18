@@ -43,7 +43,7 @@ class TextStorage {
 
   Future<String> readDeck(String filename) async {
     try {
-      final path = await fileLocation(filename);
+      final path = await _qlocalPath;
       var file = new File('$path/$filename.txt');
       String content = await file.readAsString();
       return content;
