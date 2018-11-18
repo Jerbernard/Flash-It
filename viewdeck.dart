@@ -120,21 +120,7 @@ class _ViewDecks extends State<ViewDecks> {
     );
   }
 
-  // Widget _buildFlashCard() {
-  //   return ListView.builder(
-  //     padding: const EdgeInsets.all(16.0),
-  //     itemBuilder: (BuildContext _context, int i) {
-  //       if (i.isOdd) {
-  //         return Divider();
-  //       } else if (i + 1 != _card.length) {
-  //         return _buildRow(_card[i], _card[i + 1]);
-  //       }
-  //     },
-  //     itemCount: _card.length,
-  //   );
-  // }
-
-    Widget _buildDecks() {
+   Widget _buildDecks() {
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (BuildContext _context, int i) {
@@ -148,6 +134,43 @@ class _ViewDecks extends State<ViewDecks> {
     );
   }
 
+    Widget _buildDeckRow(String deckName)
+  {
+    return new ListTile(
+      title: new Text(
+        '$deckName',
+        style: _biggerFont,
+      ),
+      onTap: () {
+      widget.storage.readDeck(deckName).then((String text) {
+        setState(() {
+          _file = text; 
+        });
+        _card = _file.split('\n');
+      });   
+      Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewCard(storage: TextStorage(), card:_card)),
+                                                   //would have to build flashcards here? make a new scaffold? a new page? team?
+      );  
+      });
+    }
+
+  // Widget _buildFlashCard() {
+  //   return ListView.builder(
+  //     padding: const EdgeInsets.all(16.0),
+  //     itemBuilder: (BuildContext _context, int i) {
+  //       if (i.isOdd) {
+  //         return Divider();
+  //       } else if (i + 1 != _card.length) {
+  //         return _buildRow(_card[i], _card[i + 1]);
+  //       }
+  //     },
+  //     itemCount: _card.length,
+  //   );
+  // }
+  
   // Widget _buildAnswer(String answer, String question) {
   //   Navigator.of(context).push(
   //     new MaterialPageRoute<void>(builder: (BuildContext context) {
@@ -239,28 +262,6 @@ class _ViewDecks extends State<ViewDecks> {
   //   );
   // }
 
-  Widget _buildDeckRow(String deckName)
-  {
-    return new ListTile(
-      title: new Text(
-        '$deckName',
-        style: _biggerFont,
-      ),
-      onTap: () {
-      widget.storage.readDeck(deckName).then((String text) {
-        setState(() {
-          _file = text; 
-        });
-        _card = _file.split('\n');
-      });   
-      Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ViewCard(storage: TextStorage(), card:_card)),
-
-      );  
-      });                                                            //would have to build flashcards here? make a new scaffold? a new page? team?
-    }
 
   // void _pushSaved() {
   //   Navigator.of(context).push(
