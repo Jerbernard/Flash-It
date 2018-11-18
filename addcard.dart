@@ -3,6 +3,7 @@ import 'viewcard.dart';
 import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
+import 'viewdeck.dart';
 
 class AddCard extends StatefulWidget {
   final TextStorage storage;
@@ -109,7 +110,7 @@ class _AddCardState extends State<AddCard> {
                                   Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                  builder: (context) => ViewCards(storage: TextStorage())),
+                                  builder: (context) => ViewDecks(storage: TextStorage())),
                                   );
                                 },
                             ),
