@@ -4,18 +4,18 @@ import 'dart:async';
 import 'dart:io';
 import 'addcard.dart';
 
-class ViewCards extends StatefulWidget {
+
+class ViewCard extends StatefulWidget {
   final TextStorage storage;
-  ViewCards({Key key, @required this.storage}) : super(key: key);
+  final List<String> card; 
+  ViewCard({Key key, @required this.storage, this.card}) : super(key: key);
 
   @override
-  _ViewCards createState() => _ViewCards();
+  _ViewCard createState() => _ViewCard();
 }
 
-class _ViewCards extends State<ViewCards> {
+class _ViewCard extends State<ViewCard> {
   List<String> _card;
-  List<String> _deck;
-  String _deckName;  
   String _file;
   final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
@@ -23,12 +23,9 @@ class _ViewCards extends State<ViewCards> {
   @override
   void initState() {
     super.initState();
-    widget.storage.readFile().then((String text) {
       setState(() {
-        _deckName = text;                       // pulls text from file
-      });
-      _deck = _deckName.split('\n');            // split string to array
-    });
+        _card = widget.card;
+      });          
   }
 
   Future<File> _clearContentsInTextFile() async {
@@ -45,11 +42,11 @@ class _ViewCards extends State<ViewCards> {
       appBar: AppBar(
         title: Text('View Flashcards'),
         actions: <Widget>[
-          //new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
+          new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
         ],
         backgroundColor: Colors.blue,
       ),
-      body: _buildDecks(),
+      body: _buildFlashCard(),
       bottomNavigationBar: new BottomAppBar(
         color: Colors.blue,
         child: new Row(
@@ -110,7 +107,6 @@ class _ViewCards extends State<ViewCards> {
                     MaterialPageRoute(
                         builder: (context) => AddCard(storage: TextStorage())),
                   );
-                  
               },
             ),
           ],
@@ -130,20 +126,6 @@ class _ViewCards extends State<ViewCards> {
         }
       },
       itemCount: _card.length,
-    );
-  }
-
-    Widget _buildDecks() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: (BuildContext _context, int i) {
-
-          if (i != _deck.length) {
-          Divider(); 
-          return _buildDeckRow(_deck[i]);
-        }
-      },
-      itemCount: _deck.length,
     );
   }
 
@@ -238,24 +220,6 @@ class _ViewCards extends State<ViewCards> {
     );
   }
 
-  Widget _buildDeckRow(String deckName)
-  {
-    return new ListTile(
-      title: new Text(
-        '$deckName',
-        style: _biggerFont,
-      ),
-      onTap: () {
-      widget.storage.readDeck(deckName).then((String text) {
-        setState(() {
-          _file = text; 
-        });
-        _card = _file.split('\n');
-      });                                                               //would have to build flashcards here? make a new scaffold? a new page? team?
-      }
-    );
-  }
-
   void _pushSaved() {
     Navigator.of(context).push(
       // new page
@@ -287,3 +251,4 @@ class _ViewCards extends State<ViewCards> {
     );
   }
 }
+
