@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'addcard.dart';
 import 'textstorage.dart';
+import 'viewdeck.dart';
 import 'viewcard.dart';
 
 class TestCards extends StatefulWidget {
@@ -179,7 +180,7 @@ class _TestCards extends State<TestCards> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ViewCards(storage: TextStorage())),
+                            ViewDecks(storage: TextStorage())),
                   );
                 },
               ),
