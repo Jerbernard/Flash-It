@@ -7,6 +7,8 @@ import 'dart:io';
 
 class HomeScreen extends StatelessWidget {
   TextEditingController _name = new TextEditingController(); 
+  TextStorage storage = new TextStorage(); 
+  String filename; 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,12 +53,12 @@ class HomeScreen extends StatelessWidget {
                         
                         content: new Row(children: <Widget> [
                           new Expanded (
-                            child: new TextField 
-                            (controller: _name,
-                            decoration: new InputDecoration(
+                            child: new TextField (
+                              controller: _name,
+                              decoration: new InputDecoration(
                               labelText: 'Enter Deck Name',)
+                            ),
                             )
-                            ,)
                         ],
                         ),
                       
@@ -72,19 +74,19 @@ class HomeScreen extends StatelessWidget {
                           child:const Text('ENTER'),
                           onPressed: ()
                           {
+                            filename = _name.text; 
+                            storage.writeFile(filename);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AddCard(storage: TextStorage())),
+                                builder: (context) => AddCard(storage: TextStorage(), filename:filename)),
                           );
                           })
                       ],
                       ),
                       );
-                      }
-                      ,
-                  ),   
-                           
+                      },
+                  ),         
                 ),//Add card button
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
