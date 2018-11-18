@@ -10,7 +10,7 @@ class TextStorage {
 
   Future<File> get _qlocalFile async {
     final path = await _qlocalPath; 
-    return File('$path/text.txt');
+    return File('$path/decks.txt');
   }
 
   Future<String> readFile() async {
@@ -35,7 +35,7 @@ class TextStorage {
   }
 
 
-  Future<File> fileLocation (String name) async
+  Future<File>  fileLocation (String name) async
   {
     final path = await _qlocalPath;
     return File('$path/$name.txt'); 
@@ -50,6 +50,15 @@ class TextStorage {
     } catch (e) {
       return '';
     }
+  }
+
+  Future<File> writeDeck(String text, String deckname) async
+  {
+   final path = await _qlocalPath;
+   var file = new File ('$path/$deckname.txt'); 
+   
+  // final file = await _qlocalPath+'/$deck';
+   return file.writeAsString('$text\r\n', mode: FileMode.append); 
   }
 
 } 
