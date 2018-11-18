@@ -64,14 +64,14 @@ class _ViewCards extends State<ViewCards> {
             ),
 
             IconButton(
-              icon: Icon(Icons.save), //save the current card
+              icon: Icon(Icons.save),                 //save the current card
               tooltip: 'Save Flashcard',
               onPressed: () {},
             ),
 
             IconButton(
               icon:
-                  Icon(Icons.delete_forever), //delete current card in progress
+                  Icon(Icons.delete_forever),         //delete current card in progress
               tooltip: 'Delete current Flashcard',
               onPressed: () {
                 return showDialog(
@@ -251,7 +251,7 @@ class _ViewCards extends State<ViewCards> {
           _file = text; 
         });
         _card = _file.split('\n');
-      });                                   //would have to build flashcards here? make a new scaffold? a new page? team?
+      });                                                               //would have to build flashcards here? make a new scaffold? a new page? team?
       }
     );
   }
