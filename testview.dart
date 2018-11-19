@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'addcard.dart';
 import 'textstorage.dart';
-import 'viewcard.dart';
 import 'begintest.dart';
-import 'viewdeck.dart';
 
 // Can be a Stateless Widget
 // This page will be used to view decks and select which one to self test
@@ -33,12 +30,6 @@ class _TestCards extends State<TestCards> {
   @override
   void initState() {
     super.initState();
-    widget.storage.readDeck(widget.filename).then((String text) {
-      setState(() {
-        _ans = text; // pulls text from file
-      });
-      deck = _ans.split('\n'); // split string to array
-    });
     
     widget.storage.readFile().then((String text) {
       setState(() {
@@ -68,39 +59,39 @@ class _TestCards extends State<TestCards> {
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    '${deckSets[n]}',
+                    '${deckSets[0]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    testSelf();
+                    testSelf(deckSets[0]);
                   }),
             ),
             Padding(
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    '${deckSets[n]}',
+                    'Mathematics Cards',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    testSelf();
+                    testSelf(deckSets[0]);
                   }),
             ),
             Padding(
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    '${deckSets[n]}',
+                    'Biology Cards',//${deckSets[0]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    testSelf();
+                    testSelf(deckSets[0]);
                   }),
             ), //exit button
           ],
@@ -140,46 +131,20 @@ class _TestCards extends State<TestCards> {
     );
   }
 
-  
-  testSelf(){
+  testSelf(String deckNam){
+    widget.storage.readDeck(deckNam).then((String text) {
+      setState(() {
+        _ans = text; // pulls text from file
+      });
+      deck = _ans.split('\n'); // split string to array
+    });
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BeginTest(deck: deck, filename: filename)),
+      MaterialPageRoute(builder: (context) => BeginTest(deck: deck, filename: deckNam)),
     );
   }
 
-  // Function call to initialize self testing
-  /*
-  testSelff() {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-            content: Text(
-              'Number ${i + 1} \nQ: ${deck[n]}',
-              style: TextStyle(),
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                  child: new Text("Prev"),
-                  onPressed: () {
-                    //prevButton();
-                  }),
-              new FlatButton(
-                  child: new Text("Answer"),
-                  onPressed: () {
-                    //answerButton();
-                  }),
-              new FlatButton(
-                  child: new Text("Next"),
-                  onPressed: () {
-                    //nextButton();
-                  }),
-            ]);
-      },
-    );
-  }
-
+/*
   createButton() {
     Navigator.push(
       context,
