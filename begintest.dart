@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
-import 'dart:async';
-import 'dart:io';
-import 'testcard.dart';
-import 'viewdeck.dart';
+import 'testview.dart';
 
 // Self test on this page
 // Receive results on this page
@@ -11,6 +8,8 @@ import 'viewdeck.dart';
 class BeginTest extends StatefulWidget {
   final List<String> deck;
   final String filename;
+
+  // Constructor that receives a list of strings(the deck) and the name of the deck
   BeginTest({Key key, @required this.deck, @required this.filename}) : super(key: key);
 
   @override
@@ -20,21 +19,23 @@ class BeginTest extends StatefulWidget {
 class _BeginTest extends State<BeginTest> {
   int n = 0;
   int size = 0;
-  double result = 0;
+  int result = 0;
   String filename;
 
+  // List to store questions and answers separately
   List<String> questions = [];
   List<String> answers = [];
 
+  // InitState sorts separates
   void initState() {
     super.initState();
     for (int i = 0; i < widget.deck.length - 1; i++) {
+      print('${widget.deck[i]}\n');
       if (i % 2 == 0) {
         questions.add(widget.deck[i]);
         size++;
       } else {
         answers.add(widget.deck[i]);
-        size++;
       }
     }
   }
@@ -51,17 +52,19 @@ class _BeginTest extends State<BeginTest> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            prompts(widget.deck),
+            // Calls a Card widget that passes the 
+            prompts(),
             Padding(
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    'Get me out of here!',
+                    'Exit Quiz',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
+                    // If user would like to exit self test
                     exitButton();
                   }),
             ),
@@ -70,39 +73,8 @@ class _BeginTest extends State<BeginTest> {
       ),
     );
   }
-/*
-  // Begin Test
-  testButton() {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-            content: Text(
-              'Number ${n + 1} \nQ: ${questions[n]}',
-              style: TextStyle(),
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                  child: new Text("Prev"),
-                  onPressed: () {
-                    prevButton();
-                  }),
-              new FlatButton(
-                  child: new Text("Answer"),
-                  onPressed: () {
-                    answerButton();
-                  }),
-              new FlatButton(
-                  child: new Text("Next"),
-                  onPressed: () {
-                    nextButton();
-                  }),
-            ]);
-      },
-    );
-  }
-*/
-  // If user would like to exit self test
+
+  // To go back to the select deck screen
   exitButton() {
     return showDialog(
       context: context,
@@ -118,7 +90,7 @@ class _BeginTest extends State<BeginTest> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              TestCards(storage: TextStorage(), filename: filename)),
+                              TestCards(storage: TextStorage())),
                     );
                   }),
               new FlatButton(
@@ -151,62 +123,22 @@ class _BeginTest extends State<BeginTest> {
 
   // Function call for pressing next question
   nextButton() {
-    if (n == size - 1) {
-      //Navigator.pop(context);
-      return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: new Text("This is the last card!"),
-              actions: <Widget>[
-                new FlatButton(
-                    child: new Text("Sorry!"),
-                    onPressed: () {
-                      //save here
-                      Navigator.pop(context);
-                    }),
-              ]);
-        },
-      );
-    } else {
       setState(() {
         n += 1;
         result += 1;
       });
-      prompts(widget.deck);
-    }
+      prompts();
   }
-
-/*
-  // Function call for pressing previous question already answered
-  prevButton() {
-    if (n <= 1) {
-      Navigator.pop(context);
-      return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: new Text("This is the first card!"),
-              actions: <Widget>[
-                new FlatButton(
-                    child: new Text("Sorry!"),
-                    onPressed: () {
-                      //save here
-                      Navigator.pop(context);
-                    }),
-              ]);
-        },
-      );
-    } else {}
-    Navigator.pop(context);
-  }
-*/
-
-  prompts(deck) {
+  
+  // Generates "flashcard" structure
+  prompts() {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          new ListTile(
+            title:Text("Question: ${n + 1}")
+          ),
           new ListTile(
             title: Text('${questions[n]}'),
             subtitle: Text('whats your answer?'),
@@ -222,10 +154,13 @@ class _BeginTest extends State<BeginTest> {
                   onPressed: () {
                     if (n == size - 1) {
                       results();
+                      
                     }
+                    else{
                     setState(() {
                       n += 1;
                     });
+                    }
                   },
                 ),
                 FlatButton(
@@ -238,9 +173,14 @@ class _BeginTest extends State<BeginTest> {
                   child: Icon(Icons.check),
                   onPressed: () {
                     if (n == size - 1) {
+                      result++;
                       results();
+                      print('display results');
                     }
-                    nextButton();
+                    else{
+                      nextButton();
+                      print('next question');
+                    }
                   },
                 ),
               ],
@@ -252,17 +192,20 @@ class _BeginTest extends State<BeginTest> {
   }
 
   results() {
-    double percentage = result / size;
+    double percentage = (result / (size))*100;
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: new Text("You score is..."),
+            content: new Text("You score is..." "$percentage percent!\n"
+            "Or $result/$size"
+            ),
             actions: <Widget>[
               new FlatButton(
-                  child: new Text("$percentage"),
+                  child: new Text("Thanks!"),
                   onPressed: () {
                     //save here
+                    Navigator.pop(context);
                     Navigator.pop(context);
                   }),
             ]);
