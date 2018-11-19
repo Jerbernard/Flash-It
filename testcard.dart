@@ -2,17 +2,30 @@ import 'package:flutter/material.dart';
 import 'addcard.dart';
 import 'textstorage.dart';
 import 'viewcard.dart';
+import 'begintest.dart';
+import 'viewdeck.dart';
 
+// Can be a Stateless Widget
+// This page will be used to view decks and select which one to self test
+// This page will also retrieve the decks and store them in separate arrays
+// User chooses which one to pass into the selftest 
+
+// Class initialization
 class TestCards extends StatefulWidget {
   final TextStorage storage;
-  TestCards({Key key, @required this.storage}) : super(key: key);
+  final String filename;
+  TestCards({Key key, @required this.storage, this.filename}) : super(key: key);
 
   @override
   _TestCards createState() => _TestCards();
 }
 
 class _TestCards extends State<TestCards> {
-  List<String> _cards;
+  String _deckName;
+  String filename;
+  List<String> deck = [];
+  List<String> deckSets = [];
+  int deckCount = 0;
   String _ans;
   int n = 0;
   int i = 0;
@@ -20,32 +33,24 @@ class _TestCards extends State<TestCards> {
   @override
   void initState() {
     super.initState();
+    
     widget.storage.readFile().then((String text) {
       setState(() {
-        _ans = text; // pulls text from file
+        _deckName = text;                       // pulls text from file
       });
-      _cards = _ans.split('\n'); // split string to array
+      deckSets = _deckName.split('\n');            // split string to array
+      deckCount++;
     });
   }
 
-/*
-  void _assignArray() {
-    for (int i = 0; i < _cards.length; i++) {
-      if (i.isOdd) {
-        _qcards.add(_cards[i]);
-      } else if (i.isEven) {
-        _acards.add(_cards[i]);
-      }
-    }
-  }
-*/
 
+  // Widget for building app page
+  // Will implement dynamic creation of buttons for every file that is created
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-        title: Text('Test'),
+        title: Text('Choose a deck'),
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -57,98 +62,39 @@ class _TestCards extends State<TestCards> {
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    'Press me!',
+                    '${deckSets[0]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    return showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                            content: Text(
-                              'Number ${i + 1} \nQ: ${_cards[n]}',
-                              style: TextStyle(),
-                            ),
-                            actions: <Widget>[
-                              new FlatButton(
-                                  child: new Text("Prev"),
-                                  onPressed: () {
-                                    if (n <= 1) {
-                                      Navigator.pop(context);
-                                      return showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                              content: new Text(
-                                                  "This is the first card!"),
-                                              actions: <Widget>[
-                                                new FlatButton(
-                                                    child: new Text("Sorry!"),
-                                                    onPressed: () {
-                                                      //save here
-                                                      Navigator.pop(context);
-                                                    }),
-                                              ]);
-                                        },
-                                      );
-                                    } else {
-                                      i -= 1;
-                                      n -= 2;
-                                    }
-                                    Navigator.pop(context);
-                                  }),
-                              new FlatButton(
-                                  child: new Text("Answer"),
-                                  onPressed: () {
-                                    return showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                            content:
-                                                Text('A: ${_cards[n + 1]}'),
-                                            actions: <Widget>[
-                                              new FlatButton(
-                                                  child: new Text("Ok"),
-                                                  onPressed: () {
-                                                    //save here
-                                                    Navigator.pop(context);
-                                                  }),
-                                            ]);
-                                      },
-                                    );
-                                  }),
-                              new FlatButton(
-                                  child: new Text("Next"),
-                                  onPressed: () {
-                                    if (n == _cards.length - 3) {
-                                      Navigator.pop(context);
-                                      return showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                              content: new Text(
-                                                  "This is the last card!"),
-                                              actions: <Widget>[
-                                                new FlatButton(
-                                                    child: new Text("Sorry!"),
-                                                    onPressed: () {
-                                                      //save here
-                                                      Navigator.pop(context);
-                                                    }),
-                                              ]);
-                                        },
-                                      );
-                                    } else {
-                                      i += 1;
-                                      n += 2;
-                                    }
-                                    Navigator.pop(context);
-                                  }),
-                            ]);
-                      },
-                    );
+                    testSelf(deckSets[0]);
+                  }),
+            ),
+            Padding(
+              padding: EdgeInsets.only(),
+              child: RaisedButton(
+                  child: Text(
+                    'Mathematics Cards',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  color: Colors.blue,
+                  onPressed: () {
+                    testSelf(deckSets[0]);
+                  }),
+            ),
+            Padding(
+              padding: EdgeInsets.only(),
+              child: RaisedButton(
+                  child: Text(
+                    'Biology Cards',//${deckSets[0]}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  color: Colors.blue,
+                  onPressed: () {
+                    testSelf(deckSets[0]);
                   }),
             ), //exit button
           ],
@@ -164,23 +110,14 @@ class _TestCards extends State<TestCards> {
                 icon: Icon(Icons.create),
                 tooltip: 'Create a Flashcard',
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddCard(storage: TextStorage())),
-                  );
+                  //createButton();
                 },
               ),
               IconButton(
                 icon: Icon(Icons.folder_open),
                 tooltip: 'Manage Flashcards',
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ViewCards(storage: TextStorage())),
-                  );
+                  //manageButton();
                 },
               ),
               IconButton(
@@ -196,4 +133,33 @@ class _TestCards extends State<TestCards> {
           )),
     );
   }
+
+  testSelf(String deckNam){
+    widget.storage.readDeck(deckNam).then((String text) {
+      setState(() {
+        _ans = text; // pulls text from file
+      });
+      deck = _ans.split('\n'); // split string to array
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BeginTest(deck: deck, filename: deckNam)),
+    );
+  }
+
+/*
+  createButton() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddCard(storage: TextStorage())),
+    );
+  }
+
+  manageButton() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ViewCard(storage: TextStorage(), filename:filename)),
+    );
+  }*/
 }
