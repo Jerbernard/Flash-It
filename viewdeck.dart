@@ -43,7 +43,7 @@ class _ViewDecks extends State<ViewDecks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('View Flashcards'),
+        title: Text('View Sets'),
         actions: <Widget>[
           //new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
         ],
@@ -87,7 +87,17 @@ class _ViewDecks extends State<ViewDecks> {
                                 //save here
                                 _clearContentsInTextFile();
                                 Navigator.pop(context);
-                              }),
+                                Navigator.pop(context);
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                    builder: (BuildContext context)
+                                    {
+                                      return new ViewDecks(storage: TextStorage());
+                                    }
+                                  )
+                                );
+                              }
+                              ),
                           new FlatButton(
                               child: new Text("No"),
                               onPressed: () {
