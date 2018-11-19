@@ -12,10 +12,9 @@ class AddCard extends StatefulWidget {
 
   @override
   _AddCardState createState() => _AddCardState();
-
-
   
 }
+
 class _SystemPadding extends StatelessWidget {
   final Widget child;
   _SystemPadding({Key key, this.child }) : super(key: key);
@@ -93,7 +92,7 @@ class _AddCardState extends State<AddCard> {
               addQuestion(_questionField.text);
               addAnswer(_answerField.text);
              // _writeStringToTextFile(_answerField.text); 
-             _writeStringToTextFile(_question[n],widget.filename);
+             _writeStringToTextFile(_question[n], widget.filename);
               return showDialog(
                 context: context,
                    builder: (context) {
@@ -104,7 +103,9 @@ class _AddCardState extends State<AddCard> {
                             new FlatButton(
                                 child: new Text("Ok"),
                                 onPressed: () {
-                                  _writeStringToTextFile(_answerField.text,widget.filename); 
+                                  _writeStringToTextFile(_answerField.text, widget.filename); 
+                                  _questionField.clear();
+                                  _answerField.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.push(
