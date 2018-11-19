@@ -20,7 +20,7 @@ class BeginTest extends StatefulWidget {
 class _BeginTest extends State<BeginTest> {
   int n = 0;
   int size = 0;
-  int result = 1;
+  int result = 0;
   String filename;
 
   List<String> questions = [];
@@ -133,6 +133,9 @@ class _BeginTest extends State<BeginTest> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           new ListTile(
+            title:Text("Question: ${n + 1}")
+          ),
+          new ListTile(
             title: Text('${questions[n]}'),
             subtitle: Text('whats your answer?'),
           ),
@@ -147,6 +150,7 @@ class _BeginTest extends State<BeginTest> {
                   onPressed: () {
                     if (n == size - 1) {
                       results();
+                      
                     }
                     else{
                     setState(() {
@@ -165,6 +169,7 @@ class _BeginTest extends State<BeginTest> {
                   child: Icon(Icons.check),
                   onPressed: () {
                     if (n == size - 1) {
+                      result++;
                       results();
                       print('display results');
                     }
