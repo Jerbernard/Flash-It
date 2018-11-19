@@ -3,13 +3,15 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'testcard.dart';
+import 'viewdeck.dart';
 
 // Self test on this page
 // Receive results on this page
 
 class BeginTest extends StatefulWidget {
   final List<String> deck;
-  BeginTest({Key key, @required this.deck}) : super(key: key);
+  final String filename;
+  BeginTest({Key key, @required this.deck, @required this.filename}) : super(key: key);
 
   @override
   _BeginTest createState() => new _BeginTest();
@@ -19,6 +21,7 @@ class _BeginTest extends State<BeginTest> {
   int n = 0;
   int size = 0;
   double result = 0;
+  String filename;
 
   List<String> questions = [];
   List<String> answers = [];
@@ -115,7 +118,7 @@ class _BeginTest extends State<BeginTest> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              TestCards(storage: TextStorage())),
+                              TestCards(storage: TextStorage(), filename: filename)),
                     );
                   }),
               new FlatButton(
