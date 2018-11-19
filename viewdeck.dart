@@ -124,8 +124,7 @@ class _ViewDecks extends State<ViewDecks> {
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (BuildContext _context, int i) {
 
-          if (i != _deck.length) {
-          Divider(); 
+          if (i != _deck.length) { 
           return _buildDeckRow(_deck[i]);
         }
       },
@@ -144,7 +143,7 @@ class _ViewDecks extends State<ViewDecks> {
       Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewCard(storage: TextStorage(), filename:'max')),                 //HARDCODE NAME HERE !!!!!!!!!!!!!!!!!!
+        builder: (context) => ViewCard(storage: TextStorage(), filename:deckName)),                 //HARDCODE NAME HERE !!!!!!!!!!!!!!!!!!
                                                    //would have to build flashcards here? make a new scaffold? a new page? team?
       );  
       }
