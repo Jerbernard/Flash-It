@@ -18,7 +18,6 @@ class _ViewDecks extends State<ViewDecks> {
   List<String> _deck;
   String _deckName;  
   String _file;
-  //final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
@@ -135,162 +134,20 @@ class _ViewDecks extends State<ViewDecks> {
   }
 
     Widget _buildDeckRow(String deckName)
-  {
+  { 
     return new ListTile(
       title: new Text(
         '$deckName',
         style: _biggerFont,
       ),
       onTap: () {
-      widget.storage.readDeck(deckName).then((String text) {
-        setState(() {
-          _file = text; 
-        });
-        _card = _file.split('\n');
-      });   
       Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewCard(storage: TextStorage(), card:_card)),
+        builder: (context) => ViewCard(storage: TextStorage(), filename:'max')),                 //HARDCODE NAME HERE !!!!!!!!!!!!!!!!!!
                                                    //would have to build flashcards here? make a new scaffold? a new page? team?
       );  
-      });
+      }
+      );
     }
-
-  // Widget _buildFlashCard() {
-  //   return ListView.builder(
-  //     padding: const EdgeInsets.all(16.0),
-  //     itemBuilder: (BuildContext _context, int i) {
-  //       if (i.isOdd) {
-  //         return Divider();
-  //       } else if (i + 1 != _card.length) {
-  //         return _buildRow(_card[i], _card[i + 1]);
-  //       }
-  //     },
-  //     itemCount: _card.length,
-  //   );
-  // }
-  
-  // Widget _buildAnswer(String answer, String question) {
-  //   Navigator.of(context).push(
-  //     new MaterialPageRoute<void>(builder: (BuildContext context) {
-  //       return new Scaffold(
-  //         appBar: new AppBar(
-  //           title: const Text('Answer: '),
-  //         ),
-  //         body: Container(
-  //           padding: EdgeInsets.all(20.0),
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             crossAxisAlignment: CrossAxisAlignment.stretch,
-  //             children: <Widget>[
-  //               Padding(
-  //                 padding: EdgeInsets.only(left: 85.0, right: 0.0),
-  //                 child: RichText(
-  //                   text: TextSpan(
-  //                     text: "Q: $question",
-  //                     style: TextStyle(
-  //                       color: Colors.blue,
-  //                       fontSize: 20.0,
-  //                       fontStyle: FontStyle.italic,
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //               Padding(
-  //                 padding: EdgeInsets.only(left: 90.0, right: 90.0),
-  //                 child: Text("\n\nA: $answer"),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         bottomNavigationBar: new BottomAppBar(
-  //           color: Colors.blue,
-  //           child: new Row(
-  //             mainAxisSize: MainAxisSize.max,
-  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //             children: <Widget>[
-  //               //bottom app functionality here
-  //               IconButton(
-  //                 icon: Icon(Icons.check), //save the current card
-  //                 tooltip: 'Mark Flashcard',
-  //                 onPressed: () {
-  //                   _saved.add(question);
-  //                   Navigator.pop(context);
-  //                 },
-  //               ),
-  //               IconButton(
-  //                 icon: Icon(Icons.backspace), //return home
-  //                 tooltip: 'back',
-  //                 onPressed: () {
-  //                   _saved.remove(question);
-  //                   Navigator.pop(context);
-  //                 },
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     }),
-  //   );
-  // }
-
-  // Widget _buildRow(String question, String answer) {
-  //   final bool alreadySaved = _saved.contains(question);
-
-  //   return new ListTile(
-  //     title: new Text(
-  //       '$question',
-  //       style: _biggerFont,
-  //     ),
-  //     trailing: new Icon(
-  //       alreadySaved ? Icons.check_box : Icons.check_box_outline_blank,
-  //       color: alreadySaved ? Colors.blue : null,
-  //     ),
-  //     onLongPress: () {
-  //       setState(() {
-  //         if (alreadySaved) {
-  //           _saved.remove(question);
-  //         } else {
-  //           _saved.add(question);
-  //         }
-  //       });
-  //     },
-  //     onTap: () {
-  //       _buildAnswer(answer, question);
-  //     },
-  //   );
-  // }
-
-
-  // void _pushSaved() {
-  //   Navigator.of(context).push(
-  //     // new page
-  //     new MaterialPageRoute<void>(
-  //       // create material
-  //       builder: (BuildContext context) {
-  //         final Iterable<ListTile> tiles = _saved.map(
-  //           (String question) {
-  //             return new ListTile(
-  //               title: new Text(
-  //                 question.toString(), // print question
-  //                 style: _biggerFont,
-  //               ),
-  //             );
-  //           },
-  //         );
-  //         final List<Widget> divided = ListTile.divideTiles(
-  //           context: context,
-  //           tiles: tiles,
-  //         ).toList();
-  //         return new Scaffold(
-  //           appBar: new AppBar(
-  //             title: const Text('Saved Questions'),
-  //           ),
-  //           body: new ListView(children: divided),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
 }
