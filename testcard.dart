@@ -3,6 +3,7 @@ import 'addcard.dart';
 import 'textstorage.dart';
 import 'viewcard.dart';
 import 'begintest.dart';
+import 'viewdeck.dart';
 
 // Can be a Stateless Widget
 // This page will be used to view decks and select which one to self test
@@ -12,21 +13,15 @@ import 'begintest.dart';
 // Class initialization
 class TestCards extends StatefulWidget {
   final TextStorage storage;
-  TestCards({Key key, @required this.storage}) : super(key: key);
+  final String filename;
+  TestCards({Key key, @required this.storage, @required this.filename}) : super(key: key);
 
   @override
   _TestCards createState() => _TestCards();
 }
 
-// Global to allow deck to be passed to self test screen
-// List<String> deck;
-
-class SendDeck{
-  final List<String> deck;
-  SendDeck(this.deck);
-}
-
 class _TestCards extends State<TestCards> {
+  String filename;
   List<String> deck;
   String _ans;
   int n = 0;
@@ -35,13 +30,14 @@ class _TestCards extends State<TestCards> {
   @override
   void initState() {
     super.initState();
-    widget.storage.readFile().then((String text) {
+    widget.storage.readDeck(widget.filename).then((String text) {
       setState(() {
         _ans = text; // pulls text from file
       });
       deck = _ans.split('\n'); // split string to array
     });
   }
+
 
   // Widget for building app page
   @override
@@ -60,7 +56,7 @@ class _TestCards extends State<TestCards> {
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    'Deck 1',
+                    '${widget.filename}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
@@ -115,7 +111,7 @@ class _TestCards extends State<TestCards> {
                 icon: Icon(Icons.folder_open),
                 tooltip: 'Manage Flashcards',
                 onPressed: () {
-                  manageButton();
+                  //manageButton();
                 },
               ),
               IconButton(
@@ -136,7 +132,7 @@ class _TestCards extends State<TestCards> {
   testSelf(){
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BeginTest(deck: deck)),
+      MaterialPageRoute(builder: (context) => BeginTest(deck: deck, filename: filename)),
     );
   }
 
@@ -177,12 +173,12 @@ class _TestCards extends State<TestCards> {
       MaterialPageRoute(builder: (context) => AddCard(storage: TextStorage())),
     );
   }
-
+/*
   manageButton() {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => ViewCards(storage: TextStorage())),
+          builder: (context) => ViewCard(storage: TextStorage(), filename:filename)),
     );
-  }
+  }*/
 }
