@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'addcard.dart';
 import 'textstorage.dart';
-import 'viewcard.dart';
 import 'begintest.dart';
-import 'viewdeck.dart';
 
 // Can be a Stateless Widget
 // This page will be used to view decks and select which one to self test
