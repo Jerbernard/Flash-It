@@ -14,15 +14,18 @@ import 'viewdeck.dart';
 class TestCards extends StatefulWidget {
   final TextStorage storage;
   final String filename;
-  TestCards({Key key, @required this.storage, @required this.filename}) : super(key: key);
+  TestCards({Key key, @required this.storage, this.filename}) : super(key: key);
 
   @override
   _TestCards createState() => _TestCards();
 }
 
 class _TestCards extends State<TestCards> {
+  String _deckName;
   String filename;
-  List<String> deck;
+  List<String> deck = [];
+  List<String> deckSets = [];
+  int deckCount = 0;
   String _ans;
   int n = 0;
   int i = 0;
@@ -36,10 +39,19 @@ class _TestCards extends State<TestCards> {
       });
       deck = _ans.split('\n'); // split string to array
     });
+    
+    widget.storage.readFile().then((String text) {
+      setState(() {
+        _deckName = text;                       // pulls text from file
+      });
+      deckSets = _deckName.split('\n');            // split string to array
+      deckCount++;
+    });
   }
 
 
   // Widget for building app page
+  // Will implement dynamic creation of buttons for every file that is created
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +68,7 @@ class _TestCards extends State<TestCards> {
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    '${widget.filename}',
+                    '${deckSets[n]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
@@ -69,7 +81,7 @@ class _TestCards extends State<TestCards> {
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    'Deck 2',
+                    '${deckSets[n]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
@@ -82,7 +94,7 @@ class _TestCards extends State<TestCards> {
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    'Deck 3',
+                    '${deckSets[n]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
@@ -104,7 +116,7 @@ class _TestCards extends State<TestCards> {
                 icon: Icon(Icons.create),
                 tooltip: 'Create a Flashcard',
                 onPressed: () {
-                  createButton();
+                  //createButton();
                 },
               ),
               IconButton(
@@ -137,6 +149,7 @@ class _TestCards extends State<TestCards> {
   }
 
   // Function call to initialize self testing
+  /*
   testSelff() {
     return showDialog(
       context: context,
@@ -173,7 +186,7 @@ class _TestCards extends State<TestCards> {
       MaterialPageRoute(builder: (context) => AddCard(storage: TextStorage())),
     );
   }
-/*
+
   manageButton() {
     Navigator.push(
       context,
