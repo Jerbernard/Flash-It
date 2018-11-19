@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'textstorage.dart';
 import 'viewcard.dart';
+import 'textstorage.dart';
 import 'dart:async';
-import 'homescreen.dart';
 import 'dart:io';
+import 'viewdeck.dart';
+import 'homescreen.dart';
 
 class AddCard extends StatefulWidget {
   final TextStorage storage;
-
-  AddCard({Key key, @required this.storage}) : super(key: key);
+  final String filename; 
+  AddCard({Key key, @required this.storage, this.filename}) : super(key: key);
 
   @override
   _AddCardState createState() => _AddCardState();
   
 }
+
 class _SystemPadding extends StatelessWidget {
   final Widget child;
   _SystemPadding({Key key, this.child }) : super(key: key);
@@ -30,19 +32,6 @@ class _SystemPadding extends StatelessWidget {
 class _AddCardState extends State<AddCard> {
   TextEditingController _questionField = new TextEditingController();
   TextEditingController _answerField = new TextEditingController();
-  Future<bool> _onWillPop() {
-   Navigator.push(
-    context,
-    MaterialPageRoute(
-        builder: (context) => ViewCards(storage: TextStorage())),
-    );
-
-  }
-
-
-
-
-
   String _content = '';
   int n = -1;
   List<String> _question = new List();
@@ -66,7 +55,7 @@ class _AddCardState extends State<AddCard> {
   @override
   void initState() {
     super.initState();
-    widget.storage.readFile().then((String text) {
+    widget.storage.readDeck(widget.filename).then((String text) {
       setState(() {
         _content = text;
       });
@@ -82,7 +71,6 @@ class _AddCardState extends State<AddCard> {
         children: <Widget>[
           new Expanded(
             child: new TextField(
-              autofocus:true,
               controller: _answerField,
               decoration: new InputDecoration(
                 labelText: 'Enter Answer',),
@@ -105,7 +93,7 @@ class _AddCardState extends State<AddCard> {
               addQuestion(_questionField.text);
               addAnswer(_answerField.text);
              // _writeStringToTextFile(_answerField.text); 
-             _writeStringToTextFile(_question[n]);
+             _writeStringToTextFile(_question[n], widget.filename);
               return showDialog(
                 context: context,
                    builder: (context) {
@@ -116,11 +104,16 @@ class _AddCardState extends State<AddCard> {
                             new FlatButton(
                                 child: new Text("Ok"),
                                 onPressed: () {
-                                  _writeStringToTextFile(_answerField.text); 
+                                  _writeStringToTextFile(_answerField.text, widget.filename); 
+                                  _questionField.clear();
+                                  _answerField.clear();
                                   Navigator.pop(context);
-                                  //  _questionField.clear();
-                                  //  _answerField.clear();
-                                   Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) => ViewCard(storage: TextStorage(), filename:widget.filename)),
+                                  );
                                 },
                             ),
                           ]
@@ -136,12 +129,13 @@ class _AddCardState extends State<AddCard> {
  }
 
 
-  Future<File> _writeStringToTextFile(String text) async {
+  Future<File> _writeStringToTextFile(String text, String deckname) async {
     setState(() {
       _content += text;
     });
-    return widget.storage.writeFile(text);
+    return widget.storage.writeDeck(text,deckname);
   }
+  
   Future<File> _clearContentsInTextFile() async {
     setState(() {
       _content = '';
@@ -150,12 +144,10 @@ class _AddCardState extends State<AddCard> {
   }
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     //int count = 0;
     String current;
-    return new WillPopScope(
-      onWillPop: _onWillPop,
-      child: new Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text('Create Flashcard'),
         backgroundColor: Colors.blue,
@@ -196,20 +188,20 @@ class _AddCardState extends State<AddCard> {
                 },
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: new SingleChildScrollView(
-                child: Text(
-                  //'${_question[n]}',
-                  '$_question' + '  '+ '$_answer',
-                  //'$_content',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
+            // Expanded(                                                        //TESTING INPUT
+            //   flex: 1,
+            //   child: new SingleChildScrollView(
+            //     child: Text(
+            //       //'${_question[n]}',
+            //       '$_question' + '  '+ '$_answer',
+            //       //'$_content',
+            //       style: TextStyle(
+            //         color: Colors.black,
+            //         fontSize: 22.0,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -318,8 +310,7 @@ class _AddCardState extends State<AddCard> {
               ),
             ],
           )),
-    )
-  );
+    );
   }
 
 }
