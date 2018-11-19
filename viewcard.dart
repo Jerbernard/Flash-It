@@ -3,29 +3,34 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'addcard.dart';
+import 'viewdeck.dart';
 
-class ViewCards extends StatefulWidget {
+class ViewCard extends StatefulWidget {
   final TextStorage storage;
-  ViewCards({Key key, @required this.storage}) : super(key: key);
+  final String filename; 
+  ViewCard({Key key, @required this.storage, @required this.filename}) : super(key: key);
 
   @override
-  _ViewCards createState() => _ViewCards();
+  _ViewCard createState() => _ViewCard();
 }
 
-class _ViewCards extends State<ViewCards> {
+class _ViewCard extends State<ViewCard> {
   List<String> _card;
   String _file;
   final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
+  TextEditingController _newAnswer = new TextEditingController();
+  TextEditingController _newQuestion = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    widget.storage.readFile().then((String text) {
+    widget.storage.readDeck(widget.filename).then((String text) {
       setState(() {
-        _file = text; // pulls text from file
+        _file = text;     
+        _card = _file.split('\n');                   // pulls text from file
       });
-      _card = _file.split('\n'); // split string to array
+      //_card = _file.split('\n');            // split string to array
     });
   }
 
@@ -33,7 +38,6 @@ class _ViewCards extends State<ViewCards> {
     setState(() {
       _file = '';
     });
-
     return widget.storage.cleanFile();
   }
 
@@ -62,14 +66,14 @@ class _ViewCards extends State<ViewCards> {
             ),
 
             IconButton(
-              icon: Icon(Icons.save), //save the current card
-              tooltip: 'Save Flashcard',
+              icon: Icon(Icons.edit),                 //save the current card
+              tooltip: 'Edit Flashcard',
               onPressed: () {},
             ),
 
             IconButton(
               icon:
-                  Icon(Icons.delete_forever), //delete current card in progress
+                  Icon(Icons.delete_forever),         //delete current card in progress
               tooltip: 'Delete current Flashcard',
               onPressed: () {
                 return showDialog(
@@ -101,14 +105,12 @@ class _ViewCards extends State<ViewCards> {
               icon: Icon(Icons.plus_one), //return home
               tooltip: 'Addcard',
               onPressed: () {
-                
                     Navigator.pop(context);
                     Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => AddCard(storage: TextStorage())),
+                        builder: (context) => AddCard(storage: TextStorage(), filename:widget.filename)),
                   );
-                  
               },
             ),
           ],
@@ -137,6 +139,16 @@ class _ViewCards extends State<ViewCards> {
         return new Scaffold(
           appBar: new AppBar(
             title: const Text('Answer: '),
+            actions: <Widget>[
+              new IconButton(
+                icon:  Icon(Icons.delete), 
+                tooltip: 'Delete Flash Card',
+                onPressed: () {
+                  question = "";
+                  answer = "";
+                },
+              ),
+            ],
           ),
           body: Container(
             padding: EdgeInsets.all(20.0),
@@ -181,12 +193,90 @@ class _ViewCards extends State<ViewCards> {
                 ),
                 IconButton(
                   icon: Icon(Icons.backspace), //return home
-                  tooltip: 'back',
+                  tooltip: 'Back',
                   onPressed: () {
                     _saved.remove(question);
                     Navigator.pop(context);
                   },
                 ),
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  tooltip: 'Edit Question',
+                  onPressed: (){
+                    showDialog<String> (context: context, 
+                      child: new AlertDialog(
+                        contentPadding: const EdgeInsets.all(16),
+                        
+                        content: new Row(children: <Widget> [
+                          new Expanded (
+                            child: new TextField (
+                              controller: _newQuestion,
+                              decoration: new InputDecoration(
+                              labelText: 'Enter New Question',)
+                            ),
+                            )
+                        ],
+                        ),
+                      
+                      actions: <Widget> [
+                        new FlatButton (
+                          child: const Text('CANCEL'),
+                          onPressed:() {
+                            _newQuestion.clear();
+                            Navigator.pop(context);
+                          }
+                        ),
+                        new FlatButton(
+                          child:const Text('ENTER'),
+                          onPressed: (){
+                            question = _newQuestion.text;
+                            _newQuestion.clear();
+                            Navigator.pop(context);
+                          })
+                      ],
+                      ),
+                      );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.font_download),
+                  tooltip: 'Edit Answer',
+                  onPressed: (){
+                    showDialog<String> (context: context, 
+                      child: new AlertDialog(
+                        contentPadding: const EdgeInsets.all(16),
+                        
+                        content: new Row(children: <Widget> [
+                          new Expanded (
+                            child: new TextField (
+                              controller: _newAnswer,
+                              decoration: new InputDecoration(
+                              labelText: 'Enter New Answer',)
+                            ),
+                            )
+                        ],
+                        ),
+                      
+                      actions: <Widget> [
+                        new FlatButton (
+                          child: const Text('CANCEL'),
+                          onPressed:() {
+                            _newAnswer.clear();
+                            Navigator.pop(context);
+                          }
+                        ),
+                        new FlatButton(
+                          child:const Text('ENTER'),
+                          onPressed: (){
+                            answer = _newAnswer.text;
+                            _newAnswer.clear();
+                            Navigator.pop(context);
+                          })
+                      ],
+                      ),
+                      );
+                  },
+                )
               ],
             ),
           ),
@@ -197,7 +287,6 @@ class _ViewCards extends State<ViewCards> {
 
   Widget _buildRow(String question, String answer) {
     final bool alreadySaved = _saved.contains(question);
-
     return new ListTile(
       title: new Text(
         '$question',
@@ -253,4 +342,3 @@ class _ViewCards extends State<ViewCards> {
     );
   }
 }
-
