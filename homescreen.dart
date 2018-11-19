@@ -77,6 +77,7 @@ class HomeScreen extends StatelessWidget {
                           {
                             filename = _name.text; 
                             storage.writeFile(filename);
+                            _name.clear(); 
                             Navigator.pop(context); 
                             Navigator.push(
                               context,
