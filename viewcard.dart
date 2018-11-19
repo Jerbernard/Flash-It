@@ -107,7 +107,7 @@ class _ViewCard extends State<ViewCard> {
                     Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => AddCard(storage: TextStorage())),
+                        builder: (context) => AddCard(storage: TextStorage(), filename:widget.filename)),
                   );
               },
             ),
