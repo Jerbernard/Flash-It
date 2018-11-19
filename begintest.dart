@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
-import 'testcard.dart';
+import 'testview.dart';
 import 'viewdeck.dart';
 
 // Self test on this page
