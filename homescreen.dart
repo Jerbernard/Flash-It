@@ -1,21 +1,19 @@
-
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
-import 'viewcard.dart';
+import 'testview.dart';
 import 'dart:io';
+import 'viewdeck.dart';
 
 class HomeScreen extends StatelessWidget {
-  List<String> qcards = new List();
-  List<String> acards = new List();
-
-  HomeScreen([this.qcards, this.acards]);
-  
+  TextEditingController _name = new TextEditingController(); 
+  TextStorage storage = new TextStorage(); 
+  String filename; 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FlashIt'),
+        title: Text('FlashIt v0.1a'),
       ),
       body: Container(
             padding: EdgeInsets.all(20.0),
@@ -24,6 +22,19 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
+                  padding: EdgeInsets.only(left: 85.0, right: 0.0),
+                  child: RichText(
+                    text: TextSpan(
+                      text: "FlashIt!",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 60.0,
+                        fontStyle: FontStyle.italic,                    
+                      )
+                    ),
+                  ),              
+                ),//Flash it text
+                Padding(
                   padding: EdgeInsets.only(left: 90.0, right: 90.0),
                   child: Text("How would you like to flash it?"),              
                 ),//Add card b
@@ -31,18 +42,53 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
                     child: Text(
-                      'Create New FlashCard',
+                      'Create New Deck',
                       style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.blue,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddCard(storage: TextStorage())),
+                    onPressed: ()  {
+                      showDialog<String> (context: context, 
+                      child: new AlertDialog(
+                        contentPadding: const EdgeInsets.all(16),
+                        
+                        content: new Row(children: <Widget> [
+                          new Expanded (
+                            child: new TextField (
+                              controller: _name,
+                              decoration: new InputDecoration(
+                              labelText: 'Enter Deck Name',)
+                            ),
+                            )
+                        ],
+                        ),
+                      
+                      actions: <Widget> [
+                        new FlatButton (
+                          child: const Text('CANCEL'),
+                          onPressed:() {
+                            _name.clear();
+                            Navigator.pop(context);
+                          }
+                        ),
+                        new FlatButton(
+                          child:const Text('ENTER'),
+                          onPressed: ()
+                          {
+                            filename = _name.text; 
+                            storage.writeFile(filename);
+                            _name.clear(); 
+                            Navigator.pop(context); 
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddCard(storage: TextStorage(), filename:filename)),
+                          );
+                          })
+                      ],
+                      ),
                       );
-                    },
-                  ),              
+                      },
+                  ),         
                 ),//Add card button
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
@@ -56,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ViewCards(qcards, acards)),
+                            builder: (context) => ViewDecks(storage: TextStorage())),
                         );
                       },
                     ),              
@@ -65,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
                     child: Text(
-                      'Edit Flashcards (TODO)',
+                      'Test Flashcards',
                       style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.blue,
@@ -73,7 +119,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ViewCards(qcards, acards)),
+                            builder: (context) => TestCards(storage: TextStorage(), filename: filename)),
                         );
                       },
                     ),              
@@ -92,44 +138,6 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-      bottomNavigationBar: new BottomAppBar(
-          color: Colors.blue,
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.create),
-                tooltip: 'Create a Flashcard',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddCard(storage: TextStorage())),
-                  );
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.folder_open),
-                tooltip: 'Manage Flashcards',
-                onPressed: () {/*Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ViewCards(storage: TextStorage())),
-                  );*/
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.school),
-                tooltip: 'Test Flashcards',
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {},
-              ),
-            ],
-          )),
     );
   }
 }
