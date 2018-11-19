@@ -4,6 +4,7 @@ import 'textstorage.dart';
 import 'viewcard.dart';
 import 'begintest.dart';
 
+// Can be a Stateless Widget
 // This page will be used to view decks and select which one to self test
 // This page will also retrieve the decks and store them in separate arrays
 // User chooses which one to pass into the selftest 
@@ -47,7 +48,7 @@ class _TestCards extends State<TestCards> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Test'),
+        title: Text('Choose a deck'),
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -59,7 +60,33 @@ class _TestCards extends State<TestCards> {
               padding: EdgeInsets.only(),
               child: RaisedButton(
                   child: Text(
-                    'Begin Test!',
+                    'Deck 1',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  color: Colors.blue,
+                  onPressed: () {
+                    testSelf();
+                  }),
+            ),
+            Padding(
+              padding: EdgeInsets.only(),
+              child: RaisedButton(
+                  child: Text(
+                    'Deck 2',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  color: Colors.blue,
+                  onPressed: () {
+                    testSelf();
+                  }),
+            ),
+            Padding(
+              padding: EdgeInsets.only(),
+              child: RaisedButton(
+                  child: Text(
+                    'Deck 3',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
@@ -127,92 +154,21 @@ class _TestCards extends State<TestCards> {
               new FlatButton(
                   child: new Text("Prev"),
                   onPressed: () {
-                    prevButton();
+                    //prevButton();
                   }),
               new FlatButton(
                   child: new Text("Answer"),
                   onPressed: () {
-                    answerButton();
+                    //answerButton();
                   }),
               new FlatButton(
                   child: new Text("Next"),
                   onPressed: () {
-                    nextButton();
+                    //nextButton();
                   }),
             ]);
       },
     );
-  }
-
-  // Function call for answer dialog
-  answerButton() {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-            content: Text('A: ${deck[n + 1]}'),
-            actions: <Widget>[
-              new FlatButton(
-                  child: new Text("Ok"),
-                  onPressed: () {
-                    //save here
-                    Navigator.pop(context);
-                  }),
-            ]);
-      },
-    );
-  }
-
-  // Function call for pressing next question
-  nextButton() {
-    if (n == deck.length - 3) {
-      Navigator.pop(context);
-      return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: new Text("This is the last card!"),
-              actions: <Widget>[
-                new FlatButton(
-                    child: new Text("Sorry!"),
-                    onPressed: () {
-                      //save here
-                      Navigator.pop(context);
-                    }),
-              ]);
-        },
-      );
-    } else {
-      i += 1;
-      n += 2;
-    }
-    Navigator.pop(context);
-  }
-
-  // Function call for pressing previous question
-  prevButton() {
-    if (n <= 1) {
-      Navigator.pop(context);
-      return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: new Text("This is the first card!"),
-              actions: <Widget>[
-                new FlatButton(
-                    child: new Text("Sorry!"),
-                    onPressed: () {
-                      //save here
-                      Navigator.pop(context);
-                    }),
-              ]);
-        },
-      );
-    } else {
-      i -= 1;
-      n -= 2;
-    }
-    Navigator.pop(context);
   }
 
   createButton() {
