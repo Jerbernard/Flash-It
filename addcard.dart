@@ -4,6 +4,7 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'viewdeck.dart';
+import 'homescreen.dart';
 
 class AddCard extends StatefulWidget {
   final TextStorage storage;
@@ -300,6 +301,11 @@ class _AddCardState extends State<AddCard> {
                 tooltip: 'Home',
                 onPressed: () {
                   Navigator.pop(context);
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomeScreen()),
+                  ); 
                 },
               ),
             ],
