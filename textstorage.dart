@@ -26,7 +26,7 @@ class TextStorage {
 
   Future<File> writeFile(String text) async {
     final file = await _qlocalFile;
-    return file.writeAsString('$text\r\n', mode: FileMode.append);
+    return file.writeAsString('$text\n', mode: FileMode.append);
   }
 
   Future<File> cleanFile() async {
