@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
 import 'viewcard.dart';
-import 'testcard.dart';
+import 'testview.dart';
 import 'dart:io';
 import 'viewdeck.dart';
 
