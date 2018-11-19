@@ -3,12 +3,12 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'addcard.dart';
-
+import 'viewdeck.dart';
 
 class ViewCard extends StatefulWidget {
   final TextStorage storage;
-  final List<String> card; 
-  ViewCard({Key key, @required this.storage, this.card}) : super(key: key);
+  final String filename; 
+  ViewCard({Key key, @required this.storage, @required this.filename}) : super(key: key);
 
   @override
   _ViewCard createState() => _ViewCard();
@@ -23,16 +23,19 @@ class _ViewCard extends State<ViewCard> {
   @override
   void initState() {
     super.initState();
+    widget.storage.readDeck(widget.filename).then((String text) {
       setState(() {
-        _card = widget.card;
-      });          
+        _file = text;     
+        _card = _file.split('\n');                   // pulls text from file
+      });
+      //_card = _file.split('\n');            // split string to array
+    });
   }
 
   Future<File> _clearContentsInTextFile() async {
     setState(() {
       _file = '';
     });
-
     return widget.storage.cleanFile();
   }
 
@@ -100,7 +103,6 @@ class _ViewCard extends State<ViewCard> {
               icon: Icon(Icons.plus_one), //return home
               tooltip: 'Addcard',
               onPressed: () {
-                
                     Navigator.pop(context);
                     Navigator.push(
                     context,
@@ -195,7 +197,6 @@ class _ViewCard extends State<ViewCard> {
 
   Widget _buildRow(String question, String answer) {
     final bool alreadySaved = _saved.contains(question);
-
     return new ListTile(
       title: new Text(
         '$question',
