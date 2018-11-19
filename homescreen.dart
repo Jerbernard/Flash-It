@@ -1,11 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
 import 'viewcard.dart';
+import 'testcard.dart';
 import 'dart:io';
+import 'viewdeck.dart';
 
 class HomeScreen extends StatelessWidget {
+  TextEditingController _name = new TextEditingController(); 
+  TextStorage storage = new TextStorage(); 
+  String filename; 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +17,6 @@ class HomeScreen extends StatelessWidget {
         title: Text('FlashIt v0.1a'),
       ),
       body: Container(
-            
             padding: EdgeInsets.all(20.0),
             child: Column(              
               mainAxisAlignment: MainAxisAlignment.center,
@@ -28,10 +31,8 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.blue,
                         fontSize: 60.0,
                         fontStyle: FontStyle.italic,                    
-                      ),
-
+                      )
                     ),
-
                   ),              
                 ),//Flash it text
                 Padding(
@@ -42,18 +43,53 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
                     child: Text(
-                      'Create New Flashcard',
+                      'Create New Deck',
                       style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.blue,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddCard(storage: TextStorage())),
+                    onPressed: ()  {
+                      showDialog<String> (context: context, 
+                      child: new AlertDialog(
+                        contentPadding: const EdgeInsets.all(16),
+                        
+                        content: new Row(children: <Widget> [
+                          new Expanded (
+                            child: new TextField (
+                              controller: _name,
+                              decoration: new InputDecoration(
+                              labelText: 'Enter Deck Name',)
+                            ),
+                            )
+                        ],
+                        ),
+                      
+                      actions: <Widget> [
+                        new FlatButton (
+                          child: const Text('CANCEL'),
+                          onPressed:() {
+                            _name.clear();
+                            Navigator.pop(context);
+                          }
+                        ),
+                        new FlatButton(
+                          child:const Text('ENTER'),
+                          onPressed: ()
+                          {
+                            filename = _name.text; 
+                            storage.writeFile(filename);
+                            _name.clear(); 
+                            Navigator.pop(context); 
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddCard(storage: TextStorage(), filename:filename)),
+                          );
+                          })
+                      ],
+                      ),
                       );
-                    },
-                  ),              
+                      },
+                  ),         
                 ),//Add card button
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
@@ -67,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ViewCards(storage: TextStorage())),
+                            builder: (context) => ViewDecks(storage: TextStorage())),
                         );
                       },
                     ),              
@@ -84,7 +120,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ViewCards(storage: TextStorage())),
+                            builder: (context) => TestCards(storage: TextStorage())),
                         );
                       },
                     ),              
