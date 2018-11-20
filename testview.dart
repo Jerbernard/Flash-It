@@ -5,7 +5,7 @@ import 'begintest.dart';
 // Can be a Stateless Widget
 // This page will be used to view decks and select which one to self test
 // This page will also retrieve the decks and store them in separate arrays
-// User chooses which one to pass into the selftest 
+// User chooses which one to pass into the selftest
 
 // Class initialization
 class TestCards extends StatefulWidget {
@@ -30,16 +30,15 @@ class _TestCards extends State<TestCards> {
   @override
   void initState() {
     super.initState();
-    
+
     widget.storage.readFile().then((String text) {
       setState(() {
-        _deckName = text;                       // pulls text from file
+        _deckName = text; // pulls text from file
       });
-      deckSets = _deckName.split('\n');            // split string to array
+      deckSets = _deckName.split('\n'); // split string to array
       deckCount++;
     });
   }
-
 
   // Widget for building app page
   // Will implement dynamic creation of buttons for every file that is created
@@ -57,7 +56,8 @@ class _TestCards extends State<TestCards> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(),
-              child: RaisedButton(
+              child: GestureDetector( 
+                child: RaisedButton(
                   child: Text(
                     '${deckSets[0]}',
                     style: TextStyle(
@@ -66,34 +66,51 @@ class _TestCards extends State<TestCards> {
                   color: Colors.blue,
                   onPressed: () {
                     testSelf(deckSets[0]);
-                  }),
+                  },
+                ),
+                onLongPress: () {
+                  resultData();
+                },
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(),
-              child: RaisedButton(
+              child: GestureDetector( 
+                child: RaisedButton(
                   child: Text(
-                    'Mathematics Cards',
+                    'Mathematics Cards', //${deckSets[0]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
                     testSelf(deckSets[0]);
-                  }),
+                  },
+                ),
+                onLongPress: () {
+                  resultData();
+                },
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(),
-              child: RaisedButton(
+              child: GestureDetector( 
+                child: RaisedButton(
                   child: Text(
-                    'Biology Cards',//${deckSets[0]}',
+                    'Biology Cards', //${deckSets[0]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
                     testSelf(deckSets[0]);
-                  }),
-            ), //exit button
+                  },
+                ),
+                onLongPress: () {
+                  resultData();
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -131,7 +148,7 @@ class _TestCards extends State<TestCards> {
     );
   }
 
-  testSelf(String deckNam){
+  testSelf(String deckNam) {
     widget.storage.readDeck(deckNam).then((String text) {
       setState(() {
         _ans = text; // pulls text from file
@@ -140,7 +157,26 @@ class _TestCards extends State<TestCards> {
     });
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BeginTest(deck: deck, filename: deckNam)),
+      MaterialPageRoute(
+          builder: (context) => BeginTest(deck: deck, filename: deckNam)),
+    );
+  }
+
+  resultData() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+            content: new Text('You have scored a 100% 3/5 times on this deck!'),
+            actions: <Widget>[
+              new FlatButton(
+                  child: new Text("Ok"),
+                  onPressed: () {
+                    //save here
+                    Navigator.pop(context);
+                  }),
+            ]);
+      },
     );
   }
 
