@@ -137,9 +137,9 @@ class _BeginTest extends State<BeginTest> {
           ),
           new ListTile(
             title: Text('${questions[n]}'),
-            subtitle: Text('whats your answer?'),
+            //subtitle: Text('What is your answer?'),
           ),
-          new Divider(color: Colors.blue, indent: 100.0),
+          new Divider(color: Colors.blue, indent: 0.0),
           ButtonTheme.bar(
             // make buttons use the appropriate styles for cards
             child: ButtonBar(
@@ -193,8 +193,8 @@ class _BeginTest extends State<BeginTest> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: new Text("You score is..." "$percentage percent!\n"
-            "Or $result/$size"
+            content: new Text("Your score is " "$percentage%!\n\n"
+            "You answered $result/$size questions correctly."
             ),
             actions: <Widget>[
               new FlatButton(
