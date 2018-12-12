@@ -19,6 +19,8 @@ class _ViewCard extends State<ViewCard> {
   String _file;
   final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
+  TextEditingController _newAnswer = new TextEditingController();
+  TextEditingController _newQuestion = new TextEditingController();
 
   @override
   void initState() {
@@ -36,7 +38,7 @@ class _ViewCard extends State<ViewCard> {
     setState(() {
       _file = '';
     });
-    return widget.storage.clearDeck(widget.filename);
+    return widget.storage.cleanFile();
   }
 
   @override
@@ -57,11 +59,22 @@ class _ViewCard extends State<ViewCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             //bottom app functionality here
-            
+            IconButton(
+              icon: Icon(Icons.question_answer),
+              tooltip: 'Flip Flashcard',
+              onPressed: () {},
+            ),
+
+            IconButton(
+              icon: Icon(Icons.edit),                 //save the current card
+              tooltip: 'Edit Flashcard',
+              onPressed: () {},
+            ),
+
             IconButton(
               icon:
                   Icon(Icons.delete_forever),         //delete current card in progress
-              tooltip: 'Delete All Flashcards',
+              tooltip: 'Delete current Flashcard',
               onPressed: () {
                 return showDialog(
                   context: context,
@@ -89,8 +102,8 @@ class _ViewCard extends State<ViewCard> {
             ),
 
             IconButton(
-              icon: Icon(Icons.add_box), //return home
-              tooltip: 'Add Card',
+              icon: Icon(Icons.plus_one), //return home
+              tooltip: 'Addcard',
               onPressed: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -126,6 +139,16 @@ class _ViewCard extends State<ViewCard> {
         return new Scaffold(
           appBar: new AppBar(
             title: const Text('Answer: '),
+            actions: <Widget>[
+              new IconButton(
+                icon:  Icon(Icons.delete), 
+                tooltip: 'Delete Flash Card',
+                onPressed: () {
+                  question = "";
+                  answer = "";
+                },
+              ),
+            ],
           ),
           body: Container(
             padding: EdgeInsets.all(20.0),
@@ -134,10 +157,10 @@ class _ViewCard extends State<ViewCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                  padding: EdgeInsets.only(left: 85.0, right: 0.0),
                   child: RichText(
                     text: TextSpan(
-                      text: "Q: $question\n\n",
+                      text: "Q: $question",
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 20.0,
@@ -147,7 +170,7 @@ class _ViewCard extends State<ViewCard> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                  padding: EdgeInsets.only(left: 90.0, right: 90.0),
                   child: Text("\n\nA: $answer"),
                 ),
               ],
@@ -176,6 +199,84 @@ class _ViewCard extends State<ViewCard> {
                     Navigator.pop(context);
                   },
                 ),
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  tooltip: 'Edit Question',
+                  onPressed: (){
+                    showDialog<String> (context: context, 
+                      child: new AlertDialog(
+                        contentPadding: const EdgeInsets.all(16),
+                        
+                        content: new Row(children: <Widget> [
+                          new Expanded (
+                            child: new TextField (
+                              controller: _newQuestion,
+                              decoration: new InputDecoration(
+                              labelText: 'Enter New Question',)
+                            ),
+                            )
+                        ],
+                        ),
+                      
+                      actions: <Widget> [
+                        new FlatButton (
+                          child: const Text('CANCEL'),
+                          onPressed:() {
+                            _newQuestion.clear();
+                            Navigator.pop(context);
+                          }
+                        ),
+                        new FlatButton(
+                          child:const Text('ENTER'),
+                          onPressed: (){
+                            question = _newQuestion.text;
+                            _newQuestion.clear();
+                            Navigator.pop(context);
+                          })
+                      ],
+                      ),
+                      );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.font_download),
+                  tooltip: 'Edit Answer',
+                  onPressed: (){
+                    showDialog<String> (context: context, 
+                      child: new AlertDialog(
+                        contentPadding: const EdgeInsets.all(16),
+                        
+                        content: new Row(children: <Widget> [
+                          new Expanded (
+                            child: new TextField (
+                              controller: _newAnswer,
+                              decoration: new InputDecoration(
+                              labelText: 'Enter New Answer',)
+                            ),
+                            )
+                        ],
+                        ),
+                      
+                      actions: <Widget> [
+                        new FlatButton (
+                          child: const Text('CANCEL'),
+                          onPressed:() {
+                            _newAnswer.clear();
+                            Navigator.pop(context);
+                          }
+                        ),
+                        new FlatButton(
+                          child:const Text('ENTER'),
+                          onPressed: (){
+                            answer = _newAnswer.text;
+                            _newAnswer.clear();
+                            Navigator.pop(context);
+                          })
+                      ],
+                      ),
+                      );
+                  },
+                )
               ],
             ),
           ),
