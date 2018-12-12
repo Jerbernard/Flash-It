@@ -5,7 +5,7 @@ import 'viewcard.dart';
 import 'testview.dart';
 import 'dart:io';
 import 'viewdeck.dart';
-
+import 'helpscreen.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -137,6 +137,24 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),              
                   ),//test button
+
+                  Padding(//help 
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: RaisedButton(
+                    child: Text(
+                      'Help',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blue,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HelpScreen()),
+                        );
+                      },
+                    ),              
+                  ),//help button
                 
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
