@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
-import 'dart:async';
-import 'dart:io';
 import 'testview.dart';
-import 'viewdeck.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 // Self test on this page
 // Receive results on this page
@@ -11,7 +9,10 @@ import 'viewdeck.dart';
 class BeginTest extends StatefulWidget {
   final List<String> deck;
   final String filename;
-  BeginTest({Key key, @required this.deck, @required this.filename}) : super(key: key);
+
+  // Constructor that receives a list of strings(the deck) and the name of the deck
+  BeginTest({Key key, @required this.deck, @required this.filename})
+      : super(key: key);
 
   @override
   _BeginTest createState() => new _BeginTest();
@@ -22,10 +23,14 @@ class _BeginTest extends State<BeginTest> {
   int size = 0;
   int result = 0;
   String filename;
+  bool isCorrect = false;
+  TextEditingController input = new TextEditingController();
 
+  // List to store questions and answers separately
   List<String> questions = [];
   List<String> answers = [];
 
+  // InitState sorts separates
   void initState() {
     super.initState();
     for (int i = 0; i < widget.deck.length - 1; i++) {
@@ -43,15 +48,16 @@ class _BeginTest extends State<BeginTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deck 1'),
+        title: Text('World History'),
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            prompts(widget.deck),
+            // Calls a Card widget that passes the
+            prompts(),
             Padding(
               padding: EdgeInsets.only(),
               child: RaisedButton(
@@ -71,6 +77,59 @@ class _BeginTest extends State<BeginTest> {
       ),
     );
   }
+
+  /*
+  if (n == size - 1) {
+                      result++;
+                      results();
+                      print('display results');
+                    }
+                    else{
+                      nextButton();
+                      print('next question');
+                    }
+  */
+
+  compareAnswer() {
+    print('Show dialog revealing answer');
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+            content: Text('Answer: ${answers[n]}\nYou input: ${input.text}'),
+            actions: <Widget>[
+              new FlatButton(
+                  child: new Text("Ok"),
+                  onPressed: () {
+                    if (isCorrect) {
+                      Navigator.pop(context);
+                      if (n == size - 1) {
+                        Text("nice");
+                        result++;
+                        results();
+                        print('display results');
+                      } else {
+                        nextButton();
+                        print('correct, next question');
+                      }
+                    } else {
+                      Navigator.pop(context);
+                      if (n == size - 1) {
+                        results();
+                      } else {
+                        print('incorrect answer');
+                        setState(() {
+                          n += 1;
+                        });
+                      }
+                    }
+                  }),
+            ]);
+      },
+    );
+  }
+
+  // To go back to the select deck screen
   exitButton() {
     return showDialog(
       context: context,
@@ -110,6 +169,13 @@ class _BeginTest extends State<BeginTest> {
               new FlatButton(
                   child: new Text("Got it!"),
                   onPressed: () {
+                    if (n == size - 1) {
+                      results();
+                    } else {
+                      setState(() {
+                        n += 1;
+                      });
+                    }
                     Navigator.pop(context);
                   }),
             ]);
@@ -119,48 +185,36 @@ class _BeginTest extends State<BeginTest> {
 
   // Function call for pressing next question
   nextButton() {
-      setState(() {
-        n += 1;
-        result += 1;
-      });
-      prompts(widget.deck);
+    setState(() {
+      n += 1;
+      result += 1;
+    });
+    prompts();
   }
-  
 
-  prompts(deck) {
+  // Generates "flashcard" structure
+  prompts() {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new ListTile(
-            title:Text("Question: ${n + 1}")
-          ),
+          new ListTile(title: Text("Question:  ${n + 1}")),
           new ListTile(
             title: Text('${questions[n]}'),
-            //subtitle: Text('What is your answer?'),
+            //subtitle: Text('whats your answer?'),
           ),
-          new Divider(color: Colors.blue, indent: 0.0),
+          new Divider(color: Colors.blue, indent: 1.0),
+          TextFormField(
+            decoration: InputDecoration(labelText: "Enter your answer"),
+            controller: input,
+          ),
           ButtonTheme.bar(
             // make buttons use the appropriate styles for cards
             child: ButtonBar(
-              alignment: MainAxisAlignment.center,
+              alignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 FlatButton(
-                  child: Icon(Icons.clear),
-                  onPressed: () {
-                    if (n == size - 1) {
-                      results();
-                      
-                    }
-                    else{
-                    setState(() {
-                      n += 1;
-                    });
-                    }
-                  },
-                ),
-                FlatButton(
-                  child: Text('Reveal Answer'),
+                  child: Icon(Icons.lightbulb_outline),
                   onPressed: () {
                     answerButton();
                   },
@@ -168,15 +222,21 @@ class _BeginTest extends State<BeginTest> {
                 FlatButton(
                   child: Icon(Icons.check),
                   onPressed: () {
-                    if (n == size - 1) {
-                      result++;
-                      results();
-                      print('display results');
+                    String ans = input.text + '\0';
+                    print('${ans.length} = ${answers[n].length}');
+                    if (ans.length == answers[n].length) {
+                      setState(() {
+                        isCorrect = true;
+                      });
+                      print('User input correct answer');
                     }
                     else{
-                      nextButton();
-                      print('next question');
+                      setState(() {
+                        isCorrect = false;                        
+                      });
+                      print('User input INCORRECT answer');
                     }
+                    compareAnswer();
                   },
                 ),
               ],
@@ -188,14 +248,14 @@ class _BeginTest extends State<BeginTest> {
   }
 
   results() {
-    double percentage = (result / (size))*100;
+    double percentage = (result / (size)) * 100;
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: new Text("Your score is " "$percentage%!\n\n"
-            "You answered $result/$size questions correctly."
-            ),
+            content: new Text("Score:"
+                "${percentage.toStringAsFixed(2)}%!\n"
+                "$result correct out of $size"),
             actions: <Widget>[
               new FlatButton(
                   child: new Text("Thanks!"),
@@ -207,5 +267,9 @@ class _BeginTest extends State<BeginTest> {
             ]);
       },
     );
+  }
+
+  speak (String word) async {
+    
   }
 }
