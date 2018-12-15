@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'begintest.dart';
+import 'stats.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 // Can be a Stateless Widget
 // This page will be used to view decks and select which one to self test
@@ -11,7 +13,8 @@ import 'begintest.dart';
 class TestCards extends StatefulWidget {
   final TextStorage storage;
   final String filename;
-  TestCards({Key key, @required this.storage, this.filename}) : super(key: key);
+  final TextStorage scorefile;
+  TestCards({Key key, @required this.storage, this.filename, this.scorefile}) : super(key: key);
 
   @override
   _TestCards createState() => _TestCards();
@@ -20,12 +23,15 @@ class TestCards extends StatefulWidget {
 class _TestCards extends State<TestCards> {
   String _deckName;
   String filename;
+  final Set<String> _saved = new Set<String>();
+  final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
   List<String> deck = [];
   List<String> deckSets = [];
   int deckCount = 0;
   String _ans;
   int n = 0;
   int i = 0;
+  List<charts.Series> seriesList;
 
   @override
   void initState() {
@@ -38,10 +44,12 @@ class _TestCards extends State<TestCards> {
       deckSets = _deckName.split('\n'); // split string to array
       deckCount++;
     });
+    
   }
 
   // Widget for building app page
   // Will implement dynamic creation of buttons for every file that is created
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,13 +86,13 @@ class _TestCards extends State<TestCards> {
               child: GestureDetector( 
                 child: RaisedButton(
                   child: Text(
-                    'Mathematics Cards', //${deckSets[0]}',
+                    '${deckSets[1]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    testSelf(deckSets[0]);
+                    testSelf(deckSets[1]);
                   },
                 ),
                 onLongPress: () {
@@ -161,7 +169,7 @@ class _TestCards extends State<TestCards> {
           builder: (context) => BeginTest(deck: deck, filename: deckNam)),
     );
   }
-
+/*
   resultData() {
     return showDialog(
       context: context,
@@ -179,7 +187,13 @@ class _TestCards extends State<TestCards> {
       },
     );
   }
-
+*/
+  resultData() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PieOutsideLabelChart(seriesList)),//Stats(storage: TextStorage(), filename:filename)),
+    );
+  }
 /*
   createButton() {
     Navigator.push(
@@ -195,4 +209,34 @@ class _TestCards extends State<TestCards> {
           builder: (context) => ViewCard(storage: TextStorage(), filename:filename)),
     );
   }*/
+  
 }
+
+  /*
+  @override
+  Widget build(BuildContext context){
+    final bool alreadySaved = _saved.contains(deckSets[0]);
+    return new ListTile(
+      title: new Text(
+        '$_deckName[0]',
+        style: _biggerFont,
+      ),
+      trailing: new Icon(
+        alreadySaved ? Icons.check_box : Icons.check_box_outline_blank,
+        color: alreadySaved ? Colors.blue : null,
+      ),
+      onLongPress: () {
+        setState(() {
+          if (alreadySaved) {
+            _saved.remove(deckSets[0]);
+          } else {
+            _saved.add(deckSets[0]);
+          }
+        });
+      },
+      onTap: () {
+        testSelf(deckSets[0])
+      },
+    );
+  }
+*/
