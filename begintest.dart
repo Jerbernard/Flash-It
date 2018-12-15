@@ -29,6 +29,7 @@ class _BeginTest extends State<BeginTest> {
   // List to store questions and answers separately
   List<String> questions = [];
   List<String> answers = [];
+  //List<String> rewr = ["O", "O"];
 
   // InitState sorts separates
   void initState() {
@@ -48,7 +49,7 @@ class _BeginTest extends State<BeginTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('World History'),
+        title: Text('Math'),
       ),
       body: Container(
         padding: EdgeInsets.all(8.0),
@@ -96,7 +97,7 @@ class _BeginTest extends State<BeginTest> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: Text('Answer: ${answers[n]}\nYou input: ${input.text}'),
+            content: Text('Answer:  ${answers[n]}\nYou input: ${input.text}'),
             actions: <Widget>[
               new FlatButton(
                   child: new Text("Ok"),
@@ -106,17 +107,21 @@ class _BeginTest extends State<BeginTest> {
                       if (n == size - 1) {
                         Text("nice");
                         result++;
+                        //rewr[n] = "O";
                         results();
                         print('display results');
                       } else {
+                        //rewr[n] = "O";
                         nextButton();
                         print('correct, next question');
                       }
                     } else {
                       Navigator.pop(context);
                       if (n == size - 1) {
+                        //rewr[n] = "X";
                         results();
                       } else {
+                        //rewr[n] = "X";
                         print('incorrect answer');
                         setState(() {
                           n += 1;
@@ -255,7 +260,10 @@ class _BeginTest extends State<BeginTest> {
         return AlertDialog(
             content: new Text("Score:"
                 "${percentage.toStringAsFixed(2)}%!\n"
-                "$result correct out of $size"),
+                "$result correct out of $size\n"
+                //"1 2 3 4\n"
+                //"${rewr[0]}, ${rewr[1]}, ${rewr[2]}, ${rewr[3]}"),
+            ),
             actions: <Widget>[
               new FlatButton(
                   child: new Text("Thanks!"),
@@ -270,6 +278,6 @@ class _BeginTest extends State<BeginTest> {
   }
 
   speak (String word) async {
-    
+    //Tts.speak("$word");
   }
 }
