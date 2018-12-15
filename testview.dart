@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'begintest.dart';
-import 'stats.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+//import 'stats.dart';
+//import 'package:charts_flutter/flutter.dart' as charts;
 
 // Can be a Stateless Widget
 // This page will be used to view decks and select which one to self test
@@ -169,7 +169,7 @@ class _TestCards extends State<TestCards> {
           builder: (context) => BeginTest(deck: deck, filename: deckNam)),
     );
   }
-/*
+
   resultData() {
     return showDialog(
       context: context,
@@ -187,13 +187,14 @@ class _TestCards extends State<TestCards> {
       },
     );
   }
-*/
+/*
   resultData() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PieOutsideLabelChart(seriesList)),//Stats(storage: TextStorage(), filename:filename)),
     );
   }
+  */
 /*
   createButton() {
     Navigator.push(
