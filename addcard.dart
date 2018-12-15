@@ -293,12 +293,15 @@ class _AddCardState extends State<AddCard> {
                 icon: Icon(Icons.home), //return home
                 tooltip: 'Home',
                 onPressed: () {
-                  Navigator.pop(context);
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomeScreen()),
-                  ); 
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    return StreamBuilder(
+                    stream: bloc.darkThemeEnabled,
+                    initialData: false,
+                    builder: (context, snapshot) => MaterialApp(
+                    theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
+                    home: HomeScreen(snapshot.data)),
+                    );
                 },
               ),
             ],
