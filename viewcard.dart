@@ -3,7 +3,7 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'addcard.dart';
-import 'viewdeck.dart';
+
 
 class ViewCard extends StatefulWidget {
   final TextStorage storage;
@@ -59,18 +59,7 @@ class _ViewCard extends State<ViewCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             //bottom app functionality here
-            IconButton(
-              icon: Icon(Icons.question_answer),
-              tooltip: 'Flip Flashcard',
-              onPressed: () {},
-            ),
-
-            IconButton(
-              icon: Icon(Icons.edit),                 //save the current card
-              tooltip: 'Edit Flashcard',
-              onPressed: () {},
-            ),
-
+           
             IconButton(
               icon:
                   Icon(Icons.delete_forever),         //delete current card in progress
@@ -103,7 +92,7 @@ class _ViewCard extends State<ViewCard> {
 
             IconButton(
               icon: Icon(Icons.plus_one), //return home
-              tooltip: 'Addcard',
+              tooltip: 'Add card',
               onPressed: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -157,7 +146,7 @@ class _ViewCard extends State<ViewCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 85.0, right: 0.0),
+                  padding: EdgeInsets.only(left: 15.0, right: 0.0),
                   child: RichText(
                     text: TextSpan(
                       text: "Q: $question",
@@ -170,7 +159,7 @@ class _ViewCard extends State<ViewCard> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 90.0, right: 90.0),
+                  padding: EdgeInsets.only(left: 15.0, right: 0.0),
                   child: Text("\n\nA: $answer"),
                 ),
               ],
