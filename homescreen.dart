@@ -2,19 +2,26 @@ import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
 import 'viewcard.dart';
-import 'testcard.dart';
+import 'testview.dart';
 import 'dart:io';
 import 'viewdeck.dart';
+import 'helpscreen.dart';
+
 
 class HomeScreen extends StatelessWidget {
   TextEditingController _name = new TextEditingController(); 
   TextStorage storage = new TextStorage(); 
   String filename; 
+  Brightness brightness;
+  
+
   @override
   Widget build(BuildContext context) {
+  
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text('FlashIt v0.1a'),
+        title: Text('FlashIt v2.0'),
       ),
       body: Container(
             padding: EdgeInsets.all(20.0),
@@ -22,8 +29,9 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 85.0, right: 0.0),
+
+                Padding(//FlashIt! text
+                  padding: EdgeInsets.only(left: 65.0, right: 0.0),
                   child: RichText(
                     text: TextSpan(
                       text: "FlashIt!",
@@ -34,12 +42,14 @@ class HomeScreen extends StatelessWidget {
                       )
                     ),
                   ),              
-                ),//Flash it text
+                ),//FlashIt! text
+
                 Padding(
-                  padding: EdgeInsets.only(left: 90.0, right: 90.0),
-                  child: Text("How would you like to flash it?"),              
-                ),//Add card b
-                Padding(
+                  padding: EdgeInsets.only(left: 65.0, right: 50.0),
+                  child: Text("\nHow would you like to flash it?\n"),              
+                ),//Text Padding
+
+                Padding(//Create new deck
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
                     child: Text(
@@ -49,8 +59,8 @@ class HomeScreen extends StatelessWidget {
                     color: Colors.blue,
                     onPressed: ()  {
                       showDialog<String> (context: context, 
-                      child: new AlertDialog(
-                        contentPadding: const EdgeInsets.all(16),
+                      child: new AlertDialog( //pop up box prompt
+                        contentPadding: const EdgeInsets.all(16.0),
                         
                         content: new Row(children: <Widget> [
                           new Expanded (
@@ -90,7 +100,8 @@ class HomeScreen extends StatelessWidget {
                       );
                       },
                   ),         
-                ),//Add card button
+                ),//Create Deck Button
+
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
@@ -107,8 +118,9 @@ class HomeScreen extends StatelessWidget {
                         );
                       },
                     ),              
-                  ),//view button
-                  Padding(
+                  ),//Flashcard Managing Button
+
+                  Padding(//flashcard testing
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
                     child: Text(
@@ -124,8 +136,27 @@ class HomeScreen extends StatelessWidget {
                         );
                       },
                     ),              
-                  ),//edit button
-                  Padding(
+                  ),//test button
+
+                  Padding(//help 
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: RaisedButton(
+                    child: Text(
+                      'Help',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blue,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HelpScreen()),
+                        );
+                      },
+                    ),              
+                  ),//help button
+                
+                Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: RaisedButton(
                     child: Text(
@@ -136,6 +167,8 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () => exit(0), 
                     ),              
                   ),//exit button
+
+                  
                 ],
               ),
             ),
