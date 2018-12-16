@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('About Us'),
+              title: Text('FAQS'),
               onTap: () {
                 // Update the state of the app
                 // ...
@@ -229,3 +229,5 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+  
+  
