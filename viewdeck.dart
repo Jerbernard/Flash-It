@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
-import 'addcard.dart';
 import 'viewcard.dart';
 
 class ViewDecks extends StatefulWidget {
