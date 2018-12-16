@@ -49,7 +49,7 @@ class _BeginTest extends State<BeginTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Math'),
+        title: Text('Test'),
       ),
       body: Container(
         padding: EdgeInsets.all(8.0),
@@ -97,23 +97,23 @@ class _BeginTest extends State<BeginTest> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: Text('Answer:  ${answers[n]}\nYou input: ${input.text}'),
+            content: Text('Answer:  ${answers[n]}\n Input: ${input.text}'),
             actions: <Widget>[
               new FlatButton(
-                  child: new Text("Ok"),
+                  child: new Text("OK"),
                   onPressed: () {
                     if (isCorrect) {
                       Navigator.pop(context);
                       if (n == size - 1) {
-                        Text("nice");
+                        Text("Nice!");
                         result++;
                         //rewr[n] = "O";
                         results();
-                        print('display results');
+                        print('Display results');
                       } else {
                         //rewr[n] = "O";
                         nextButton();
-                        print('correct, next question');
+                        print('Correct, next question..');
                       }
                     } else {
                       Navigator.pop(context);
@@ -122,7 +122,7 @@ class _BeginTest extends State<BeginTest> {
                         results();
                       } else {
                         //rewr[n] = "X";
-                        print('incorrect answer');
+                        print('Incorrect answer..');
                         setState(() {
                           n += 1;
                         });
@@ -210,7 +210,7 @@ class _BeginTest extends State<BeginTest> {
           ),
           new Divider(color: Colors.blue, indent: 1.0),
           TextFormField(
-            decoration: InputDecoration(labelText: "Enter your answer"),
+            decoration: InputDecoration(labelText: "    Enter Your Answer.."),
             controller: input,
           ),
           ButtonTheme.bar(
