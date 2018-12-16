@@ -4,6 +4,7 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'viewdeck.dart';
+import 'homescreen.dart';
 
 class AddCard extends StatefulWidget {
   final TextStorage storage;
@@ -98,20 +99,18 @@ class _AddCardState extends State<AddCard> {
                    builder: (context) {
                     return AlertDialog(
                       content: new Text(
-                        "Successfully saved"),
+                        "Successfully saved!"),
                           actions: <Widget>[
                             new FlatButton(
-                                child: new Text("Ok"),
+                                child: new Text("OK"),
                                 onPressed: () {
                                   _writeStringToTextFile(_answerField.text, widget.filename); 
                                   _questionField.clear();
                                   _answerField.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
-                                  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                  builder: (context) => ViewDecks(storage: TextStorage())),
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => ViewCard(storage: TextStorage(), filename:widget.filename)),
                                   );
                                 },
                             ),
@@ -211,12 +210,7 @@ class _AddCardState extends State<AddCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             //bottom app functionality here
-            IconButton(
-              icon: Icon(Icons.question_answer),
-              tooltip: 'Flip Flashcard',
-              onPressed: () {},
-              ),
-
+            
             IconButton(
               icon: Icon(Icons.save), //save the current card
               tooltip: 'Save Flashcard',
@@ -300,11 +294,15 @@ class _AddCardState extends State<AddCard> {
                 tooltip: 'Home',
                 onPressed: () {
                   Navigator.pop(context);
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomeScreen()),
+                  ); 
                 },
               ),
             ],
           )),
     );
   }
-
 }
