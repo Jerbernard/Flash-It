@@ -31,7 +31,7 @@ class _TestCards extends State<TestCards> {
   String _ans;
   int n = 0;
   int i = 0;
-  List<charts.Series> seriesList;
+ // List<charts.Series> seriesList;
 
   @override
   void initState() {
@@ -77,7 +77,7 @@ class _TestCards extends State<TestCards> {
                   },
                 ),
                 onLongPress: () {
-                  resultData();
+                  //resultData();
                 },
               ),
             ),
@@ -96,7 +96,7 @@ class _TestCards extends State<TestCards> {
                   },
                 ),
                 onLongPress: () {
-                  resultData();
+                 // resultData();
                 },
               ),
             ),
@@ -115,7 +115,7 @@ class _TestCards extends State<TestCards> {
                   },
                 ),
                 onLongPress: () {
-                  resultData();
+                  //resultData();
                 },
               ),
             ),
@@ -127,31 +127,6 @@ class _TestCards extends State<TestCards> {
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.create),
-                tooltip: 'Create a Flashcard',
-                onPressed: () {
-                  //createButton();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.folder_open),
-                tooltip: 'Manage Flashcards',
-                onPressed: () {
-                  //manageButton();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.school),
-                tooltip: 'Test Flashcards',
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {},
-              ),
-            ],
           )),
     );
   }
@@ -169,7 +144,7 @@ class _TestCards extends State<TestCards> {
           builder: (context) => BeginTest(deck: deck, filename: deckNam)),
     );
   }
-
+/*
   resultData() {
     return showDialog(
       context: context,
@@ -187,14 +162,14 @@ class _TestCards extends State<TestCards> {
       },
     );
   }
-/*
-  resultData() {
+*/
+  /*resultData() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PieOutsideLabelChart(seriesList)),//Stats(storage: TextStorage(), filename:filename)),
+     MaterialPageRoute(builder: (context) => PieOutsideLabelChart(seriesList)),//Stats(storage: TextStorage(), filename:filename)),
     );
-  }
-  */
+  }*/
+
 /*
   createButton() {
     Navigator.push(
@@ -202,7 +177,6 @@ class _TestCards extends State<TestCards> {
       MaterialPageRoute(builder: (context) => AddCard(storage: TextStorage())),
     );
   }
-
   manageButton() {
     Navigator.push(
       context,
