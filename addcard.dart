@@ -107,11 +107,14 @@ class _AddCardState extends State<AddCard> {
                                   _writeStringToTextFile(_answerField.text, widget.filename); 
                                   _questionField.clear();
                                   _answerField.clear();
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => ViewCard(storage: TextStorage(), filename:widget.filename)),
-                                  );
+                                   Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>HomeScreen(false)),
+                                  );  
+                                 // Navigator.push(context,
+                                 //   MaterialPageRoute(builder: (context) => ViewCard(storage: TextStorage(), filename:widget.filename)),
+                                 // );
                                 },
                             ),
                           ]
@@ -141,11 +144,18 @@ class _AddCardState extends State<AddCard> {
     return widget.storage.cleanFile();
   }
 
+  Future <bool>_onWillPop() async {      
+    Navigator.pop(context);
+    Navigator.pop(context);
+      return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     //int count = 0;
     String current;
-    return Scaffold(
+    return new WillPopScope(
+    child: new Scaffold(
       appBar: AppBar(
         title: Text('Create Flashcard'),
         backgroundColor: Colors.blue,
@@ -244,16 +254,9 @@ class _AddCardState extends State<AddCard> {
                                 onPressed: () {
                                   //save here
                                   Navigator.pop(context);
-                      
-                                  return StreamBuilder(
-                                  stream: bloc.darkThemeEnabled,
-                                  initialData: false,
-                                  builder: (context, snapshot) => MaterialApp(
-                                  theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
-                                  home: HomeScreen(snapshot.data)),
-
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
                                   
-                                );
                                 }),
                                 ]);
                               },
@@ -303,21 +306,14 @@ class _AddCardState extends State<AddCard> {
                 icon: Icon(Icons.home), //return home
                 tooltip: 'Home',
                 onPressed: () {
-                    Navigator.push(context, 
-                    MaterialPageRoute(builder: (snapshot) => HomeScreen(bloc.darkThemeEnabled)
-                    )
-                    );
-                    return StreamBuilder(
-                    stream: bloc.darkThemeEnabled,
-                    initialData: false,
-                    builder: (context, snapshot) => HomeScreen(bloc.darkThemeEnabled), 
-                    );
-
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     
                 }
               ),
             ],
           )),
+    )
     );
   }
 }

@@ -148,12 +148,11 @@ class _BeginTest extends State<BeginTest> {
                   onPressed: () {
                     //save here
                     Navigator.pop(context);
-                    return StreamBuilder(
-                    stream: bloc.darkThemeEnabled,
-                    initialData: false,
-                    
-                    builder: (context, snapshot) => HomeScreen(bloc.darkThemeEnabled)
-                    );
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>HomeScreen(false)),
+                    );  
                   }),
               new FlatButton(
                   child: new Text("No"),
@@ -272,12 +271,12 @@ class _BeginTest extends State<BeginTest> {
                   onPressed: () {
                     //save here
                     Navigator.pop(context);
-                    return StreamBuilder(
-                    stream: bloc.darkThemeEnabled,
-                    initialData: false,
-                    
-                    builder: (context, snapshot) => HomeScreen(bloc.darkThemeEnabled)
-                    );
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(false)), 
+                                                                
+                    );  
                   }),
             ]);
       },

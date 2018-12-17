@@ -10,7 +10,8 @@ void main() {
         accentColor: Colors.blue
       ),
       title: 'FlashIt',
-      home: MyApp(),
+     // home: MyApp(),
+      home: HomeScreen(false),
   ));
 }
 

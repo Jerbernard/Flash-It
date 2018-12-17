@@ -6,8 +6,10 @@ import 'dart:io';
 import 'dart:async';
 import 'viewdeck.dart';
 
-class MyApp extends StatelessWidget {
-  @override
+//class MyApp extends StatelessWidget {
+@override
+
+/*
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: bloc.darkThemeEnabled,
@@ -15,6 +17,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) => MaterialApp(
           theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
           home: HomeScreen(snapshot.data)),
+      
     );
   }
 }
@@ -26,6 +29,10 @@ class Bloc {
 }
 
 final bloc = Bloc();
+*/
+
+
+
 
 class HomeScreen extends StatelessWidget {
   final TextEditingController _name = new TextEditingController();
@@ -70,7 +77,7 @@ class HomeScreen extends StatelessWidget {
               title: Text('Dark Theme'),
               trailing: Switch(
                   value: darkThemeEnabled,
-                  onChanged: bloc.changeTheme,     
+                 // onChanged: bloc.changeTheme,     
               ),
               
               onTap: () {
