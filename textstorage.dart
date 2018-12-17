@@ -55,13 +55,13 @@ class TextStorage {
   {
    final path = await _qlocalPath;
    var file = new File ('$path/$deckname.txt'); 
-   return file.writeAsString('$text\n', mode: FileMode.append); 
+   return await file.writeAsString('$text\n', mode: FileMode.append); 
   }
 
   Future<File> clearDeck(String deckname) async{
     final path = await _qlocalPath;
     var file = new File('$path/$deckname.txt');
-    return file.writeAsString('');
+    return await file.writeAsString('');
   }
 
 } 

@@ -39,6 +39,7 @@ class _ViewCard extends State<ViewCard> {
     setState(() {
       _file = '';
     });
+   // widget.storage.cleanFile();
     return widget.storage.clearDeck(deckname);
   }
 
