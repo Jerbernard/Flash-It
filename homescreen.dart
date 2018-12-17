@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
 import 'testview.dart';
@@ -7,29 +6,30 @@ import 'dart:io';
 import 'dart:async';
 import 'viewdeck.dart';
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: bloc.darkThemeEnabled,
-//       initialData: false,
-//       builder: (context, snapshot) => MaterialApp(
-//           theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
-//           home: HomeScreen(snapshot.data)),
-//     );
-//   }
-// }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: bloc.darkThemeEnabled,
+      initialData: false,
+      builder: (context, snapshot) => MaterialApp(
+          theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
+          home: HomeScreen(snapshot.data)),
+    );
+  }
+}
 
-// class Bloc {
-//   final _themeController = StreamController<bool>();
-//   get changeTheme => _themeController.sink.add;
-//   get darkThemeEnabled => _themeController.stream;
-// }
+class Bloc {
+  final _themeController = StreamController<bool>();
+  get changeTheme => _themeController.sink.add;
+  get darkThemeEnabled => _themeController.stream;
+}
 
-// final bloc = Bloc();
+final bloc = Bloc();
 
 class HomeScreen extends StatelessWidget {
   final TextEditingController _name = new TextEditingController();
+  final TextEditingController _message = new TextEditingController();
   final TextStorage storage = new TextStorage();
   String filename;
   bool themeValue = false;
@@ -58,9 +58,9 @@ class HomeScreen extends StatelessWidget {
                 text: TextSpan(
                     text: "Settings",
                     style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40.0,
-                    fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontSize: 40.0,
+                      fontStyle: FontStyle.italic,
                     )),
               ),
               decoration: BoxDecoration(
@@ -70,10 +70,9 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               title: Text('Dark Theme'),
               trailing: Switch(
-                  value: darkThemeEnabled,
-                  //onChanged: bloc.changeTheme,     
+                value: darkThemeEnabled,
+                onChanged: bloc.changeTheme,
               ),
-              
               onTap: () {
                 Navigator.pop(context);
               },
@@ -93,6 +92,45 @@ class HomeScreen extends StatelessWidget {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
+                showDialog<String>(
+                  context: context,
+                  child: new AlertDialog(
+                    contentPadding: const EdgeInsets.all(16),
+                    content: new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new TextField(
+                              controller: _message,
+                              decoration: new InputDecoration(
+                                labelText: 'Feedback And Bug Reporting',
+                              )),
+                        )
+                      ],
+                    ),
+                    actions: <Widget>[
+                      new FlatButton(
+                          child: const Text('CANCEL'),
+                          onPressed: () {
+                            _message.clear();
+                            Navigator.pop(context);
+                          }),
+                      new FlatButton(
+                          child: const Text('ENTER'),
+                          onPressed: () {
+                            return AlertDialog(
+                                content: new Text("Message Sent!"),
+                                actions: <Widget>[
+                                  new FlatButton(
+                                    child: new Text("OK"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ]);
+                          })
+                    ],
+                  ),
+                );
                 Navigator.pop(context);
               },
             ),
@@ -229,5 +267,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-  
-  
