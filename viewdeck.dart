@@ -76,8 +76,8 @@ class _ViewDecks extends State<ViewDecks> {
       Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewCard(storage: TextStorage(), filename:deckName)),                 //HARDCODE NAME HERE !!!!!!!!!!!!!!!!!!
-                                                   //would have to build flashcards here? make a new scaffold? a new page? team?
+        builder: (context) => ViewCard(storage: TextStorage(), filename:deckName)), 
+                                                   
       );  
       }
       );
