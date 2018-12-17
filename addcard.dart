@@ -240,10 +240,20 @@ class _AddCardState extends State<AddCard> {
                                         "Successfully added flashcard!"),
                                         actions: <Widget>[
                                       new FlatButton(
-                                      child: new Text("Ok"),
+                                      child: new Text("OK"),
                                 onPressed: () {
                                   //save here
                                   Navigator.pop(context);
+                      
+                                  return StreamBuilder(
+                                  stream: bloc.darkThemeEnabled,
+                                  initialData: false,
+                                  builder: (context, snapshot) => MaterialApp(
+                                  theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
+                                  home: HomeScreen(snapshot.data)),
+
+                                  
+                                );
                                 }),
                                 ]);
                               },
@@ -293,16 +303,18 @@ class _AddCardState extends State<AddCard> {
                 icon: Icon(Icons.home), //return home
                 tooltip: 'Home',
                 onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    Navigator.push(context, 
+                    MaterialPageRoute(builder: (snapshot) => HomeScreen(bloc.darkThemeEnabled)
+                    )
+                    );
                     return StreamBuilder(
                     stream: bloc.darkThemeEnabled,
                     initialData: false,
-                    builder: (context, snapshot) => MaterialApp(
-                    theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
-                    home: HomeScreen(snapshot.data)),
+                    builder: (context, snapshot) => HomeScreen(bloc.darkThemeEnabled), 
                     );
-                },
+
+                    
+                }
               ),
             ],
           )),
