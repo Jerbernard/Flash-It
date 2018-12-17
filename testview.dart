@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'begintest.dart';
-//import 'stats.dart';
-//import 'package:charts_flutter/flutter.dart' as charts;
 
 // Can be a Stateless Widget
 // This page will be used to view decks and select which one to self test
@@ -14,7 +12,8 @@ class TestCards extends StatefulWidget {
   final TextStorage storage;
   final String filename;
   final TextStorage scorefile;
-  TestCards({Key key, @required this.storage, this.filename, this.scorefile}) : super(key: key);
+  TestCards({Key key, @required this.storage, this.filename, this.scorefile})
+      : super(key: key);
 
   @override
   _TestCards createState() => _TestCards();
@@ -31,7 +30,6 @@ class _TestCards extends State<TestCards> {
   String _ans;
   int n = 0;
   int i = 0;
- // List<charts.Series> seriesList;
 
   @override
   void initState() {
@@ -44,89 +42,48 @@ class _TestCards extends State<TestCards> {
       deckSets = _deckName.split('\n'); // split string to array
       deckCount++;
     });
-    
   }
 
   // Widget for building app page
   // Will implement dynamic creation of buttons for every file that is created
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Choose a deck'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(),
-              child: GestureDetector( 
-                child: RaisedButton(
-                  child: Text(
-                    '${deckSets[0]}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                  color: Colors.blue,
-                  onPressed: () {
-                    testSelf(deckSets[0]);
-                  },
-                ),
-                onLongPress: () {
-                  //resultData();
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(),
-              child: GestureDetector( 
-                child: RaisedButton(
-                  child: Text(
-                    '${deckSets[1]}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                  color: Colors.blue,
-                  onPressed: () {
-                    testSelf(deckSets[1]);
-                  },
-                ),
-                onLongPress: () {
-                 // resultData();
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(),
-              child: GestureDetector( 
-                child: RaisedButton(
-                  child: Text(
-                    '${deckSets[2]}', //${deckSets[0]}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                  color: Colors.blue,
-                  onPressed: () {
-                    testSelf(deckSets[2]);
-                  },
-                ),
-                onLongPress: () {
-                  //resultData();
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: _buildTest(),
       bottomNavigationBar: new BottomAppBar(
           color: Colors.blue,
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.create),
+                tooltip: 'Create a Flashcard',
+                onPressed: () {
+                  //createButton();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.folder_open),
+                tooltip: 'Manage Flashcards',
+                onPressed: () {
+                  //manageButton();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.school),
+                tooltip: 'Test Flashcards',
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {},
+              ),
+            ],
           )),
     );
   }
@@ -144,7 +101,7 @@ class _TestCards extends State<TestCards> {
           builder: (context) => BeginTest(deck: deck, filename: deckNam)),
     );
   }
-/*
+
   resultData() {
     return showDialog(
       context: context,
@@ -162,56 +119,35 @@ class _TestCards extends State<TestCards> {
       },
     );
   }
-*/
-  /*resultData() {
-    Navigator.push(
-      context,
-     MaterialPageRoute(builder: (context) => PieOutsideLabelChart(seriesList)),//Stats(storage: TextStorage(), filename:filename)),
-    );
-  }*/
 
-/*
-  createButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AddCard(storage: TextStorage())),
-    );
-  }
-  manageButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ViewCard(storage: TextStorage(), filename:filename)),
-    );
-  }*/
-  
-}
-
-  /*
-  @override
-  Widget build(BuildContext context){
-    final bool alreadySaved = _saved.contains(deckSets[0]);
-    return new ListTile(
-      title: new Text(
-        '$_deckName[0]',
-        style: _biggerFont,
-      ),
-      trailing: new Icon(
-        alreadySaved ? Icons.check_box : Icons.check_box_outline_blank,
-        color: alreadySaved ? Colors.blue : null,
-      ),
-      onLongPress: () {
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(deckSets[0]);
-          } else {
-            _saved.add(deckSets[0]);
+  Widget _buildTest() {
+    return ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: (BuildContext _context, int i) {
+          if (i != deckSets.length) {
+            return _buildTestRow(deckSets[i], i);
           }
         });
-      },
-      onTap: () {
-        testSelf(deckSets[0])
-      },
+  }
+
+  Widget _buildTestRow(String deckName, int i) {
+    return Column(
+      children: <Widget>[
+        new Divider(color: Colors.black, indent: 1.0),
+        new ListTile(
+          title: new Text(
+            '$deckName',
+            style: _biggerFont,
+            textAlign: TextAlign.center,
+          ),
+          onTap: () {
+            testSelf(deckSets[i]);
+          },
+          onLongPress: () {
+            resultData();
+          },
+        ),
+      ],
     );
   }
-*/
+}
