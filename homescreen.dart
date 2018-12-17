@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'textstorage.dart';
 import 'addcard.dart';
 import 'testview.dart';
