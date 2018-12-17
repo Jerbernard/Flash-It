@@ -6,27 +6,32 @@ import 'dart:io';
 import 'dart:async';
 import 'viewdeck.dart';
 import 'helpscreen.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
+
+
+@override
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: bloc.darkThemeEnabled,
-      initialData: false,
-      builder: (context, snapshot) => MaterialApp(
-          theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
-          home: HomeScreen(snapshot.data)),
+    return new DynamicTheme(
+      defaultBrightness: Brightness.light,
+      data: (brightness) => new ThemeData(
+        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+      ),
+      themedWidgetBuilder: (context, theme) {
+        return new MaterialApp(
+          title: 'FlashIt!',
+          theme: theme,
+          home: new HomeScreen(),
+        );
+      }
     );
   }
 }
 
-class Bloc {
-  final _themeController = StreamController<bool>();
-  get changeTheme => _themeController.sink.add;
-  get darkThemeEnabled => _themeController.stream;
-}
 
-final bloc = Bloc();
 
 class HomeScreen extends StatelessWidget {
   final TextEditingController _name = new TextEditingController();
@@ -37,8 +42,19 @@ class HomeScreen extends StatelessWidget {
   var _element;
   BuildContext get context => _element;
 
-  final bool darkThemeEnabled;
-  HomeScreen(this.darkThemeEnabled);
+  void _changeBrightness() {
+  DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.light? Brightness.dark: Brightness.light);
+  }
+
+  void changeColor() {
+  DynamicTheme.of(context).setThemeData(new ThemeData(
+      primaryColor: Theme.of(context).primaryColor == Colors.blue? Colors.red: Colors.blue
+  ));
+  }
+  //final bool darkThemeEnabled;
+  HomeScreen();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +84,10 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: Text('Dark Theme'),
-              trailing: Switch(
-                  value: darkThemeEnabled,
-                  onChanged: bloc.changeTheme,     
+              title: Text('Change Theme'),
+              trailing: IconButton(
+                icon:Icon(Icons.brightness_4),
+                onPressed: _changeBrightness,               
               ),
               
               onTap: () {
@@ -81,11 +97,15 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               title: Text('FAQS'),
               onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HelpScreen()),
-                        );
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>HelpScreen()),
+                );  
               },
             ),
             ListTile(
@@ -230,3 +250,5 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+  
+  

@@ -3,6 +3,8 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'addcard.dart';
+import 'homescreen.dart';
+import 'viewdeck.dart';
 
 
 class ViewCard extends StatefulWidget {
@@ -41,9 +43,17 @@ class _ViewCard extends State<ViewCard> {
     return widget.storage.cleanFile();
   }
 
+  Future <bool>_onWillPop() async {
+      //Navigator.pop(context);
+          
+      return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new WillPopScope(
+      onWillPop: _onWillPop,
+    child: new Scaffold(
       appBar: AppBar(
         title: Text('View Flashcards'),
         actions: <Widget>[
@@ -105,6 +115,7 @@ class _ViewCard extends State<ViewCard> {
           ],
         ),
       ),
+    )
     );
   }
 
