@@ -3,6 +3,7 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'viewcard.dart';
+import 'homescreen.dart';
 
 class ViewDecks extends StatefulWidget {
   final TextStorage storage;
@@ -38,18 +39,32 @@ class _ViewDecks extends State<ViewDecks> {
     return widget.storage.cleanFile();
   }
 
+  Future <bool>_onWillPop() async {     
+      Navigator.pop(context); 
+      Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen()),                                                    
+      );
+      return true;
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('View Sets'),
-        actions: <Widget>[
-          //new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
-        ],
-        backgroundColor: Colors.blue,
-      ),
-      body: _buildDecks(),
-    );
+    return new WillPopScope(
+      onWillPop: _onWillPop,
+      child: new Scaffold(
+        appBar: AppBar(
+          title: Text('View Sets'),
+          actions: <Widget>[
+            //new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
+          ],
+          backgroundColor: Colors.blue,
+        ),
+        body: _buildDecks(),
+      )
+      );
   }
 
    Widget _buildDecks() {

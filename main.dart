@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'homescreen.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 
-void main() {
-  runApp(MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-        accentColor: Colors.blue
-      ),
-      title: 'FlashIt',
-      home: MyApp(),
-  ));
-}
+void main() => runApp(new MyApp());
+
+
 

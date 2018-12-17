@@ -150,4 +150,49 @@ class _TestCards extends State<TestCards> {
       ],
     );
   }
+/*
+  createButton() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddCard(storage: TextStorage())),
+    );
+  }
+
+  manageButton() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ViewCard(storage: TextStorage(), filename:filename)),
+    );
+  }*/
+
 }
+
+/*
+  @override
+  Widget build(BuildContext context){
+    final bool alreadySaved = _saved.contains(deckSets[0]);
+    return new ListTile(
+      title: new Text(
+        '$_deckName[0]',
+        style: _biggerFont,
+      ),
+      trailing: new Icon(
+        alreadySaved ? Icons.check_box : Icons.check_box_outline_blank,
+        color: alreadySaved ? Colors.blue : null,
+      ),
+      onLongPress: () {
+        setState(() {
+          if (alreadySaved) {
+            _saved.remove(deckSets[0]);
+          } else {
+            _saved.add(deckSets[0]);
+          }
+        });
+      },
+      onTap: () {
+        testSelf(deckSets[0])
+      },
+    );
+  }
+*/
