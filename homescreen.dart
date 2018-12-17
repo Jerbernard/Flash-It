@@ -5,6 +5,7 @@ import 'testview.dart';
 import 'dart:io';
 import 'dart:async';
 import 'viewdeck.dart';
+import 'helpscreen.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -80,10 +81,11 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               title: Text('FAQS'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HelpScreen()),
+                        );
               },
             ),
             ListTile(
@@ -228,5 +230,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-  
-  
