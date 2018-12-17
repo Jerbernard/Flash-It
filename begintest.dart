@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'testview.dart';
+import 'homescreen.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
 // Self test on this page
@@ -140,17 +141,18 @@ class _BeginTest extends State<BeginTest> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: Text('Are you sure you want to leave?'),
+            content: Text('Are you sure you want to stop the quiz?'),
             actions: <Widget>[
               new FlatButton(
                   child: new Text("Yes"),
                   onPressed: () {
                     //save here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              TestCards(storage: TextStorage())),
+                    Navigator.pop(context);
+                    return StreamBuilder(
+                    stream: bloc.darkThemeEnabled,
+                    initialData: false,
+                    
+                    builder: (context, snapshot) => HomeScreen(bloc.darkThemeEnabled)
                     );
                   }),
               new FlatButton(
@@ -270,7 +272,12 @@ class _BeginTest extends State<BeginTest> {
                   onPressed: () {
                     //save here
                     Navigator.pop(context);
-                    Navigator.pop(context);
+                    return StreamBuilder(
+                    stream: bloc.darkThemeEnabled,
+                    initialData: false,
+                    
+                    builder: (context, snapshot) => HomeScreen(bloc.darkThemeEnabled)
+                    );
                   }),
             ]);
       },
