@@ -49,65 +49,21 @@ class HelpScreen extends StatelessWidget {
         style: _biggerFont,
       ),
       onTap: () {
-        _buildAnswer(answer, question);
+        _showAnswer(answer);
       },
     );
   }
 
-  Widget _buildAnswer(String answer, String question) {
-    Navigator.of(context).push(
-      new MaterialPageRoute<void>(builder: (BuildContext context) {
-        return new Scaffold(
-          appBar: new AppBar(
-            title: const Text('Answer: '),
-          ),
-          body: Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 85.0, right: 0.0),
-                  child: RichText(
-                    text: TextSpan(
-                      text: "Q: $question",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 20.0,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 90.0, right: 90.0),
-                  child: Text("\n\nA: $answer"),
-                ),
-              ],
-            ),
-          ),
-          bottomNavigationBar: new BottomAppBar(
-            color: Colors.blue,
-            child: new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                //bottom app functionality here
-                IconButton(
-                  icon: Icon(Icons.backspace), //return home
-                  tooltip: 'Back',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      }),
+  void _showAnswer(String answer) {
+    if (answer.isEmpty) return;
+
+    AlertDialog dialog = new AlertDialog(
+      content: new Text(answer,
+      style: _biggerFont,),
     );
+
+    showDialog(context: context, child: dialog);
   }
 
-  
+ 
 }
