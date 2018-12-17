@@ -105,13 +105,13 @@ class _TestCards extends State<TestCards> {
               child: GestureDetector( 
                 child: RaisedButton(
                   child: Text(
-                    'Biology Cards', //${deckSets[0]}',
+                    '${deckSets[2]}', //${deckSets[0]}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    testSelf(deckSets[0]);
+                    testSelf(deckSets[2]);
                   },
                 ),
                 onLongPress: () {
