@@ -3,7 +3,7 @@ import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'addcard.dart';
-import 'viewdeck.dart';
+
 
 class ViewCard extends StatefulWidget {
   final TextStorage storage;
@@ -16,28 +16,37 @@ class ViewCard extends StatefulWidget {
 
 class _ViewCard extends State<ViewCard> {
   List<String> _card;
+  List<String> _questions = [];
+  List<String> _answers = []; 
   String _file;
   final Set<String> _saved = new Set<String>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
+  TextEditingController _newAnswer = new TextEditingController();
+  TextEditingController _newQuestion = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
     widget.storage.readDeck(widget.filename).then((String text) {
       setState(() {
-        _file = text;     
-        _card = _file.split('\n');                   // pulls text from file
-      });
-      //_card = _file.split('\n');            // split string to array
+        _file = text;                                // pulls text from file
+        _card = _file.split('\n');                   // split string to array
+      });          
     });
   }
 
-  Future<File> _clearContentsInTextFile() async {
+  Future<File> _clearContentsInTextFile(String deckname) async {
     setState(() {
       _file = '';
     });
-    return widget.storage.cleanFile();
+    return widget.storage.clearDeck(deckname);
   }
+
+  Future<File> _writeDeck(String text, String deckname) async {
+    return widget.storage.writeDeck(text, deckname);
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,18 +66,7 @@ class _ViewCard extends State<ViewCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             //bottom app functionality here
-            IconButton(
-              icon: Icon(Icons.question_answer),
-              tooltip: 'Flip Flashcard',
-              onPressed: () {},
-            ),
-
-            IconButton(
-              icon: Icon(Icons.save),                 //save the current card
-              tooltip: 'Save Flashcard',
-              onPressed: () {},
-            ),
-
+           
             IconButton(
               icon:
                   Icon(Icons.delete_forever),         //delete current card in progress
@@ -85,7 +83,7 @@ class _ViewCard extends State<ViewCard> {
                               child: new Text("Yes"),
                               onPressed: () {
                                 //save here
-                                _clearContentsInTextFile();
+                                _clearContentsInTextFile(widget.filename);
                                 Navigator.pop(context);
                               }),
                           new FlatButton(
@@ -101,7 +99,7 @@ class _ViewCard extends State<ViewCard> {
 
             IconButton(
               icon: Icon(Icons.plus_one), //return home
-              tooltip: 'Addcard',
+              tooltip: 'Add card',
               onPressed: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -118,25 +116,39 @@ class _ViewCard extends State<ViewCard> {
   }
 
   Widget _buildFlashCard() {
+    int k = -1; 
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (BuildContext _context, int i) {
         if (i.isOdd) {
           return Divider();
         } else if (i + 1 != _card.length) {
-          return _buildRow(_card[i], _card[i + 1]);
+          k++;
+          _questions.add(_card[i]);
+          _answers.add(_card[i+1]);
+          return _buildRow(_questions[k], _answers[k], k);
         }
       },
       itemCount: _card.length,
     );
   }
 
-  Widget _buildAnswer(String answer, String question) {
+  Widget _buildAnswer(String answer, String question, int k) {
     Navigator.of(context).push(
       new MaterialPageRoute<void>(builder: (BuildContext context) {
         return new Scaffold(
           appBar: new AppBar(
             title: const Text('Answer: '),
+            actions: <Widget>[
+              new IconButton(
+                icon:  Icon(Icons.delete), 
+                tooltip: 'Delete Flash Card',
+                onPressed: () {
+                  question = "";
+                  answer = "";
+                },
+              ),
+            ],
           ),
           body: Container(
             padding: EdgeInsets.all(20.0),
@@ -145,7 +157,7 @@ class _ViewCard extends State<ViewCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 85.0, right: 0.0),
+                  padding: EdgeInsets.only(left: 15.0, right: 0.0),
                   child: RichText(
                     text: TextSpan(
                       text: "Q: $question",
@@ -158,7 +170,7 @@ class _ViewCard extends State<ViewCard> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 90.0, right: 90.0),
+                  padding: EdgeInsets.only(left: 15.0, right: 0.0),
                   child: Text("\n\nA: $answer"),
                 ),
               ],
@@ -181,12 +193,107 @@ class _ViewCard extends State<ViewCard> {
                 ),
                 IconButton(
                   icon: Icon(Icons.backspace), //return home
-                  tooltip: 'back',
+                  tooltip: 'Back',
                   onPressed: () {
                     _saved.remove(question);
                     Navigator.pop(context);
                   },
                 ),
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  tooltip: 'Edit Question',
+                  onPressed: (){
+                    showDialog<String> (context: context, 
+                      child: new AlertDialog(
+                        contentPadding: const EdgeInsets.all(16),
+                        
+                        content: new Row(children: <Widget> [
+                          new Expanded (
+                            child: new TextField (
+                              controller: _newQuestion,
+                              decoration: new InputDecoration(
+                              labelText: 'Enter New Question',)
+                            ),
+                            )
+                        ],
+                        ),
+                  
+                      actions: <Widget> [
+                        new FlatButton (
+                          child: const Text('CANCEL'),
+                          onPressed:() {
+                            _newQuestion.clear();
+                            Navigator.pop(context);
+                          }
+                        ),
+                        new FlatButton(
+                          child:const Text('ENTER'),
+                          onPressed: (){
+                            question = _newQuestion.text;
+                            _questions[k] = _newQuestion.text; 
+                            _newQuestion.clear();
+                            _clearContentsInTextFile(widget.filename);
+                            for (int i = 0; i < _questions.length; i++)
+                            {
+                              _writeDeck(_questions[i], widget.filename);
+                              _writeDeck(_answers[i], widget.filename);
+                            }
+                            Navigator.pop(context);
+                            MaterialPageRoute(builder: (context) => ViewCard(storage: TextStorage(), filename:widget.filename));
+                          })
+                      ],
+                      ),
+                      );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.font_download),
+                  tooltip: 'Edit Answer',
+                  onPressed: (){
+                    showDialog<String> (context: context, 
+                      child: new AlertDialog(
+                        contentPadding: const EdgeInsets.all(16),
+                        
+                        content: new Row(children: <Widget> [
+                          new Expanded (
+                            child: new TextField (
+                              controller: _newAnswer,
+                              decoration: new InputDecoration(
+                              labelText: 'Enter New Answer',)
+                            ),
+                            )
+                        ],
+                        ),
+                      
+                      actions: <Widget> [
+                        new FlatButton (
+                          child: const Text('CANCEL'),
+                          onPressed:() {
+                            _newAnswer.clear();
+                            Navigator.pop(context);
+                          }
+                        ),
+                        new FlatButton(
+                          child:const Text('ENTER'),
+                          onPressed: (){
+                            answer = _newAnswer.text;
+                            _answers[k] = _newAnswer.text; 
+                            _newAnswer.clear();
+                            _clearContentsInTextFile(widget.filename);
+                            for (int i = 0; i < _answers.length; i++)
+                            {
+                              _writeDeck(_questions[i], widget.filename);
+                              _writeDeck(_answers[i], widget.filename);
+                            } 
+                            Navigator.pop(context);
+                            MaterialPageRoute(builder: (context) => ViewCard(storage: TextStorage(), filename:widget.filename));
+                          }
+                          )
+                      ],
+                      ),
+                      );
+                  },
+                )
               ],
             ),
           ),
@@ -195,7 +302,7 @@ class _ViewCard extends State<ViewCard> {
     );
   }
 
-  Widget _buildRow(String question, String answer) {
+  Widget _buildRow(String question, String answer, int k) {
     final bool alreadySaved = _saved.contains(question);
     return new ListTile(
       title: new Text(
@@ -216,7 +323,7 @@ class _ViewCard extends State<ViewCard> {
         });
       },
       onTap: () {
-        _buildAnswer(answer, question);
+        _buildAnswer(answer, question, k);
       },
     );
   }
@@ -252,4 +359,3 @@ class _ViewCard extends State<ViewCard> {
     );
   }
 }
-

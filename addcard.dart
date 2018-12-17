@@ -99,20 +99,18 @@ class _AddCardState extends State<AddCard> {
                    builder: (context) {
                     return AlertDialog(
                       content: new Text(
-                        "Successfully saved"),
+                        "Successfully saved!"),
                           actions: <Widget>[
                             new FlatButton(
-                                child: new Text("Ok"),
+                                child: new Text("OK"),
                                 onPressed: () {
                                   _writeStringToTextFile(_answerField.text, widget.filename); 
                                   _questionField.clear();
                                   _answerField.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
-                                  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                  builder: (context) => ViewDecks(storage: TextStorage())),
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => ViewCard(storage: TextStorage(), filename:widget.filename)),
                                   );
                                 },
                             ),
@@ -212,12 +210,7 @@ class _AddCardState extends State<AddCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             //bottom app functionality here
-            IconButton(
-              icon: Icon(Icons.question_answer),
-              tooltip: 'Flip Flashcard',
-              onPressed: () {},
-              ),
-
+            
             IconButton(
               icon: Icon(Icons.save), //save the current card
               tooltip: 'Save Flashcard',
@@ -296,21 +289,23 @@ class _AddCardState extends State<AddCard> {
                 },
               ),
 
-              IconButton(
-                icon: Icon(Icons.home), //return home
-                tooltip: 'Home',
-                onPressed: () {
-                  Navigator.pop(context);
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomeScreen()),
-                  ); 
-                },
-              ),
+              // IconButton(
+              //   icon: Icon(Icons.home), //return home
+              //   tooltip: 'Home',
+              //   onPressed: () {
+              //       Navigator.pop(context);
+              //       Navigator.pop(context);
+              //       return StreamBuilder(
+              //       stream: bloc.darkThemeEnabled,
+              //       initialData: false,
+              //       builder: (context, snapshot) => MaterialApp(
+              //       theme: snapshot.data ? ThemeData.dark() : ThemeData.light(),
+              //       home: HomeScreen(snapshot.data)),
+              //       );
+              //   },
+              // ),
             ],
           )),
     );
   }
-
 }

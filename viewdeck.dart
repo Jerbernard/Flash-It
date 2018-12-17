@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'dart:async';
 import 'dart:io';
-import 'addcard.dart';
 import 'viewcard.dart';
 
 class ViewDecks extends StatefulWidget {
@@ -50,82 +49,6 @@ class _ViewDecks extends State<ViewDecks> {
         backgroundColor: Colors.blue,
       ),
       body: _buildDecks(),
-      bottomNavigationBar: new BottomAppBar(
-        color: Colors.blue,
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            //bottom app functionality here
-            IconButton(
-              icon: Icon(Icons.question_answer),
-              tooltip: 'Flip Flashcard',
-              onPressed: () {},
-            ),
-
-            IconButton(
-              icon: Icon(Icons.save),                 //save the current card
-              tooltip: 'Save Flashcard',
-              onPressed: () {},
-            ),
-
-            IconButton(
-              icon:
-                  Icon(Icons.delete_forever),         //delete current card in progress
-              tooltip: 'Delete current Flashcard',
-              onPressed: () {
-                return showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                        content: new Text(
-                            "Are you sure you would like to delete all flashcards?"),
-                        actions: <Widget>[
-                          new FlatButton(
-                              child: new Text("Yes"),
-                              onPressed: () {
-                                //save here
-                                _clearContentsInTextFile();
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                    builder: (BuildContext context)
-                                    {
-                                      return new ViewDecks(storage: TextStorage());
-                                    }
-                                  )
-                                );
-                              }
-                              ),
-                          new FlatButton(
-                              child: new Text("No"),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              })
-                        ]);
-                  },
-                );
-              },
-            ),
-
-            IconButton(
-              icon: Icon(Icons.plus_one), //return home
-              tooltip: 'Addcard',
-              onPressed: () {
-                
-                    Navigator.pop(context);
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddCard(storage: TextStorage())),
-                  );
-                  
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 
