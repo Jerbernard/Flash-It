@@ -87,7 +87,7 @@ class _ViewCard extends State<ViewCard> {
                               onPressed: () {
                                 //save here
                                 _clearContentsInTextFile();
-                                Navigator.pop(context);
+                                 Navigator.of(context).pushReplacementNamed('/homescreenroute');
                               }),
                           new FlatButton(
                               child: new Text("No"),

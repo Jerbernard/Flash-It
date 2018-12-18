@@ -108,15 +108,8 @@ class _AddCardState extends State<AddCard> {
                                   _writeStringToTextFile(_answerField.text, widget.filename); 
                                   _questionField.clear();
                                   _answerField.clear();
-                                   Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>HomeScreen()),
-                                  );  
-                                 // Navigator.push(context,
-                                 //   MaterialPageRoute(builder: (context) => ViewCard(storage: TextStorage(), filename:widget.filename)),
-                                 // );
-                                },
+                                    Navigator.of(context).pushReplacementNamed('/homescreenroute');                                      
+                                  },
                             ),
                           ]
                     );
@@ -146,8 +139,12 @@ class _AddCardState extends State<AddCard> {
   }
 
   Future <bool>_onWillPop() async {      
-    Navigator.pop(context);
-    Navigator.pop(context);
+     Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ViewDecks(storage: TextStorage())),
+                  );
       return true;
   }
 
@@ -156,6 +153,7 @@ class _AddCardState extends State<AddCard> {
     //int count = 0;
     String current;
     return new WillPopScope(
+    onWillPop: _onWillPop,
     child: new Scaffold(
       appBar: AppBar(
         title: Text('Create Flashcard'),
@@ -254,9 +252,12 @@ class _AddCardState extends State<AddCard> {
                                       child: new Text("OK"),
                                 onPressed: () {
                                   //save here
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ViewDecks(storage: TextStorage())),
+                                  );
                                   
                                 }),
                                 ]);
@@ -307,9 +308,7 @@ class _AddCardState extends State<AddCard> {
                 icon: Icon(Icons.home), //return home
                 tooltip: 'Home',
                 onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    
+                      Navigator.of(context).pushReplacementNamed('/homescreenroute');                    
                 }
               ),
             ],

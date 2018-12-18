@@ -7,7 +7,7 @@ import 'dart:async';
 import 'viewdeck.dart';
 import 'helpscreen.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
-
+import 'package:dynamic_theme/theme_switcher_widgets.dart';
 
 @override
 
@@ -25,6 +25,10 @@ class MyApp extends StatelessWidget {
           title: 'FlashIt!',
           theme: theme,
           home: new HomeScreen(),
+          routes: <String, WidgetBuilder> {
+            '/homescreenroute': (BuildContext context) => new HomeScreen(),
+            'viewdecksroute': (BuildContext context) => new ViewDecks(storage:TextStorage()),
+          },
         );
       }
     );
@@ -54,11 +58,23 @@ class HomeScreen extends StatelessWidget {
   //final bool darkThemeEnabled;
   HomeScreen();
 
-
+  void setTheme(){
+    Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>BrightnessSwitcherDialog()),
+                );  
+  }
+  Future <bool>_onWillPop() async {
+        Navigator.of(context).pushReplacementNamed('/homescreenroute');
+        return true;
+    }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new WillPopScope(
+      onWillPop: _onWillPop,
+    child: new Scaffold(
       appBar: AppBar(
         title: Text('FlashIt v2.0'),
       ),
@@ -87,7 +103,7 @@ class HomeScreen extends StatelessWidget {
               title: Text('Change Theme'),
               trailing: IconButton(
                 icon:Icon(Icons.brightness_4),
-                onPressed: _changeBrightness,               
+                onPressed:setTheme,             
               ),
               
               onTap: () {
@@ -247,6 +263,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+    )
     );
   }
 }
