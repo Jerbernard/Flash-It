@@ -38,9 +38,15 @@ Installation:
 
 
 Credits: 
+
 Eric Le
+
 Gordon Huynh
+
 Jens Bernardino
+
 Jimmy Xuan
+
 John Shelton
+
 Tommy Chao
