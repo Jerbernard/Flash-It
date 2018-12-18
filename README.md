@@ -9,7 +9,8 @@ FlashIt! was built within the Flutter framework using the Dart language.
 Installation:
 1.  Copy the provided .apk file onto your android device.
 2.  Run the installed .apk file.
-========================================================================================================================================
+
+
 Credits: 
 Eric Le
 Gordon Huynh
