@@ -7,7 +7,7 @@ Fuller Computing realizes that there is a distinct lack in the market of mobile 
 FlashIt! was built within the Flutter framework using the Dart language.
 ======================================================================================================================================
 Files:
-======================================================================================================================================
+
 
 addcard.dart
 
