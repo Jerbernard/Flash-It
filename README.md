@@ -6,6 +6,21 @@ Fuller Computing realizes that there is a distinct lack in the market of mobile 
 ========================================================================================================================================
 FlashIt! was built within the Flutter framework using the Dart language.
 ========================================================================================================================================
+Files:
+addcard.dart
+begintest.dart
+helpscreen.dart
+homescreen.dart
+main.dart
+pubspec.yaml
+testview.dart
+textstorage.dart
+viewcard.dart
+viewdeck.dart
+
+
+
+
 Installation:
 1.  Copy the provided .apk file onto your android device.
 2.  Run the installed .apk file.
