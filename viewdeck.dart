@@ -39,8 +39,13 @@ class _ViewDecks extends State<ViewDecks> {
     return widget.storage.cleanFile();
   }
 
-  Future <bool>_onWillPop() async {
-      Navigator.of(context).pushReplacementNamed('/homescreenroute');
+  Future <bool>_onWillPop() async {     
+      Navigator.pop(context); 
+      Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen()),                                                    
+      );
       return true;
   }
 
@@ -53,7 +58,7 @@ class _ViewDecks extends State<ViewDecks> {
         appBar: AppBar(
           title: Text('View Sets'),
           actions: <Widget>[
-           new IconButton(icon: const Icon(Icons.arrow_back), onPressed: _onWillPop),
+            //new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
           ],
           backgroundColor: Colors.blue,
         ),
