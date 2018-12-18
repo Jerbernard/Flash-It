@@ -1,62 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
 
 
 class HelpScreen extends StatelessWidget {
   TextEditingController _name = new TextEditingController(); 
   String filename; 
   Brightness brightness;
+  final TextStyle _biggerFont = const TextStyle(fontSize: 20.0);
+  List<String> _questions = ["Q: How do i create a deck?",
+                            "Q:  How do I get rid of old flash cards?", 
+                            "Q:  How do I add a flash card to an existing deck?",
+                            "Q:  How do I test myself?"
+                            ];
   
-
+  List<String> _answers = ["A:  First, press \"Create New Deck\" from the main menu.  Then, type a name for the deck.  Then, enter the first flash card!",
+                          "A: Press \"Manage Flashcards\".  Then, select the deck you wish to delete. Next, press the delete icon.",
+                          "A:  Press \"Manage Flashcards\".  Select the deck you wish to add to, then press the plus icon to add new cards to the selected deck.",
+                          "A: Press the \"Test Flashcards\" button.  Then, select the deck you wish to review.  All cards in that deck will then appear, and you can confirm that you passed or failed each card."
+                          ];
   @override
   Widget build(BuildContext context) {
-  
-    
     return Scaffold(
       appBar: AppBar(
-        title: Text('FlashIt v2.0'),
+        title: Text('FAQs'),
+        backgroundColor: Colors.blue,
       ),
-      body: Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(              
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                
-                SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                  
-                child:ListView(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(20.0),
+      body: _buildFAQ()
+    );
 
-                children: <Widget>[
 
-                  Padding(//FlashIt! text
-                    padding: EdgeInsets.only(left: 140.0, right: 0.0),
-                    child: RichText(
-                      text: TextSpan(
-                        text: "FAQ's",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 30.0,
-                          fontStyle: FontStyle.normal,                    
-                        )
-                      ),
-                    ),              
-                  ),//FAQs
-                           
-                  Text("\nQ:  How do I create a deck?\nA:  First, press \"Create New Deck\" from the main menu.  Then, type a name for the deck.  Then, enter the first flash card! "),            
-                  Text("\nQ:  How do I get rid of old flash cards?\nA: Press \"Manage Flashcards\".  Then, select the deck you wish to delete. Next, press the delete icon. "),
-                  Text("\nQ:  How do I add a flash card to an existing deck?\nA:  Press \"Manage Flashcards\".  Select the deck you wish to add to, then press the plus icon to add new cards to the selected deck."),
-                  Text("\nQ:  How do I add a flash card to an existing deck?\nA:  Press \"Manage Flashcards\".  Select the deck you wish to add to, then press the plus icon to add new cards to the selected deck."),
-                  Text("\nQ:  How do I test myself?\nA: Press the \"Test Flashcards\" button.  Then, select the deck you wish to review.  All cards in that deck will then appear, and you can confirm that you passed or failed each card."),
-                ],
-                )
-                ),      
-                ],
-              ),
-            ),
+  }
+
+  Widget _buildFAQ() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemBuilder: (BuildContext _context, int i) {
+        if (i != _questions.length) {
+           return _buildRow(_questions[i], _answers[i]);
+        }
+      },
+      itemCount: _questions.length,
     );
   }
+
+  Widget _buildRow(String question, String answer) {
+    return new ListTile(
+      title: new Text(
+        '$question',
+        style: _biggerFont,
+      ),
+      onTap: () {
+        _showAnswer(answer);
+      },
+    );
+  }
+
+  void _showAnswer(String answer) {
+    if (answer.isEmpty) return;
+
+    AlertDialog dialog = new AlertDialog(
+      content: new Text(answer,
+      style: _biggerFont,),
+    );
+
+    showDialog(context: context, child: dialog);
+  }
+
+ 
 }
