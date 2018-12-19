@@ -33,17 +33,14 @@ CPSC 362 Project - Flash Card Mobile App
 
 
 # Credits: 
-
-#### Fuller Computing
-
-Eric Le
-
 Gordon Huynh
-
-Jens Bernardino
 
 Jimmy Xuan
 
 Tommy Chao
+
+Eric Le
+
+Jens Bernardino
 
 John Shelton
