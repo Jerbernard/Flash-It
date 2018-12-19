@@ -2,10 +2,10 @@
 CPSC 362 Project - Flash Card Mobile App
 
 </br>
+</br>
 
 
-
-### Installation:
+# Installation:
 
 #### On Mobile Devices
 
@@ -16,12 +16,22 @@ CPSC 362 Project - Flash Card Mobile App
 3. The application should appear on the home screen post-installation and ready for use.
 
 
-#### To Set Up Emulator
 
-1. Follow https://flutter.io/docs/get-started/install
+#### On Emulator
+1. Clone the master branch of the Flash-It repository.
+
+2. Follow https://flutter.io/docs/get-started/install for the appropriate operating system the user is using, following the directions for android devices.
+
+3. Install VSCode as the editor for the files, and create a project.
+
+4. Copy the /lib files from the folder cloned from the Flash-It repository, and replace the pubspec.yaml file in the default project to with the pubspec.yaml file from the cloned repository.
+
+5. Select the "debug" tab in the options bar on top, and click "Start Debugging".
+
+6. The pop-up will prompt you to create a new emulator; create a new emulator and the editor will launch the application in debug mode. You are free to interact and test the app this way.
 
 
-Credits: 
+# Credits: 
 
 Eric Le
 
