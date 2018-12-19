@@ -34,6 +34,8 @@ CPSC 362 Project - Flash Card Mobile App
 
 # Credits: 
 
+#### Fuller Computing
+
 Eric Le
 
 Gordon Huynh
