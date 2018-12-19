@@ -24,42 +24,42 @@ class HelpScreen extends StatelessWidget {
         title: Text('FAQs'),
         backgroundColor: Colors.blue,
       ),
-      body: _buildFAQ()
+      body: _buildFAQ(context)
     );
 
-
+  
   }
 
-  Widget _buildFAQ() {
+  Widget _buildFAQ(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (BuildContext _context, int i) {
         if (i != _questions.length) {
-           return _buildRow(_questions[i], _answers[i]);
+           return _buildRow(_questions[i], _answers[i], context);
         }
       },
       itemCount: _questions.length,
     );
   }
 
-  Widget _buildRow(String question, String answer) {
+  Widget _buildRow(String question, String answer, BuildContext context) {
     return new ListTile(
       title: new Text(
         '$question',
         style: _biggerFont,
       ),
       onTap: () {
-        _showAnswer(answer);
+        _showAnswer(answer, context);
       },
     );
   }
 
-  void _showAnswer(String answer) {
+  void _showAnswer(String answer,BuildContext context) {
     if (answer.isEmpty) return;
 
     AlertDialog dialog = new AlertDialog(
       content: new Text(answer,
-      style: _biggerFont,),
+      ),
     );
 
     showDialog(context: context, child: dialog);
