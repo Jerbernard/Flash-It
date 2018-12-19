@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'textstorage.dart';
 import 'testview.dart';
-import 'homescreen.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
 // Self test on this page
@@ -50,7 +49,7 @@ class _BeginTest extends State<BeginTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Test'),
+        title: Text('Math'),
       ),
       body: Container(
         padding: EdgeInsets.all(8.0),
@@ -98,23 +97,23 @@ class _BeginTest extends State<BeginTest> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: Text('Answer:  ${answers[n]}\n Input: ${input.text}'),
+            content: Text('Answer:  ${answers[n]}\nYou input: ${input.text}'),
             actions: <Widget>[
               new FlatButton(
-                  child: new Text("OK"),
+                  child: new Text("Ok"),
                   onPressed: () {
                     if (isCorrect) {
                       Navigator.pop(context);
                       if (n == size - 1) {
-                        Text("Nice!");
+                        Text("nice");
                         result++;
                         //rewr[n] = "O";
                         results();
-                        print('Display results');
+                        print('display results');
                       } else {
                         //rewr[n] = "O";
                         nextButton();
-                        print('Correct, next question..');
+                        print('correct, next question');
                       }
                     } else {
                       Navigator.pop(context);
@@ -123,7 +122,7 @@ class _BeginTest extends State<BeginTest> {
                         results();
                       } else {
                         //rewr[n] = "X";
-                        print('Incorrect answer..');
+                        print('incorrect answer');
                         setState(() {
                           n += 1;
                         });
@@ -141,18 +140,18 @@ class _BeginTest extends State<BeginTest> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: Text('Are you sure you want to stop the quiz?'),
+            content: Text('Are you sure you want to leave?'),
             actions: <Widget>[
               new FlatButton(
                   child: new Text("Yes"),
                   onPressed: () {
                     //save here
-                    Navigator.pop(context);
                     Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>HomeScreen()),
-                    );  
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              TestCards(storage: TextStorage())),
+                    );
                   }),
               new FlatButton(
                   child: new Text("No"),
@@ -211,7 +210,7 @@ class _BeginTest extends State<BeginTest> {
           ),
           new Divider(color: Colors.blue, indent: 1.0),
           TextFormField(
-            decoration: InputDecoration(labelText: "    Enter Your Answer.."),
+            decoration: InputDecoration(labelText: "Enter your answer"),
             controller: input,
           ),
           ButtonTheme.bar(
@@ -271,19 +270,10 @@ class _BeginTest extends State<BeginTest> {
                   onPressed: () {
                     //save here
                     Navigator.pop(context);
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen()), 
-                                                                
-                    );  
+                    Navigator.pop(context);
                   }),
             ]);
       },
     );
-  }
-
-  speak (String word) async {
-    //Tts.speak("$word");
   }
 }
