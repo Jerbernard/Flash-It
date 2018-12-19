@@ -6,7 +6,7 @@ CPSC 362 Project - Flash Card Mobile App
 # Installation:
 
 #### On Mobile Devices
-===========================
+
 
 1. Download the provided .apk file from the repository to your mobile device.
 
@@ -17,7 +17,7 @@ CPSC 362 Project - Flash Card Mobile App
 
 
 #### On Emulator
-===========================
+
 1. Clone the master branch of the Flash-It repository.
 
 2. Follow https://flutter.io/docs/get-started/install for the appropriate operating system the user is using, following the directions for android devices.
@@ -28,7 +28,8 @@ CPSC 362 Project - Flash Card Mobile App
 
 5. Select the "debug" tab in the options bar on top, and click "Start Debugging".
 
-6. The pop-up will prompt you to create a new emulator; create a new emulator and the editor will launch the application in debug mode. You are free to interact and test the app this way.
+6. The pop-up will prompt you to create a new emulator; create a new emulator and the editor will launch the application in debug mode. You are free to interact with and test the app this way.
+
 
 
 # Credits: 
