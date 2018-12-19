@@ -1,45 +1,27 @@
-# Flash-It
+# Flash-It!
 CPSC 362 Project - Flash Card Mobile App
-======================================================================================================================================
-Motivation: 
-Fuller Computing realizes that there is a distinct lack in the market of mobile apps for studying. We Decided to fill this niche in the market with an app that allows students to create customizable decks of flash cards.
-======================================================================================================================================
-FlashIt! was built within the Flutter framework using the Dart language.
-======================================================================================================================================
-Files:
 
-
-addcard.dart
-
-begintest.dart
-
-helpscreen.dart
-
-homescreen.dart
-
-main.dart
-
-pubspec.yaml
-
-testview.dart
-
-textstorage.dart
-
-viewcard.dart
-
-viewdeck.dart
+</br>
 
 
 
+### Installation:
+
+#### On Mobile Devices
+
+1. Download the provided .apk file from the repository to your mobile device.
+
+2. Select the downloaded .apk file in the destination, and install onto your mobile device.
+
+3. The application should appear on the home screen post-installation and ready for use.
 
 
-Installation:
-1.  Copy the provided .apk file onto your android device.
-2.  Run the installed .apk file.
+#### To Set Up Emulator
+
+1. Follow https://flutter.io/docs/get-started/install
 
 
 Credits: 
-
 
 Eric Le
 
@@ -49,6 +31,6 @@ Jens Bernardino
 
 Jimmy Xuan
 
-John Shelton
-
 Tommy Chao
+
+John Shelton
